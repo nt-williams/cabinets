@@ -9,8 +9,7 @@
             stopifnot(is.character(structure))
 
             self$name <- name
-            self$directory <- paste(paste(directory, collapse = .Platform$file.sep),
-                                    name, sep = .Platform$file.sep)
+            self$directory <- directory
             self$structure <- structure
         },
         print = function(...) {
@@ -71,12 +70,15 @@ create_cabinet <- function(name,
 
     r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
+    directory <- paste(paste(directory, collapse = .Platform$file.sep),
+                       name,
+                       sep = .Platform$file.sep)
 
     cabinet <- glue::glue(
-    "{name} <- FileCabinet$new(
-        name = {name},
-        directory = {directory},
-        structure = {str_json}
+    ".{name} <- .FileCabinet$new(
+        name = '{name}',
+        directory = '{directory}',
+        structure = '{str_json}'
     )"
     )
 
