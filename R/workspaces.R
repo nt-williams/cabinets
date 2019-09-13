@@ -45,7 +45,7 @@ check_for_tools <- function() {
                                 initialize = function(name, directory, structure) {
                                     stopifnot(is.character(name), length(name) == 1)
                                     stopifnot(is.vector(directory))
-                                    stopifnot(is.character(structure))
+                                    stopifnot(is.list(structure))
 
                                     self$name <- name
                                     self$directory <- directory
