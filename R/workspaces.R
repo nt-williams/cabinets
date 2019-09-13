@@ -62,6 +62,7 @@ check_for_tools <- function() {
 create_cabinet <- function(name,
                            directory,
                            structure) {
+    home <- path.expand("~")
 
     if (home != getwd())
         stop("You can only create cabinets when working in your home directory.")
