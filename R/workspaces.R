@@ -21,11 +21,17 @@
     )
 )
 
-check_for_tools <- function() {
+check_r_profile <- function() {
     home <- path.expand("~")
 
-    if (!file.exists(glue::glue(home, .Platform$file.sep, ".Rprofile")))
+    if (!file.exists(glue::glue(home, .Platform$file.sep, ".Rprofile"))) {
         file.create(glue::glue(home, .Platform$file.sep, ".Rprofile"))
+        message("Creating .Rprofile")
+    }
+}
+
+check_for_tools <- function() {
+    home <- path.expand("~")
 
     r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
 
@@ -49,8 +55,7 @@ check_for_tools <- function() {
                                     cat('Cabinet structure: \n')
                                     print(self$structure)
                                 }
-                            )
-)"
+                            ))"
 
     if (!(exists(".FileCabinet"))) {
         stop("passing through if")
