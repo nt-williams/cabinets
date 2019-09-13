@@ -86,7 +86,7 @@ create_cabinet <- function(name,
     ".{name} <- .FileCabinet$new(
         name = '{name}',
         directory = '{directory}',
-        structure = '{str_json}'
+        structure = rjson::fromJSON('{str_json}')
     )"
     )
 
