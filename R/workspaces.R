@@ -53,7 +53,7 @@ check_for_tools <- function() {
 )"
 
     if (!(exists(".FileCabinet"))) {
-        print("testing the if")
+        stop("passing through if")
         cat(r6, file = r_profile, sep = "\n")
     }
 
