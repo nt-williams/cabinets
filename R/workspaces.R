@@ -23,8 +23,7 @@
 )
 
 check_for_tools <- function() {
-    # home <- path.expand("~")
-    home <- getwd()
+    home <- path.expand("~")
 
     if (!file.exists(glue::glue(home, .Platform$file.sep, ".Rprofile")))
         file.create(glue::glue(home, .Platform$file.sep, ".Rprofile"))
@@ -63,14 +62,13 @@ check_for_tools <- function() {
 create_cabinet <- function(name,
                            directory,
                            structure) {
-    # home <- path.expand("~")
+    home <- path.expand("~")
 
-    # if (home != getwd())
-    #     stop("You can only create cabinets when working in your home directory.")
+    if (home != getwd())
+        stop("You can only create cabinets when working in your home directory.")
 
     check_for_tools()
 
-    home <- getwd()
     r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"))
     str_json <- rjson::toJSON(structure)
 
