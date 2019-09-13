@@ -31,6 +31,8 @@ check_r_profile <- function() {
 }
 
 check_for_tools <- function() {
+    check_r_profile()
+
     home <- path.expand("~")
 
     r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
