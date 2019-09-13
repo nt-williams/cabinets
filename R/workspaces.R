@@ -28,7 +28,7 @@ check_for_tools <- function() {
     if (!file.exists(glue::glue(home, .Platform$file.sep, ".Rprofile")))
         file.create(glue::glue(home, .Platform$file.sep, ".Rprofile"))
 
-    r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"))
+    r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
 
     if (!(exists(".FileCabinet"))) {
         cat(".FileCabinet <- R6::R6Class('FileCabinet',
@@ -39,7 +39,7 @@ check_for_tools <- function() {
                                            initialize = function(name, directory, structure) {
                                                stopifnot(is.character(name), length(name) == 1)
                                                stopifnot(is.vector(directory))
-                                               stopifnot(is.list(structure))
+                                               stopifnot(is.character(structure))
 
                                                self$name <- name
                                                self$directory <- paste(paste(directory, collapse = .Platform$file.sep),
@@ -53,7 +53,7 @@ check_for_tools <- function() {
                                                print(self$structure)
                                            }
                                        )
-        )", file = r_profile, append = TRUE)
+        )", file = r_profile, sep = "\n")
     }
 
     close(r_profile)
@@ -69,7 +69,7 @@ create_cabinet <- function(name,
 
     check_for_tools()
 
-    r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"))
+    r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
 
     cabinet <- glue::glue(
@@ -80,7 +80,7 @@ create_cabinet <- function(name,
     )"
     )
 
-    cat(cabinet, file = r_profile, append = TRUE)
+    cat(cabinet, file = r_profile, sep = "\n")
     close(r_profile)
 
     message("Cabinet, ", name, " created. Restart R to use cabinet. \nCabinet can be called using: .", name)
