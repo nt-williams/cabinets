@@ -21,6 +21,9 @@
     )
 )
 
+#' Title
+#'
+#' @return
 check_r_profile <- function() {
     home <- path.expand("~")
 
@@ -30,6 +33,9 @@ check_r_profile <- function() {
     }
 }
 
+#' Title
+#'
+#' @return
 check_for_tools <- function() {
     check_r_profile()
 
@@ -37,35 +43,48 @@ check_for_tools <- function() {
 
     r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
 
-    r6 <- ".FileCabinet <- R6::R6Class('FileCabinet',
-                            public = list(
-                                name = NULL,
-                                directory = NULL,
-                                structure = NULL,
-                                initialize = function(name, directory, structure) {
-                                    stopifnot(is.character(name), length(name) == 1)
-                                    stopifnot(is.vector(directory))
-                                    stopifnot(is.list(structure))
+    r6 <-
+        ".FileCabinet <-
+            R6::R6Class('FileCabinet',
+                        public = list(
+                            name = NULL,
+                            directory = NULL,
+                            structure = NULL,
+                            initialize = function(name, directory, structure) {
+                                stopifnot(is.character(name), length(name) == 1)
+                                stopifnot(is.vector(directory))
+                                stopifnot(is.list(structure))
 
-                                    self$name <- name
-                                    self$directory <- directory
-                                    self$structure <- structure
+                                self$name <- name
+                                self$directory <- directory
+                                self$structure <- structure
                                 },
-                                print = function(...) {
-                                    cat('Cabinet name: ', self$name, '\n', sep = '')
-                                    cat('Cabinet path: ', self$directory, '\n', sep = '')
-                                    cat('Cabinet structure: \n')
-                                    print(self$structure)
+                            print = function(...) {
+                                cat('Cabinet name: ', self$name, '\n', sep = '')
+                                cat('Cabinet path: ', self$directory, '\n', sep = '')
+                                cat('Cabinet structure: \n')
+                                print(self$structure)
                                 }
-                            ))"
+                            )
+                        )"
 
-    # if (!(exists(".FileCabinet"))) {
-    #     stop("passing through if")}
-    cat(r6, file = r_profile, sep = "\n")
+    if (!any(grepl(".FileCabinet", ls(all.names = TRUE))))
+        cat(r6, file = r_profile, sep = "\n")
+    else message(".FileCabinet already exists.")
 
     close(r_profile)
 }
 
+#' Create a cabinet template
+#'
+#' @param name
+#' @param directory
+#' @param structure
+#'
+#' @return
+#' @export
+#'
+#' @examples
 create_cabinet <- function(name,
                            directory,
                            structure) {
@@ -102,8 +121,12 @@ edit_cabinet <- function(name,
 
 }
 
-get_cabinet <- function(cabinet) {
-    print(cabinet)
+delete_cabinet <- function(cabinet) {
+
+}
+
+get_cabinets <- function() {
+
 }
 
 new_folder <- function(cabinet,
