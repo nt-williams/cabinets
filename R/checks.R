@@ -55,6 +55,7 @@ check_for_tools <- function() {
     status <- tryCatch(if (any(grepl(".FileCabinet", ls(all.names = TRUE)))) {
         cat(" OK\n")
     } else {
+        cat("\n")
         cat(".FileCabinet not found\n")
         cat("Writing .FileCabinet to .Rprofile\n")
         cat(r6, file = r_profile, sep = "\n")
