@@ -60,9 +60,15 @@ create_cabinet <- function(name,
     message(
         "Cabinet, ",
         paste0(".", name),
-        " created. Restart R to use cabinet. \nCabinet can be called using: .",
+        " created. Restarting R. \nCabinet can be called using: .",
         name
     )
+
+    if (in_rstudio()) {
+        rstudioapi::restartSession()
+    } else {
+        startup::restart()
+    }
 }
 
 get_cabinets <- function() {
@@ -144,7 +150,7 @@ new_cabinet_proj <- function(cabinet,
 
     check_cabinet()
 
-    message("Creating", project_name, " using cabinet template ", cabinet$name)
+    message("Creating ", project_name, " using cabinet template .", cabinet$name)
 
     proj_path <- file.path(cabinet$directory, project_name)
     proj_folders <- file.path(proj_path, names(cabinet$structure))
@@ -165,7 +171,7 @@ new_cabinet_proj <- function(cabinet,
         cat("R project settings:\n")
         cat("\n")
         proj_settings
-        Sys.sleep(3)
+        Sys.sleep(2)
         if (usethis::proj_activate(proj_path)) {
             on.exit()
         }
