@@ -29,30 +29,30 @@ check_for_tools <- function() {
 
     r6 <-
         ".FileCabinet <-
-            R6::R6Class('FileCabinet',
-                public = list(
-                    name = NULL,
-                    directory = NULL,
-                    structure = NULL,
-                    initialize = function(name, directory, structure) {
-                        stopifnot(is.character(name), length(name) == 1)
-                        stopifnot(is.vector(directory))
-                        stopifnot(is.list(structure))
+         R6::R6Class('FileCabinet',
+         public = list(
+         name = NULL,
+         directory = NULL,
+         structure = NULL,
+         initialize = function(name, directory, structure) {
+         stopifnot(is.character(name), length(name) == 1)
+         stopifnot(is.vector(directory))
+         stopifnot(is.list(structur
+         self$name <- name
+         self$directory <- directory
+         self$structure <- structure
+         },
+         print = function(...) {
+         cat('Cabinet name: ', self$name, '\n', sep = '')
+         cat('Cabinet path: ', self$directory, '\n', sep = '')
+         cat('Cabinet structure: \n')
+         print(self$structure)
+         }
+         ))"
 
-                        self$name <- name
-                        self$directory <- directory
-                        self$structure <- structure
-                    },
-                print = function(...) {
-                    cat('Cabinet name: ', self$name, '\n', sep = '')
-                    cat('Cabinet path: ', self$directory, '\n', sep = '')
-                    cat('Cabinet structure: \n')
-                    print(self$structure)
-                }
-            ))"
-
+    cab_stat <- !any(grepl(".FileCabinet", ls(all.names = TRUE)))
     cat("Checking for .FileCabinet...")
-    status <- tryCatch(if (any(grepl(".FileCabinet", ls(all.names = TRUE)))) {
+    status <- tryCatch(if (cab_stat) {
         cat(" OK\n")
     } else {
         cat("\n")
