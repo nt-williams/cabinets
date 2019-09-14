@@ -172,7 +172,7 @@ new_cabinet_proj <- function(cabinet,
         cat(glue::glue("Opening new R project, {project_name}"))
         cat("\nR project settings:\n")
         cat("\n")
-        create_r_proj()
+        cat(create_r_proj())
         Sys.sleep(2)
         if (usethis::proj_activate(proj_path)) {
             on.exit()
