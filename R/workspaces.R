@@ -34,7 +34,7 @@
 create_cabinet <- function(name,
                            directory,
                            structure) {
-    check_name()
+    check_name(name)
     check_directory()
     check_for_tools()
 
