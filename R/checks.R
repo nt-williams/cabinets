@@ -8,7 +8,7 @@ check_r_profile <- function() {
         message("NOT FOUND: Creating .Rprofile")
         file.create(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
     } else {
-        cat(" OK\n")
+        cat(cat_ok())
     })
     invisible(status)
 }
@@ -47,7 +47,7 @@ check_for_tools <- function() {
     cab_stat <- exists(".FileCabinet", envir = .GlobalEnv)
     cat("Checking for .FileCabinet...")
     status <- tryCatch(if (cab_stat) {
-        cat(" OK\n")
+        cat(cat_ok())
     } else {
         cat("\n")
         message("NOT FOUND: Writing .FileCabinet to .Rprofile")
@@ -61,7 +61,7 @@ check_directory <- function() {
     status <- path.expand("~") == getwd()
     cat("Checking working directory...")
     status <- tryCatch(if (status) {
-        cat(" OK\n")
+        cat(cat_ok())
     } else {
         cat("\n")
         message("WARNING: are you working in your default working directory?\nCabinents should only be created when working in your default working directory.")
@@ -75,7 +75,7 @@ check_name <- function(name) {
     if (name_stat) {
         stop("Cabinet already exists.")
     } else {
-        cat(" OK\n")
+        cat(cat_ok())
     }
 }
 
@@ -83,7 +83,7 @@ check_cabinet <- function(cabinet) {
     cab_stat <- exists(deparse(substitute(.FileCabinet)), envir = .GlobalEnv)
     cat("Checking cabinet existence...")
     if (cab_stat) {
-        cat(" OK\n")
+        cat(cat_ok())
     } else {
         stop("Cabinet not found")
     }
@@ -94,7 +94,7 @@ check_project <- function(proj_path) {
     if (dir.exists(proj_path)) {
         stop("Project directory already exists in cabinet")
     } else {
-        cat(" OK\n")
+        cat(cat_ok())
     }
 }
 

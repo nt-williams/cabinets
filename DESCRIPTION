@@ -18,4 +18,5 @@ Imports:
     R6,
     usethis,
     rstudioapi,
-    startup
+    startup,
+    crayon
