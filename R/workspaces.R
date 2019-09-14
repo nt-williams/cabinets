@@ -81,23 +81,29 @@ get_cabinets <- function() {
 
 new_cabinet_proj <- function(cabinet,
                              project_name,
+                             r_project = TRUE,
                              open = TRUE) {
 
     # check_cabinet()
 
+    message("Creating", project_name, " using cabinet template", cabinet$name)
+
     proj_path <- file.path(cabinet$directory, project_name)
-
-    dir.create(proj_path, recursive = TRUE)
-
     proj_folders <- file.path(proj_path, names(cabinet$structure))
 
+    dir.create(proj_path, recursive = TRUE)
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
 
-    # message("Creating", project_name, " in", )
-    #
-    # if (open) {
-    #     if (proj_activate()) {
-    #         on.exit()
-    #     }
-    # }
+    if (r_project) {
+        r_project <- file.path(proj_path, paste0(project_name, ".Rproj"))
+        dir.create(r_project, recursive = TRUE)
+    } else {
+        open <- FALSE
+    }
+
+    if (open) {
+        if (usethis::proj_activate(r_project)) {
+            on.exit()
+        }
+    }
 }

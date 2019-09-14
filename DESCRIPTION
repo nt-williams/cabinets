@@ -15,4 +15,5 @@ Imports:
     here,
     rjson,
     glue,
-    R6
+    R6,
+    usethis
