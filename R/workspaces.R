@@ -161,7 +161,7 @@ new_cabinet_proj <- function(cabinet,
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
 
     if (r_project) {
-        proj_settings <- create_r_proj(match.arg(...))
+        proj_settings <- create_r_proj(list(...))
         r_project <- file.path(proj_path, paste0(project_name, ".Rproj"))
         cat(proj_settings, file = r_project)
     } else {
@@ -172,7 +172,7 @@ new_cabinet_proj <- function(cabinet,
         cat(glue::glue("Opening new R project, {project_name}"))
         cat("\nR project settings:\n")
         cat("\n")
-        create_r_proj(match.arg(...))
+        create_r_proj(list(...))
         Sys.sleep(2)
         if (usethis::proj_activate(proj_path)) {
             on.exit()
