@@ -1,2 +1,3 @@
-# Nworkr
-A personal package for streamlining my standard project setup. 
+# cabinets
+
+Create folder templates for streamlined project start-up. 

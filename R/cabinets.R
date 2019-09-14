@@ -23,9 +23,9 @@
 
 #' Create a cabinet template
 #'
-#' @param name
-#' @param directory
-#' @param structure
+#' @param name Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.
+#' @param directory The location your cabinet will exist.
+#' @param structure A list of paths of folders/files to create. See details for further explanation.
 #'
 #' @return
 #' @export
@@ -69,6 +69,12 @@ create_cabinet <- function(name,
     }
 }
 
+#' Print available cabinets
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_cabinets <- function() {
 
 }
@@ -129,11 +135,11 @@ create_r_proj <- function(version = "1.0",
 
 #' Create a new project using a cabinet template
 #'
-#' @param cabinet
-#' @param project_name
-#' @param r_project
-#' @param open
-#' @param ...
+#' @param cabinet The name of the cabinet template.
+#' @param project_name The name of the project to store in the cabinet.
+#' @param r_project Logical, should an Rproject be created. Default is TRUE.
+#' @param open Logical, if creating an Rproject, should that project be opened once created. Default is TRUE.
+#' @param ... Extra arguments to pass to \code{create_r_proj}.
 #'
 #' @return
 #' @export
