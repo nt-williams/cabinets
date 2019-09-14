@@ -89,8 +89,10 @@ new_cabinet_proj <- function(cabinet,
 
     dir.create(proj_path, recursive = TRUE)
 
-    # proj_folders <- file.path(proj_path, names(cabinet$structure))
-    #
+    proj_folders <- file.path(proj_path, names(cabinet$structure))
+
+    purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
+
     # message("Creating", project_name, " in", )
     #
     # if (open) {
