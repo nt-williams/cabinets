@@ -51,14 +51,15 @@ check_for_tools <- function() {
                 }
             ))"
 
-    if (!any(grepl(".FileCabinet", ls(all.names = TRUE)))) {
+    cat("Checking for .FileCabinet...")
+    status <- tryCatch(if (any(grepl(".FileCabinet", ls(all.names = TRUE)))) {
+        cat(" OK\n")
+    } else {
         cat(".FileCabinet not found\n")
         cat("Writing .FileCabinet to .Rprofile\n")
         cat(r6, file = r_profile, sep = "\n")
-    } else {
-        message(".FileCabinet already exists.")
-    }
-
+    })
+    invisible(status)
     close(r_profile)
 }
 
