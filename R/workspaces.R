@@ -96,7 +96,7 @@ new_cabinet_proj <- function(cabinet,
 
     if (r_project) {
         r_project <- file.path(proj_path, paste0(project_name, ".Rproj"))
-        dir.create(r_project, recursive = TRUE)
+        file.create(r_project, recursive = TRUE)
     } else {
         open <- FALSE
     }
