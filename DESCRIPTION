@@ -16,4 +16,6 @@ Imports:
     rjson,
     glue,
     R6,
-    usethis
+    usethis,
+    rstudioapi,
+    startup
