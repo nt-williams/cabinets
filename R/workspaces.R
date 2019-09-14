@@ -34,9 +34,9 @@
 create_cabinet <- function(name,
                            directory,
                            structure) {
-    check_name(name)
     check_directory()
     check_for_tools()
+    check_name(name)
 
     wd <- getwd()
     r_profile <-
