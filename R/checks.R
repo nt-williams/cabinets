@@ -50,7 +50,7 @@ check_for_tools <- function() {
          }
          ))"
 
-    cab_stat <- exists(".FileCabinet")
+    cab_stat <- exists(".FileCabinet", envir = .GlobalEnv)
     cat("Checking for .FileCabinet...")
     status <- tryCatch(if (cab_stat) {
         cat(" OK\n")
