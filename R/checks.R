@@ -63,7 +63,7 @@ check_for_tools <- function() {
 }
 
 check_directory <- function() {
-    status <- path.expand("~") != getwd()
+    status <- path.expand("~") == getwd()
     cat("Checking working directory...")
     status <- tryCatch(if (status) {
         cat(" OK\n")
