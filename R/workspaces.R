@@ -42,9 +42,7 @@ create_cabinet <- function(name,
     r_profile <-
         file(glue::glue(wd, .Platform$file.sep, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
-    directory <- paste(paste(directory, collapse = .Platform$file.sep),
-                       name,
-                       sep = .Platform$file.sep)
+    directory <- paste(directory, collapse = .Platform$file.sep)
 
     cabinet <- glue::glue(
     ".{name} <- .FileCabinet$new(
@@ -172,7 +170,8 @@ new_cabinet_proj <- function(cabinet,
         cat(glue::glue("Opening new R project, {project_name}"))
         cat("\nR project settings:\n")
         cat("\n")
-        cat(create_r_proj())
+        cat(create_r_proj(), "\n")
+        cat("\n")
         Sys.sleep(2)
         if (usethis::proj_activate(proj_path)) {
             on.exit()
