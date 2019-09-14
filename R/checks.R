@@ -89,4 +89,13 @@ check_cabinet <- function(cabinet) {
     }
 }
 
+check_project <- function(proj_path) {
+    cat("Checking if project already exits...")
+    if (dir.exists(proj_path)) {
+        stop("Project directory already exists in cabinet")
+    } else {
+        cat(" OK\n")
+    }
+}
+
 

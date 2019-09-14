@@ -148,12 +148,14 @@ new_cabinet_proj <- function(cabinet,
                              open = TRUE,
                              ...) {
 
-    check_cabinet()
-
-    message("Creating ", project_name, " using cabinet template .", cabinet$name)
+    check_cabinet(cabinet)
 
     proj_path <- file.path(cabinet$directory, project_name)
     proj_folders <- file.path(proj_path, names(cabinet$structure))
+
+    check_project(proj_path)
+
+    message("Creating ", project_name, " using cabinet template .", cabinet$name)
 
     dir.create(proj_path, recursive = TRUE)
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
