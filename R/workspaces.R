@@ -102,7 +102,7 @@ new_cabinet_proj <- function(cabinet,
     }
 
     if (open) {
-        if (usethis::proj_activate(r_project)) {
+        if (usethis::proj_activate(proj_path)) {
             on.exit()
         }
     }
