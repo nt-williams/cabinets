@@ -50,12 +50,11 @@ check_for_tools <- function() {
         cat(" OK\n")
     } else {
         cat("\n")
-        cat(".FileCabinet not found\n")
-        cat("Writing .FileCabinet to .Rprofile\n")
+        message("NOT FOUND: Writing .FileCabinet to .Rprofile")
         cat(r6, file = r_profile, sep = "\n")
-    })
+    },
+    finally = close(r_profile))
     invisible(status)
-    close(r_profile)
 }
 
 check_directory <- function() {
@@ -72,7 +71,7 @@ check_directory <- function() {
 
 check_name <- function(name) {
     name_stat <- exists(paste0(".", name), envir = .GlobalEnv)
-    cat("Check cabinet name...")
+    cat("Checking cabinet name...")
     if (name_stat) {
         stop("Cabinet already exists.")
     } else {
