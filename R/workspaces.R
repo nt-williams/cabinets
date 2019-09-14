@@ -106,8 +106,7 @@ create_r_proj <- function(version = "1.0",
                           rnw_weave = "Sweave",
                           latex = "pdfLaTeX",
                           auto_append_new_line = "Yes",
-                          strip_trailing_white_space = "Yes",
-                          ...) {
+                          strip_trailing_white_space = "Yes") {
 
     restore <- match.arg(restore_workspace)
     save <- match.arg(save_workspace)
@@ -152,6 +151,7 @@ new_cabinet_proj <- function(cabinet,
 
     proj_path <- file.path(cabinet$directory, project_name)
     proj_folders <- file.path(proj_path, names(cabinet$structure))
+    r_proj_args <- list(...)
 
     check_project(proj_path)
 
@@ -161,7 +161,7 @@ new_cabinet_proj <- function(cabinet,
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
 
     if (r_project) {
-        proj_settings <- create_r_proj(list(...))
+        proj_settings <- create_r_proj(r_proj_args)
         r_project <- file.path(proj_path, paste0(project_name, ".Rproj"))
         cat(proj_settings, file = r_project)
     } else {
@@ -172,7 +172,7 @@ new_cabinet_proj <- function(cabinet,
         cat(glue::glue("Opening new R project, {project_name}"))
         cat("\nR project settings:\n")
         cat("\n")
-        create_r_proj(list(...))
+        create_r_proj(r_proj_args)
         Sys.sleep(2)
         if (usethis::proj_activate(proj_path)) {
             on.exit()
