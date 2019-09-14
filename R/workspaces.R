@@ -59,7 +59,7 @@ create_cabinet <- function(name,
 
     message(
         "Cabinet, ",
-        name,
+        paste0(".", name),
         " created. Restart R to use cabinet. \nCabinet can be called using: .",
         name
     )
@@ -79,17 +79,23 @@ get_cabinets <- function() {
 
 }
 
-new_folder <- function(cabinet,
-                       project_name,
-                       open = TRUE) {
+new_cabinet_proj <- function(cabinet,
+                             project_name,
+                             open = TRUE) {
 
-    dir.create(proj_dir, recursive = TRUE)
+    # check_cabinet()
 
-    message("Creating", project_name, " in", )
+    proj_path <- file.path(cabinet$directory, project_name)
 
-    if (open) {
-        if (proj_activate()) {
-            on.exit()
-        }
-    }
+    dir.create(proj_path, recursive = TRUE)
+
+    # proj_folders <- file.path(proj_path, names(cabinet$structure))
+    #
+    # message("Creating", project_name, " in", )
+    #
+    # if (open) {
+    #     if (proj_activate()) {
+    #         on.exit()
+    #     }
+    # }
 }
