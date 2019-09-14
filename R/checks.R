@@ -78,3 +78,15 @@ check_name <- function(name) {
         cat(" OK\n")
     }
 }
+
+check_cabinet <- function(cabinet) {
+    cab_stat <- exists(deparse(substitute(.FileCabinet)), envir = .GlobalEnv)
+    cat("Checking cabinet existence...")
+    if (cab_stat) {
+        cat(" OK\n")
+    } else {
+        stop("Cabinet not found")
+    }
+}
+
+

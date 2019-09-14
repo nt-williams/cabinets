@@ -65,62 +65,86 @@ create_cabinet <- function(name,
     )
 }
 
-edit_cabinet <- function(name,
-                         directory = NULL,
-                         structure = NULL) {
-
-}
-
-delete_cabinet <- function(cabinet) {
-
-}
-
 get_cabinets <- function() {
 
 }
 
-create_r_proj <- function(Version = 1.0,
-                          RestoreWorkspace = c("No", "Yes", "Default"),
-                          SaveWorkspace = c("No", "Yes", "Default"),
-                          AlwaysSaveHistory = c("Default", "No", "Yes"),
-                          EnableCodeIndexing = c("Yes", "No", "Default"),
-                          UseSpacesForTab = c("Yes", "No", "Default"),
-                          NumSpacesForTab = 2,
-                          Encoding = "UTF-8",
-                          RnwWeave = "Sweave",
-                          LaTeX = "pdfLaTeX",
-                          AutoAppendNewLine = "Yes",
-                          StripTrailingWhiteSpace = "Yes") {
+#' R project settings
+#'
+#' @param version
+#' @param restore_workspace
+#' @param save_workspace
+#' @param save_history
+#' @param enable_code_indexing
+#' @param spaces_for_tab
+#' @param num_spaces_for_tab
+#' @param encoding
+#' @param rnw_weave
+#' @param latex
+#' @param auto_append_new_line
+#' @param strip_trailing_white_space
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
+create_r_proj <- function(version = "1.0",
+                          restore_workspace = c("No", "Yes", "Default"),
+                          save_workspace = c("No", "Yes", "Default"),
+                          save_history = c("Default", "No", "Yes"),
+                          enable_code_indexing = c("Yes", "No", "Default"),
+                          spaces_for_tab = c("Yes", "No", "Default"),
+                          num_spaces_for_tab = 2,
+                          encoding = "UTF-8",
+                          rnw_weave = "Sweave",
+                          latex = "pdfLaTeX",
+                          auto_append_new_line = "Yes",
+                          strip_trailing_white_space = "Yes",
+                          ...) {
 
-    restore <- match.arg(RestoreWorkspace)
-    save <- match.arg(SaveWorkspace)
-    always <- match.arg(AlwaysSaveHistory)
-    code_index <- match.arg(EnableCodeIndexing)
-    space_tabs <- match.arg(UseSpacesForTab)
+    restore <- match.arg(restore_workspace)
+    save <- match.arg(save_workspace)
+    always <- match.arg(save_history)
+    code_index <- match.arg(enable_code_indexing)
+    space_tabs <- match.arg(spaces_for_tab)
 
     glue::glue(
-    'Version: {Version}
+    'Version: {version}
     RestoreWorkspace: {restore}
     SaveWorkspace: {save}
     AlwaysSaveHistory: {always}
     EnableCodeIndexing: {code_index}
     UseSpacesForTab: {space_tabs}
-    NumSpacesForTab: {NumSpacesForTab}
-    Encoding: {Encoding}
-    RnwWeave: {RnwWeave}
-    LaTeX: {LaTeX}
-    AutoAppendNewline: {AutoAppendNewLine}
-    StripTrailingWhitespace: {StripTrailingWhiteSpace}')
+    NumSpacesForTab: {num_spaces_for_tab}
+    Encoding: {encoding}
+    RnwWeave: {rnw_weave}
+    LaTeX: {latex}
+    AutoAppendNewline: {auto_append_new_line}
+    StripTrailingWhitespace: {strip_trailing_white_space}')
 }
 
+#' Create a new project using a cabinet template
+#'
+#' @param cabinet
+#' @param project_name
+#' @param r_project
+#' @param open
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
 new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,
-                             open = TRUE, ...) {
+                             open = TRUE,
+                             ...) {
 
-    # check_cabinet()
+    check_cabinet()
 
-    message("Creating", project_name, " using cabinet template", cabinet$name)
+    message("Creating", project_name, " using cabinet template ", cabinet$name)
 
     proj_path <- file.path(cabinet$directory, project_name)
     proj_folders <- file.path(proj_path, names(cabinet$structure))
@@ -129,7 +153,7 @@ new_cabinet_proj <- function(cabinet,
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
 
     if (r_project) {
-        proj_settings <- create_r_proj()
+        proj_settings <- create_r_proj(...)
         r_project <- file.path(proj_path, paste0(project_name, ".Rproj"))
         cat(proj_settings, file = r_project)
     } else {
@@ -137,6 +161,11 @@ new_cabinet_proj <- function(cabinet,
     }
 
     if (open) {
+        cat(glue::glue("Opening new R project, {project_name}\n"))
+        cat("R project settings:\n")
+        cat("\n")
+        proj_settings
+        Sys.sleep(3)
         if (usethis::proj_activate(proj_path)) {
             on.exit()
         }
