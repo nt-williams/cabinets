@@ -21,60 +21,6 @@
     )
 )
 
-#' Title
-#'
-#' @return
-check_r_profile <- function() {
-    home <- path.expand("~")
-
-    if (!file.exists(glue::glue(home, .Platform$file.sep, ".Rprofile"))) {
-        file.create(glue::glue(home, .Platform$file.sep, ".Rprofile"))
-        message("Creating .Rprofile")
-    }
-}
-
-#' Title
-#'
-#' @return
-check_for_tools <- function() {
-    check_r_profile()
-
-    home <- path.expand("~")
-
-    r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
-
-    r6 <-
-        ".FileCabinet <-
-            R6::R6Class('FileCabinet',
-                        public = list(
-                            name = NULL,
-                            directory = NULL,
-                            structure = NULL,
-                            initialize = function(name, directory, structure) {
-                                stopifnot(is.character(name), length(name) == 1)
-                                stopifnot(is.vector(directory))
-                                stopifnot(is.list(structure))
-
-                                self$name <- name
-                                self$directory <- directory
-                                self$structure <- structure
-                                },
-                            print = function(...) {
-                                cat('Cabinet name: ', self$name, '\n', sep = '')
-                                cat('Cabinet path: ', self$directory, '\n', sep = '')
-                                cat('Cabinet structure: \n')
-                                print(self$structure)
-                                }
-                            )
-                        )"
-
-    if (!any(grepl(".FileCabinet", ls(all.names = TRUE))))
-        cat(r6, file = r_profile, sep = "\n")
-    else message(".FileCabinet already exists.")
-
-    close(r_profile)
-}
-
 #' Create a cabinet template
 #'
 #' @param name
@@ -88,14 +34,12 @@ check_for_tools <- function() {
 create_cabinet <- function(name,
                            directory,
                            structure) {
-    home <- path.expand("~")
-
-    if (home != getwd())
-        stop("You can only create cabinets when working in your home directory.")
-
+    check_directory()
     check_for_tools()
 
-    r_profile <- file(glue::glue(home, .Platform$file.sep, ".Rprofile"), open = "a")
+    wd <- getwd()
+    r_profile <-
+        file(glue::glue(wd, .Platform$file.sep, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
     directory <- paste(paste(directory, collapse = .Platform$file.sep),
                        name,
@@ -112,7 +56,12 @@ create_cabinet <- function(name,
     cat(cabinet, file = r_profile, sep = "\n")
     close(r_profile)
 
-    message("Cabinet, ", name, " created. Restart R to use cabinet. \nCabinet can be called using: .", name)
+    message(
+        "Cabinet, ",
+        name,
+        " created. Restart R to use cabinet. \nCabinet can be called using: .",
+        name
+    )
 }
 
 edit_cabinet <- function(name,
