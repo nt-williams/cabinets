@@ -1,6 +1,3 @@
-#' Title
-#'
-#' @return
 check_r_profile <- function() {
     wd <- getwd()
     file_stat <- !file.exists(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
@@ -16,9 +13,6 @@ check_r_profile <- function() {
     invisible(status)
 }
 
-#' Title
-#'
-#' @return
 check_for_tools <- function() {
     check_r_profile()
 
@@ -74,4 +68,14 @@ check_directory <- function() {
         message("WARNING: are you working in your default working directory?\nCabinents should only be created when working in your default working directory.")
     })
     invisible(status)
+}
+
+check_name <- function(name) {
+    name_stat <- exists(paste0(".", name), envir = .GlobalEnv)
+    cat("Check cabinet name...")
+    if (name_stat) {
+        stop("Cabinet already exists.")
+    } else {
+        cat(" OK\n")
+    }
 }
