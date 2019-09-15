@@ -1,14 +1,14 @@
 # cabinets
 
-*cabinets* works by writing project specific file templates to `.Rprofile` file of the default working directory. Doing so allows the templates be accessed in new R sessions without having to redefine them. 
+*cabinets* works by writing project specific file templates to the `.Rprofile` file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. 
 
-*cabinets* has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written a `.Rprofile` file. Whenever a fresh R session is started from the default working directory, the `.Rprofile` file loads the previously created cabinet for further use. `FileCabinet` objects simply contain a template that `new_cabinate_proj()` uses to build a projects with defined file structures. 
+*cabinets* has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a `.Rprofile` file. Whenever a fresh R session is started while the default working directory, the `.Rprofile` file loads the previously created cabinet for further use. `FileCabinet` objects simply contain a template that `new_cabinate_proj()` uses to build projects with defined file structures. 
 
 ### But, why? 
 
 As a statistician, I work on different contracts with differing standard directories. 
 
-For contract $X$, I might have the standard file structure: 
+For contract X, I might have the standard file structure: 
 
 - code
 - data
@@ -17,7 +17,7 @@ For contract $X$, I might have the standard file structure:
 - reports
 - log
 
-While for contract $Y$, I have to work with an organization that requires I use their own system: 
+While for contract Y, I have to work with an organization that requires I use their own system: 
 
 - Code
     - ReportsCode
