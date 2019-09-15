@@ -21,28 +21,7 @@ check_for_tools <- function() {
     r_profile <-
         file(glue::glue(wd, .Platform$file.sep, ".Rprofile"), open = "a")
 
-    r6 <-
-        ".FileCabinet <-
-         R6::R6Class('FileCabinet',
-         public = list(
-         name = NULL,
-         directory = NULL,
-         structure = NULL,
-         initialize = function(name, directory, structure) {
-         stopifnot(is.character(name), length(name) == 1)
-         stopifnot(is.vector(directory))
-         stopifnot(is.list(structure))
-         self$name <- name
-         self$directory <- directory
-         self$structure <- structure
-         },
-         print = function(...) {
-         cat('Cabinet name: ', self$name, '\n', sep = '')
-         cat('Cabinet path: ', self$directory, '\n', sep = '')
-         cat('Cabinet structure: \n')
-         print(self$structure)
-         }
-         ))"
+    r6 <- ".FileCabinet <- cabinets::FileCabinet"
 
     cab_stat <- exists(".FileCabinet", envir = .GlobalEnv)
     cat("Checking for .FileCabinet...")

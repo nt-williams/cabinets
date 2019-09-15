@@ -1,4 +1,5 @@
-.FileCabinet <- R6::R6Class('FileCabinet',
+#' @export
+FileCabinet <- R6::R6Class('FileCabinet',
     public = list(
         name = NULL,
         directory = NULL,
