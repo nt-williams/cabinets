@@ -4,6 +4,10 @@
 
 *cabinets* has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a `.Rprofile` file. Whenever a fresh R session is started while the default working directory, the `.Rprofile` file loads the previously created cabinet for further use. `FileCabinet` objects simply contain a template that `new_cabinate_proj()` uses to build projects with defined file structures. 
 
+## Installation
+
+`cabinets` can be installed using `devtools::install_github("nt-williams/cabinets")`.
+
 ### But, why? 
 
 As a statistician, I work on different contracts with differing standard directories. 
