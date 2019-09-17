@@ -1,7 +1,7 @@
 
 cab_str <- list(
-    'cab/data/derived/x' = NULL,
-    'cab/data/derived/y' = NULL,
+    'cab/data/derived/x.csv' = NULL,
+    'cab/data/derived/y.xlsx' = NULL,
     'cab/data/derived' = NULL,
     'cab/data/source' = NULL,
     'cab/data' = NULL,
@@ -13,10 +13,9 @@ fs::path_file(cab_names)
 fs::path_dir(cab_names)
 by_dir <- split(cab_names, fs::path_dir(cab_names))
 
-test <- function (x, ...) {
+test <- function(x, ...) {
     files <- names(x)
     by_dir <- split(files, fs::path_dir(files))
-    # by_dir <- purrr::map(by_dir, fs::path_file)
     ch <- fs:::box_chars()
 
     print_leaf <- function(x, indent) {
@@ -25,7 +24,8 @@ test <- function (x, ...) {
             if (i == length(leafs)) {
                 cat(
                     indent,
-                    fs:::pc(ch$l, ch$h, ch$h, " "), fs::path_file(leafs[[i]]),
+                    fs:::pc(ch$l, ch$h, ch$h, " "),
+                    fs::path_file(leafs[[i]]),
                     "\n",
                     sep = ""
                 )
@@ -34,7 +34,8 @@ test <- function (x, ...) {
             else {
                 cat(
                     indent,
-                    fs:::pc(ch$j, ch$h, ch$h, " "), fs::path_file(leafs[[i]]),
+                    fs:::pc(ch$j, ch$h, ch$h, " "),
+                    fs::path_file(leafs[[i]]),
                     "\n",
                     sep = ""
                 )

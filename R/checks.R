@@ -42,9 +42,34 @@ check_directory <- function() {
     status <- tryCatch(if (status) {
         cat(cat_ok())
     } else {
+        sw <- function() {
+            cat("Switching directory to...", path.expand('~'))
+            setwd(path.expand('~'))
+        }
+        cont <- function() {
+            cat("Continuing...")
+        }
         cat("\n")
-        message("WARNING: are you working in your default working directory?\nCabinents should only be created when working in your default working directory.")
-    })
+        cat(crayon::red("WARNING:"), " Cabinets should be built in sessions with the working directory
+set to the home directory.\n")
+        cat("\n")
+        cat("The home directory is...\n")
+        cat("\n")
+        cat(crayon::green(path.expand('~')), "\n")
+        cat("\n")
+        switch(
+            menu(
+                c("Switch directory to home directory",
+                  "Continue anyways",
+                  "Abort"),
+                title = "Enter one of the following numbers:"
+            ),
+            sw(),
+            cont(),
+            stop("Aborting...")
+        )
+    }
+    )
     invisible(status)
 }
 
@@ -59,7 +84,8 @@ check_name <- function(name) {
 }
 
 check_cabinet <- function(cabinet) {
-    cab_stat <- exists(deparse(substitute(.FileCabinet)), envir = .GlobalEnv)
+    cab_stat <- exists(deparse(substitute(.FileCabinet)),
+                       envir = .GlobalEnv)
     cat("Checking cabinet existence...")
     if (cab_stat) {
         cat(cat_ok())
