@@ -5,34 +5,11 @@ check_r_profile <- function() {
     cat("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
         cat("\n")
-        message("NOT FOUND: Creating .Rprofile")
+        cat(crayon::yellow("NOT FOUND:"), " Creating .Rprofile \n")
         file.create(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
     } else {
         cat(cat_ok())
     })
-    invisible(status)
-}
-
-check_for_tools <- function() {
-    check_r_profile()
-
-    wd <- getwd()
-
-    r_profile <-
-        file(glue::glue(wd, .Platform$file.sep, ".Rprofile"), open = "a")
-
-    r6 <- ".FileCabinet <- cabinets::FileCabinet"
-
-    cab_stat <- exists(".FileCabinet", envir = .GlobalEnv)
-    cat("Checking for .FileCabinet...")
-    status <- tryCatch(if (cab_stat) {
-        cat(cat_ok())
-    } else {
-        cat("\n")
-        message("NOT FOUND: Writing .FileCabinet to .Rprofile")
-        cat(r6, file = r_profile, sep = "\n")
-    },
-    finally = close(r_profile))
     invisible(status)
 }
 

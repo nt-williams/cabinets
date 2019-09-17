@@ -35,8 +35,9 @@ FileCabinet <- R6::R6Class('FileCabinet',
 create_cabinet <- function(name,
                            directory,
                            structure) {
+
     check_directory()
-    check_for_tools()
+    check_r_profile()
     check_name(name)
 
     wd <- getwd()
@@ -46,7 +47,7 @@ create_cabinet <- function(name,
     directory <- paste(directory, collapse = .Platform$file.sep)
 
     cabinet <- glue::glue(
-    ".{name} <- .FileCabinet$new(
+    ".{name} <- cabinets::FileCabinet$new(
         name = '{name}',
         directory = '{directory}',
         structure = rjson::fromJSON('{str_json}')
