@@ -5,3 +5,4 @@
 #'
 #' @docType package
 #' @name cabinets
+NULL

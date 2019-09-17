@@ -1,3 +1,5 @@
+#' R6 object generator for class FileCabinet
+#'
 #' @export
 FileCabinet <- R6::R6Class('FileCabinet',
     public = list(
