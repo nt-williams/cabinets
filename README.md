@@ -19,21 +19,21 @@ As a statistician, I work on different contracts with differing standard directo
 
 For contract X, I might have the standard file structure: 
 ```
-â”œâ”€â”€ data
-â”‚   â”œâ”€â”€ derived
-â”‚   â””â”€â”€ source
-â”œâ”€â”€ code
-â”œâ”€â”€ reports
-â”œâ”€â”€ documents
-â””â”€â”€ log
+├── data
+│   ├── derived
+│   └── source
+├── code
+├── reports
+├── documents
+└── log
 ```
 While for contract Y, I have to work with an organization that requires I use their own system: 
 ```
-â”œâ”€â”€ Code
-â”‚   â”œâ”€â”€ ReportsCode
-â”‚   â””â”€â”€ AnalysisCode
-â”œâ”€â”€ Notes
-â””â”€â”€ log
+├── Code
+│   ├── ReportsCode
+│   └── AnalysisCode
+├── Notes
+└── Log
 ```
 *cabinets* results in only having to define these templates once. 
 
