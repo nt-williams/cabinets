@@ -43,7 +43,7 @@ check_directory <- function() {
         cat(cat_ok())
     } else {
         sw <- function() {
-            cat("Switching directory to...", path.expand('~'))
+            cat("Switching directory to...", crayon::green(path.expand('~')))
             setwd(path.expand('~'))
         }
         cont <- function() {
