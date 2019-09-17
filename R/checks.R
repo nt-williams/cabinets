@@ -43,15 +43,17 @@ check_directory <- function() {
         cat(cat_ok())
     } else {
         sw <- function() {
-            cat("Switching directory to...", crayon::green(path.expand('~')))
+            cat("Switching directory to...",
+                crayon::green(path.expand('~')),
+                "\n")
             setwd(path.expand('~'))
         }
         cont <- function() {
-            cat("Continuing...")
+            cat("Continuing anyways...\n")
         }
         cat("\n")
-        cat(crayon::red("WARNING:"), " Cabinets should be built in sessions with the working directory
-set to the home directory.\n")
+        cat(crayon::red("WARNING:"),
+        " Cabinets should be built in sessions with the working directory set to the home directory.\n")
         cat("\n")
         cat("The home directory is...\n")
         cat("\n")
