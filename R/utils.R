@@ -59,7 +59,7 @@ print_structure <- function(x, ...) {
 str_chars <- function() {
     special_fx <- l10n_info()$`UTF-8`
     if (special_fx) {
-        list(h = "─", v = "│", l = "└", j = "├")
+        list(h = "\u0006", v = "\u0005", l = "\u0003", j = "\u0019")
     } else {
         list(h = "-", v = "|", l = "\\", j = "+")
     }
