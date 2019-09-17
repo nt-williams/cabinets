@@ -1,6 +1,6 @@
 Package: cabinets
 Title: Project specific workspace organization
-Version: 0.0.0.9000
+Version: 0.1.1.9000
 Authors@R: 
     person(given = "Nick",
            family = "Williams",
