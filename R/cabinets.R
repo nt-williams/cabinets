@@ -17,7 +17,7 @@ FileCabinet <- R6::R6Class('FileCabinet',
             cat('Cabinet name: ', self$name, '\n', sep = '')
             cat('Cabinet path: ', self$directory, '\n', sep = '')
             cat('Cabinet structure: \n')
-            print(self$structure)
+            print_structure(self$structure)
         }
     )
 )

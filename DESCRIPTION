@@ -19,4 +19,6 @@ Imports:
     usethis,
     rstudioapi,
     startup,
-    crayon
+    crayon,
+    fs,
+    stringr
