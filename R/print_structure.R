@@ -1,11 +1,31 @@
 
+library(tidyr)
+
 cab_str <- list(
+    'data/derived/x.csv' = NULL,
+    'data/derived/y.xlsx' = NULL,
+    'data/derived' = NULL,
+    'data/source' = NULL,
+    'data' = NULL,
+    'code/reports_code/report_1.rmd' = NULL,
+    'code/analysis_code/analysis.R' = NULL
+)
+
+cab_str2 <- list(
     'cab/data/derived/x.csv' = NULL,
     'cab/data/derived/y.xlsx' = NULL,
-    'cab/data/derived' = NULL,
     'cab/data/source' = NULL,
-    'cab/data' = NULL,
     'cab/code' = NULL
+)
+
+file_str <- list(
+    'data' = NULL,
+    'code' = NULL,
+    'data/derived' = NULL,
+    'data/source' = NULL,
+    'reports' = NULL,
+    'documents' = NULL,
+    'log' = NULL
 )
 
 cab_names <- names(cab_str)
@@ -13,8 +33,25 @@ fs::path_file(cab_names)
 fs::path_dir(cab_names)
 by_dir <- split(cab_names, fs::path_dir(cab_names))
 
+get_paths <- function(x) {
+    n <- stringr::str_count(x, "/")
+
+    recursively_repeat <- function(.x, .reps,.f, ...) {
+        if (.reps == 0) {
+            .x
+        } else {
+            recursively_repeat(.f(.x, ...), .reps - 1, .f, ...)
+        }
+    }
+
+    sapply(0:n, function(y) recursively_repeat(x, y, dirname))
+}
+
 test <- function(x, ...) {
-    files <- names(x)
+    files <- unique(unlist(sapply(names(x),
+                           get_paths),
+                    use.name = FALSE))
+    files <- paste0("./", files)
     by_dir <- split(files, fs::path_dir(files))
     ch <- fs:::box_chars()
 
@@ -44,6 +81,6 @@ test <- function(x, ...) {
             }
         }
     }
-    print_leaf("cab", "")
+    print_leaf(".", "")
     invisible(files)
 }
