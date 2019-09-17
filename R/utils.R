@@ -1,3 +1,11 @@
+in_rstudio <- function() {
+    (Sys.getenv("RSTUDIO") == "1") && !nzchar(Sys.getenv("RSTUDIO_TERM"))
+}
+
+cat_ok <- function() {
+    crayon::green(" OK\n")
+}
+
 get_paths <- function(x) {
     files <- fs::path_tidy(x)
     n <- stringr::str_count(files, "/")
