@@ -5,7 +5,7 @@ check_r_profile <- function() {
     cat("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
         cat("\n")
-        cat(crayon::yellow("NOT FOUND:"), " Creating .Rprofile \n")
+        cat(crayon::yellow("NOT FOUND:"), "Creating .Rprofile \n")
         file.create(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
     } else {
         cat(cat_ok())
@@ -30,7 +30,7 @@ check_directory <- function() {
         }
         cat("\n")
         cat(crayon::red("WARNING:"),
-        " Cabinets should be built in sessions with the working directory set to the home directory.\n")
+        "Cabinets should be built in sessions with the working directory set to the home directory.\n")
         cat("\n")
         cat("The home directory is...\n")
         cat("\n")
@@ -45,8 +45,10 @@ check_directory <- function() {
             ),
             sw(),
             cont(),
-            stop("Aborting...")
+            stop()
         )
+    }, error = function(e) {
+        cat(crayon::red("Aborting..."))
     }
     )
     invisible(status)
