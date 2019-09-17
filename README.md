@@ -1,5 +1,10 @@
 # cabinets
 
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/cabinets)](https://CRAN.R-project.org/package=cabinets)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
+
 *cabinets* works by writing project specific file templates to the `.Rprofile` file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. 
 
 *cabinets* has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a `.Rprofile` file. Whenever a fresh R session is started while the default working directory, the `.Rprofile` file loads the previously created cabinet for further use. `FileCabinet` objects simply contain a template that `new_cabinate_proj()` uses to build projects with defined file structures. 
@@ -14,21 +19,21 @@ As a statistician, I work on different contracts with differing standard directo
 
 For contract X, I might have the standard file structure: 
 ```
-├── data
-│   ├── derived
-│   └── source
-├── code
-├── reports
-├── documents
-└── log
+â”œâ”€â”€ data
+â”‚   â”œâ”€â”€ derived
+â”‚   â””â”€â”€ source
+â”œâ”€â”€ code
+â”œâ”€â”€ reports
+â”œâ”€â”€ documents
+â””â”€â”€ log
 ```
 While for contract Y, I have to work with an organization that requires I use their own system: 
 ```
-├── Code
-│   ├── ReportsCode
-│   └── AnalysisCode
-├── Notes
-└── log
+â”œâ”€â”€ Code
+â”‚   â”œâ”€â”€ ReportsCode
+â”‚   â””â”€â”€ AnalysisCode
+â”œâ”€â”€ Notes
+â””â”€â”€ log
 ```
 *cabinets* results in only having to define these templates once. 
 
@@ -87,7 +92,7 @@ cabinets::new_cabinet_proj(cabinet = .contract_x,
 #> AutoAppendNewline: Yes
 #> StripTrailingWhitespace: Yes 
 #> 
-#> ✔ Opening '/Users/nickwilliams/Documents/cabinet_testing/project_1/' in new RStudio session
+#> âœ” Opening '/Users/nickwilliams/Documents/cabinet_testing/project_1/' in new RStudio session
 ```
 Checking the files in the newly opened project...
 
