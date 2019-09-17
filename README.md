@@ -14,20 +14,21 @@ As a statistician, I work on different contracts with differing standard directo
 
 For contract X, I might have the standard file structure: 
 ```
-█─code
-█─data
-│  └─█─derived
-│  └─█─source
-█─reports
-█─log
+├── data
+│   ├── derived
+│   └── source
+├── code
+├── reports
+├── documents
+└── log
 ```
 While for contract Y, I have to work with an organization that requires I use their own system: 
 ```
-█─Code
-│  └─█─ReportsCode
-│  └─█─AnalysisCode
-█─Notes
-█─Log
+├── Code
+│   ├── ReportsCode
+│   └── AnalysisCode
+├── Notes
+└── log
 ```
 *cabinets* results in only having to define these templates once. 
 
