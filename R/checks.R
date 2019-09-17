@@ -37,7 +37,7 @@ check_directory <- function() {
         cat(crayon::green(path.expand('~')), "\n")
         cat("\n")
         switch(
-            menu(
+            utils::menu(
                 c("Switch directory to home directory",
                   "Continue anyways",
                   "Abort"),

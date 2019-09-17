@@ -21,7 +21,8 @@ Imports:
     startup,
     crayon,
     fs,
-    stringr
+    stringr,
+    utils
 Suggests: 
     testthat,
     covr
