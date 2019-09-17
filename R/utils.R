@@ -24,7 +24,7 @@ print_structure <- function(x, ...) {
     files <- paste0("./",
                     unique(unlist(sapply(names(x),
                            get_paths),
-                    use.name = FALSE)))
+                    use.names = FALSE)))
     by_dir <- split(files, fs::path_dir(files))
     ch <- str_chars()
 

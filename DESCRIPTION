@@ -22,7 +22,8 @@ Imports:
     crayon,
     fs,
     stringr,
-    utils
+    utils,
+    purrr
 Suggests: 
     testthat,
     covr
