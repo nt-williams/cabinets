@@ -80,7 +80,16 @@ create_cabinet <- function(name,
 #'
 #' @examples
 get_cabinets <- function() {
+    hidden <- as.list(ls(all.names = TRUE, envir = .GlobalEnv))
+    classes <- lapply(hidden, function(x) class(eval(parse(text = x))))
 
+    if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
+        for (i in seq_along(classes)) {
+            if ("FileCabinet" %in% classes[[i]]) cat(crayon::green(hidden[[i]], "\n"))
+        }
+    } else {
+        cat(crayon::red("No cabinets found."))
+    }
 }
 
 #' R project settings
