@@ -23,4 +23,5 @@ Imports:
     fs,
     stringr
 Suggests: 
-    testthat
+    testthat,
+    covr
