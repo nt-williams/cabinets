@@ -4,8 +4,7 @@ check_r_profile <- function() {
 
     cat("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
-        cat("\n")
-        cat(crayon::yellow("NOT FOUND:"), "Creating .Rprofile \n")
+        cat(crayon::yellow(" NOT FOUND:"), "Creating .Rprofile \n")
         file.create(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
     } else {
         cat(cat_ok())
@@ -21,7 +20,7 @@ check_directory <- function() {
     } else {
         sw <- function() {
             cat("Switching directory to...",
-                crayon::green(path.expand('~')),
+                crayon::blue(path.expand('~')),
                 "\n")
             setwd(path.expand('~'))
         }

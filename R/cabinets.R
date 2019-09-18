@@ -65,12 +65,11 @@ create_cabinet <- function(name,
     cat(cabinet, file = r_profile, sep = "\n")
     close(r_profile)
 
-    message(
-        "Cabinet, ",
-        paste0(".", name),
-        " created. Restarting R. \nCabinet can be called using: .",
-        name
-    )
+    cat("Cabinet",
+        crayon::green(p0(".", name)),
+        "created... Restarting R.\n")
+    cat("Cabinet can be called using:",
+        crayon::green(p0(".", name)))
 
     if (in_rstudio()) {
         rstudioapi::restartSession()
