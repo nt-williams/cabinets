@@ -28,9 +28,8 @@ check_directory <- function() {
         cont <- function() {
             cat("Continuing anyways...\n")
         }
-        cat("\n")
-        cat(crayon::red("WARNING:"),
-        "Cabinets should be built in sessions with the working directory set to the home directory.\n")
+        cat(crayon::red(" WARNING:\n"))
+        cat("Cabinets should be built when the working directory is set to the home directory.\n")
         cat("\n")
         cat("The home directory is...\n")
         cat("\n")
@@ -48,7 +47,7 @@ check_directory <- function() {
             stop()
         )
     }, error = function(e) {
-        cat(crayon::red("Aborting..."))
+        stop("Aborting...", call. = FALSE)
     }
     )
     invisible(status)
@@ -57,27 +56,35 @@ check_directory <- function() {
 check_name <- function(name) {
     name_stat <- exists(paste0(".", name), envir = .GlobalEnv)
     cat("Checking cabinet name...")
-    if (name_stat) {
-        stop("Cabinet already exists.")
-    } else {
-        cat(cat_ok())
-    }
+
+    status <- tryCatch(
+        if (name_stat) {
+            stop("Cabinet already exists.")
+        } else {
+            cat(cat_ok())
+        }, error = function(e) {
+            cat(crayon::red("Cabinet already exists.\n"))
+            stop("Aborting...", call. = FALSE)
+        }
+    )
+    invisible(status)
 }
 
 check_cabinet <- function(cabinet) {
-    cab_stat <- exists(deparse(substitute(cabinet)),
-                       envir = .GlobalEnv)
+
+    cab_stat <- exists(cabinet, envir = .GlobalEnv)
     cat("Checking cabinet existence...")
 
     status <- tryCatch(
         if (cab_stat) {
             cat(cat_ok())
         } else {
-            stop()
+            stop(e)
         }, error = function(e) {
             cat(crayon::red(" Cabinet not found.\n"))
             cat("These are the available cabinets:\n")
             get_cabinets()
+            stop("Aborting...", call. = FALSE)
         }
     )
     invisible(status)
@@ -85,11 +92,18 @@ check_cabinet <- function(cabinet) {
 
 check_project <- function(proj_path) {
     cat("Checking if project already exits...")
-    if (dir.exists(proj_path)) {
-        stop("Project directory already exists in cabinet")
-    } else {
-        cat(cat_ok())
-    }
+
+    status <- tryCatch(
+        if (dir.exists(proj_path)) {
+            stop(e)
+        } else {
+            cat(cat_ok())
+        }, error = function(e) {
+            cat(crayon::red("Project already exists in cabinet\n"))
+            stop("Aborting...", call. = FALSE)
+        }
+    )
+    invisible(status)
 }
 
 

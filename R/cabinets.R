@@ -164,7 +164,7 @@ new_cabinet_proj <- function(cabinet,
                              open = TRUE,
                              ...) {
 
-    check_cabinet(cabinet)
+    check_cabinet(deparse(substitute(cabinet)))
 
     proj_path <- file.path(cabinet$directory, project_name)
     proj_folders <- file.path(proj_path, names(cabinet$structure))
