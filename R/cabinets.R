@@ -52,7 +52,9 @@ create_cabinet <- function(name,
     r_profile <-
         file(glue::glue(wd, .Platform$file.sep, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
-    directory <- paste(directory, collapse = .Platform$file.sep)
+    directory <- fs::path_tidy(
+        paste(directory, collapse = .Platform$file.sep)
+    )
 
     cabinet <- glue::glue(
     ".{name} <- cabinets::FileCabinet$new(
