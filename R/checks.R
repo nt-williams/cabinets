@@ -65,14 +65,22 @@ check_name <- function(name) {
 }
 
 check_cabinet <- function(cabinet) {
-    cab_stat <- exists(deparse(substitute(.FileCabinet)),
+    cab_stat <- exists(deparse(substitute(cabinet)),
                        envir = .GlobalEnv)
     cat("Checking cabinet existence...")
-    if (cab_stat) {
-        cat(cat_ok())
-    } else {
-        stop("Cabinet not found")
-    }
+
+    status <- tryCatch(
+        if (cab_stat) {
+            cat(cat_ok())
+        } else {
+            stop()
+        }, error = function(e) {
+            cat(crayon::red(" Cabinet not found.\n"))
+            cat("These are the available cabinets:\n")
+            get_cabinets()
+        }
+    )
+    invisible(status)
 }
 
 check_project <- function(proj_path) {
