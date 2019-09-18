@@ -33,7 +33,7 @@ check_directory <- function() {
         cat("\n")
         cat("The home directory is...\n")
         cat("\n")
-        cat(crayon::green(path.expand('~')), "\n")
+        cat(crayon::blue(path.expand('~')), "\n")
         cat("\n")
         switch(
             utils::menu(

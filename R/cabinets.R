@@ -16,8 +16,14 @@ FileCabinet <- R6::R6Class('FileCabinet',
             self$structure <- structure
         },
         print = function(...) {
-            cat('Cabinet name: ', self$name, '\n', sep = '')
-            cat('Cabinet path: ', self$directory, '\n', sep = '')
+            cat('Cabinet name: ',
+                crayon::green(self$name),
+                '\n',
+                sep = '')
+            cat('Cabinet path: ',
+                crayon::blue(self$directory),
+                '\n',
+                sep = '')
             cat('Cabinet structure: \n')
             print_structure(self$structure)
         }
@@ -172,7 +178,11 @@ new_cabinet_proj <- function(cabinet,
 
     check_project(proj_path)
 
-    message("Creating ", project_name, " using cabinet template .", cabinet$name)
+    cat("Creating",
+        project_name,
+        "using cabinet template:",
+        crayon::green(p0(".", cabinet$name)),
+        "\n")
 
     dir.create(proj_path, recursive = TRUE)
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
