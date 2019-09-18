@@ -78,7 +78,7 @@ check_cabinet <- function(cabinet) {
         if (cab_stat) {
             cat(cat_ok())
         } else {
-            stop(e)
+            stop()
         }, error = function(e) {
             cat(crayon::red(" Cabinet not found.\n"))
             cat("These are the available cabinets:\n")
@@ -94,7 +94,7 @@ check_project <- function(proj_path) {
 
     status <- tryCatch(
         if (dir.exists(proj_path)) {
-            stop(e)
+            stop()
         } else {
             cat(cat_ok())
         }, error = function(e) {
