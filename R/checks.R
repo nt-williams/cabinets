@@ -1,6 +1,57 @@
 check_interactive <- function() {
     if(!interactive()) {
-        stop("cabinets can only be run in interactive R session.")
+        stop("cabinets can only be run in an interactive R session.")
+    }
+}
+
+cabinets_options_set <- function(..., .envir = NULL) {
+    if (is.null(.envir)) {
+        .envir <- parent.frame()
+    } else {
+        .envir <- .envir
+    }
+    new_opts <- list(...)
+    old_opts <- lapply(names(new_opts), getOption)
+    do.call(base::options, new_opts)
+}
+
+ask_permission <- function() {
+    perm_no <- function() {
+        cabinets_options_set("cabinets.permission" = FALSE)
+        cat("\n")
+        stop("Permission denied...", call. = FALSE)
+
+    }
+
+    perm_yes <- function() {
+        cat(crayon::green("Permission granted"), "\n")
+        cabinets_options_set("cabinets.permission" = TRUE)
+    }
+
+    switch (utils::menu(
+        c("YES, I do give permission.",
+          "NO, I do not give permission."),
+        title = "Do you give permission to write .Rprofile and directory files?"
+    ),
+    perm_yes(),
+    perm_no()
+    )
+}
+
+check_permissions <- function() {
+    consent <- getOption("cabinets.permission")
+
+    cat("Checking for permissions...")
+
+    if (is.null(consent)) {
+        cat("\n")
+        cat("\n")
+        ask_permission()
+    } else if (identical(consent, TRUE)) {
+        cat(cat_ok())
+    } else if (identical(consent, FALSE)) {
+        cat("\n")
+        stop("Permission denied...", call. = FALSE)
     }
 }
 
@@ -16,19 +67,9 @@ check_r_profile <- function() {
     cat("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
         cat(crayon::yellow(" NOT FOUND\n"))
-        switch (utils::menu(
-            c("NO, I do not give permission.",
-              "YES, I do give permission."),
-            title = "Do you give permission to write .Rprofile?"
-        ),
-        stop(),
         perm_yes()
-        )
-
     } else {
         cat(cat_ok())
-    }, error = function(e) {
-        stop("Permission denied...", call. = FALSE)
     })
     invisible(status)
 }
