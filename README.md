@@ -1,4 +1,4 @@
-# cabinets <img src="https://i.imgur.com/0QTXJ7D.png" align="right" height = "150" />
+# cabinets <img src="https://i.imgur.com/0QTXJ7D.png" align="right" height = "200" />
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/cabinets)](https://CRAN.R-project.org/package=cabinets)
