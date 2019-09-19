@@ -9,10 +9,31 @@ create_cabinet(name, directory, structure)
 \arguments{
 \item{name}{Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.}
 
-\item{directory}{The location your cabinet will exist.}
+\item{directory}{The file path for where the cabinet will exist.}
 
 \item{structure}{A list of paths of folders/files to create. See details for further explanation.}
 }
+\value{
+An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
+}
 \description{
-Create a cabinet template
+\code{create_cabinet} writes code to the .Rprofile file so that when new R sessions are started, the newly created cabinet, an R6 object of class FileCabinet, is available in the global environment as a hidden object. The cabinet simply stores file location and file template information that \code{new_cabinet_proj} uses to create new projects with the pre-defined structure.
+}
+\details{
+Cabinets should only be created when working from the home directory so that the .Rprofile file is written to the home directory. If the working directory is set to a different directory, a warning will be generated prompting the user to change directories.
+  The cabinet structure should be defined using a list with the names defining folder paths. If only creating folders, list values should be set to NULL; if not NULL, specific files can be written to the basename file specified in the list name.
+}
+\examples{
+\dontrun{
+cab_location <- tempdir()
+
+create_cabinet(name = "test_cab",
+               directory = cab_location,
+               structure = list('code' = NULL,
+                                'data/derived' = NULL,
+                                'data/source' = NULL))
+}
+}
+\seealso{
+\code{\link{new_cabinet_proj}}
 }

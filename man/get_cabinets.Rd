@@ -6,6 +6,12 @@
 \usage{
 get_cabinets()
 }
+\value{
+Objects of class FileCabinet found in the global environment.
+}
 \description{
-Print available cabinets
+\code{get_cabinets} returns objects of class FileCabinet found in the global environment.
+}
+\examples{
+get_cabinets()
 }

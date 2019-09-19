@@ -32,14 +32,28 @@ FileCabinet <- R6::R6Class('FileCabinet',
 
 #' Create a cabinet template
 #'
+#' \code{create_cabinet} writes code to the .Rprofile file so that when new R sessions are started, the newly created cabinet, an R6 object of class FileCabinet, is available in the global environment as a hidden object. The cabinet simply stores file location and file template information that \code{new_cabinet_proj} uses to create new projects with the pre-defined structure.
+#'
 #' @param name Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.
-#' @param directory The location your cabinet will exist.
+#' @param directory The file path for where the cabinet will exist.
 #' @param structure A list of paths of folders/files to create. See details for further explanation.
 #'
-#' @return
+#' @return An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
+#' @details Cabinets should only be created when working from the home directory so that the .Rprofile file is written to the home directory. If the working directory is set to a different directory, a warning will be generated prompting the user to change directories.
+#'   The cabinet structure should be defined using a list with the names defining folder paths. If only creating folders, list values should be set to NULL; if not NULL, specific files can be written to the basename file specified in the list name.
+#' @seealso \code{\link{new_cabinet_proj}}
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' cab_location <- tempdir()
+#'
+#' create_cabinet(name = "test_cab",
+#'                directory = cab_location,
+#'                structure = list('code' = NULL,
+#'                                 'data/derived' = NULL,
+#'                                 'data/source' = NULL))
+#' }
 create_cabinet <- function(name,
                            directory,
                            structure) {
@@ -82,10 +96,13 @@ create_cabinet <- function(name,
 
 #' Print available cabinets
 #'
-#' @return
+#' \code{get_cabinets} returns objects of class FileCabinet found in the global environment.
+#'
+#' @return Objects of class FileCabinet found in the global environment.
 #' @export
 #'
 #' @examples
+#' get_cabinets()
 get_cabinets <- function() {
     hidden <- as.list(ls(all.names = TRUE, envir = .GlobalEnv))
     classes <- lapply(hidden, function(x) class(eval(parse(text = x))))
@@ -101,6 +118,8 @@ get_cabinets <- function() {
 
 #' R project settings
 #'
+#' \code{create_r_proj} is a helper function for \code{new_cabinet_proj}. Calling it outside the scope of \code{new_cabinet_proj} will only print the specified settings the console.
+#'
 #' @param version R project version number, to be passed as character string.
 #' @param restore_workspace Load the .Rdata file (if any) found in the initial working directory into the  R workspace. Options are "No" (default), "Yes", and "Default". If "Default", global behaviour settings are inherited.
 #' @param save_workspace Save .RData on exit. Options are "No" (default), "Yes", and "Default". If "Default", global behaviour settings are inherited.
@@ -114,10 +133,12 @@ get_cabinets <- function() {
 #' @param auto_append_new_line Ensure that source files end with a new line. Default is "Yes".
 #' @param strip_trailing_white_space Strip trailing horizontal white space when saving. Default is "Yes".
 #'
-#' @return
+#' @return The settings used to write a .Rproj file.
+#' @seealso \url{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects} for more information on these settings.
 #' @export
 #'
 #' @examples
+#' create_r_proj()
 create_r_proj <- function(version = "1.0",
                           restore_workspace = c("No", "Yes", "Default"),
                           save_workspace = c("No", "Yes", "Default"),
@@ -154,16 +175,31 @@ create_r_proj <- function(version = "1.0",
 
 #' Create a new project using a cabinet template
 #'
-#' @param cabinet The name of the cabinet template.
-#' @param project_name The name of the project to store in the cabinet.
-#' @param r_project Logical, should an Rproject be created. Default is TRUE.
-#' @param open Logical, if creating an Rproject, should that project be opened once created. Default is TRUE.
+#' \code{new_cabinet_proj} is the second main function of cabinets. It generates new directories using cabinet templates.
+#'
+#' @param cabinet The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.
+#' @param project_name The name of the project to store in the cabinet, a character string.
+#' @param r_project Logical, should an Rproject be created. Default is TRUE if working in RStudio.
+#' @param open Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio.
 #' @param ... Extra arguments to pass to \code{create_r_proj}.
 #'
-#' @return
+#' @return Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
+#' @seealso \code{\link{create_cabinet}}
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' cab_loc <- tempdir()
+#'
+#' create_cabinet(name = "test_cab",
+#'                directory = cab_loc,
+#'                structure = list('code' = NULL,
+#'                                 'data/derived' = NULL,
+#'                                 'data/source' = NULL))
+#'
+#' new_cabinet_proj(cabinet = .test_cab,
+#'                  project_name = "project_1")
+#' }
 new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,

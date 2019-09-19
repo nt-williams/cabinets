@@ -8,16 +8,36 @@ new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE,
   ...)
 }
 \arguments{
-\item{cabinet}{The name of the cabinet template.}
+\item{cabinet}{The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.}
 
-\item{project_name}{The name of the project to store in the cabinet.}
+\item{project_name}{The name of the project to store in the cabinet, a character string.}
 
-\item{r_project}{Logical, should an Rproject be created. Default is TRUE.}
+\item{r_project}{Logical, should an Rproject be created. Default is TRUE if working in RStudio.}
 
-\item{open}{Logical, if creating an Rproject, should that project be opened once created. Default is TRUE.}
+\item{open}{Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio.}
 
 \item{...}{Extra arguments to pass to \code{create_r_proj}.}
 }
+\value{
+Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
+}
 \description{
-Create a new project using a cabinet template
+\code{new_cabinet_proj} is the second main function of cabinets. It generates new directories using cabinet templates.
+}
+\examples{
+\dontrun{
+cab_loc <- tempdir()
+
+create_cabinet(name = "test_cab",
+               directory = cab_loc,
+               structure = list('code' = NULL,
+                                'data/derived' = NULL,
+                                'data/source' = NULL))
+
+new_cabinet_proj(cabinet = .test_cab,
+                 project_name = "project_1")
+}
+}
+\seealso{
+\code{\link{create_cabinet}}
 }

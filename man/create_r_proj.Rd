@@ -37,6 +37,15 @@ create_r_proj(version = "1.0", restore_workspace = c("No", "Yes",
 
 \item{strip_trailing_white_space}{Strip trailing horizontal white space when saving. Default is "Yes".}
 }
+\value{
+The settings used to write a .Rproj file.
+}
 \description{
-R project settings
+\code{create_r_proj} is a helper function for \code{new_cabinet_proj}. Calling it outside the scope of \code{new_cabinet_proj} will only print the specified settings the console.
+}
+\examples{
+create_r_proj()
+}
+\seealso{
+\url{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects} for more information on these settings.
 }
