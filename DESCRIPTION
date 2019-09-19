@@ -1,5 +1,5 @@
 Package: cabinets
-Title: Project specific workspace organization
+Title: Project specific workspace organization templates
 Version: 0.1.1.9000
 Authors@R: 
     person(given = "Nick",

@@ -44,7 +44,9 @@ While for contract Y, I have to work with an organization that requires I use th
 Using the first project file structure described above, we define a new cabinet. 
 
 ``` r
-file_str <- list(
+cabinet_loc <- "~/cabinet_test"
+
+cabinet_str <- list(
     'data' = NULL, 
     'code' = NULL, 
     'data/derived' = NULL, 
@@ -54,31 +56,46 @@ file_str <- list(
     'log' = NULL
 )
 
-cab_location <- file.path(path.expand("~"), "Documents", "cabinet_testing")
-
-cabinets::create_cabinet(name = "contract_x", 
-                         directory = cab_location, 
-                         structure = file_str)
+create_cabinet(name = "contract_x", 
+               directory = cabinet_loc, 
+               structure = cabinet_str)
+               
 #> Checking working directory... OK
-#> Checking for .Rprofile...
-#> NOT FOUND: Creating .Rprofile
-#> Checking for .FileCabinet...
-#> NOT FOUND: Writing .FileCabinet to .Rprofile
+#> Checking for .Rprofile... NOT FOUND: Creating .Rprofile 
 #> Checking cabinet name... OK
-#> Cabinet, .contract_x created. Restarting R. 
+#> Cabinet .contract_x created... Restarting R.
 #> Cabinet can be called using: .contract_x
 #> 
 #> Restarting R session...
 ```
-The cabinet is now created and doens't have to be redfined in future R sessions. 
+
+The cabinet is now created and doesn't have to be redfined in future R sessions. To examine the cabinet we just call it.
 
 ``` r
-cabinets::new_cabinet_proj(cabinet = .contract_x, 
-                           project_name = "project_1")
+.contract_x
+
+#> Cabinet name: contract_x
+#> Cabinet path: ~/cabinet_test
+#> Cabinet structure: 
+#> ├── data
+#> │   ├── derived
+#> │   └── source
+#> ├── code
+#> ├── reports
+#> ├── documents
+#> └── log
+```
+
+`new_cabinet_proj()` is used to create a new directory from a cabinet template.
+
+``` r
+new_cabinet_proj(cabinet = .contract_x, 
+                 project_name = "project_1")
+
 #> Checking cabinet existence... OK
 #> Checking if project already exits... OK
-#> Creating project_1 using cabinet template .contract_x
-#> Opening new R project, project_1
+#> Creating project_1 using cabinet template: .contract_x 
+#> 
 #> R project settings:
 #> 
 #> Version: 1.0
@@ -93,9 +110,10 @@ cabinets::new_cabinet_proj(cabinet = .contract_x,
 #> LaTeX: pdfLaTeX
 #> AutoAppendNewline: Yes
 #> StripTrailingWhitespace: Yes 
-#> 
-#> âœ” Opening '/Users/nickwilliams/Documents/cabinet_testing/project_1/' in new RStudio session
+#> Opening new R project, project_1
+#> ✔ Opening '/Users/nickwilliams/cabinet_test/project_1/' in new RStudio session
 ```
+
 Checking the files in the newly opened project...
 
 ``` r
