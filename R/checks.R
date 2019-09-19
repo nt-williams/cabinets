@@ -1,13 +1,34 @@
+check_interactive <- function() {
+    if(!interactive()) {
+        stop("cabinets can only be run in interactive R session.")
+    }
+}
+
 check_r_profile <- function() {
     wd <- getwd()
     file_stat <- !file.exists(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
 
+    perm_yes <- function() {
+        cat("Creating .Rprofile\n")
+        file.create(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
+    }
+
     cat("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
-        cat(crayon::yellow(" NOT FOUND:"), "Creating .Rprofile \n")
-        file.create(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
+        cat(crayon::yellow(" NOT FOUND\n"))
+        switch (utils::menu(
+            c("NO, I do not give permission.",
+              "YES, I do give permission."),
+            title = "Do you give permission to write .Rprofile?"
+        ),
+        stop(),
+        perm_yes()
+        )
+
     } else {
         cat(cat_ok())
+    }, error = function(e) {
+        stop("Permission denied...", call. = FALSE)
     })
     invisible(status)
 }

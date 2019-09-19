@@ -58,6 +58,7 @@ create_cabinet <- function(name,
                            directory,
                            structure) {
 
+    check_interactive()
     check_directory()
     check_r_profile()
     check_name(name)
