@@ -61,13 +61,14 @@ create_cabinet(name = "contract_x",
                directory = cabinet_loc, 
                structure = cabinet_str)
                
+#> Checking for permissions... OK
 #> Checking working directory... OK
-#> Checking for .Rprofile... NOT FOUND: Creating .Rprofile 
+#> Checking for .Rprofile... OK
 #> Checking cabinet name... OK
 #> Cabinet .contract_x created... Restarting R.
 #> Cabinet can be called using: .contract_x
-#> 
-#> Restarting R session...
+
+Restarting R session...
 ```
 
 The cabinet is now created and doesn't have to be redfined in future R sessions. To examine the cabinet we just call it.
