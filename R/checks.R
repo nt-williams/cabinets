@@ -10,6 +10,7 @@ check_interactive <- function() {
 #' @param .envir Environment to set options in; if NULL, will use environment at \code{parent.frame()}
 #'
 #' @return If no options are set, returns the options specified in \code{options}.
+#' @details Mainly used for specifying if cabinets has permission to write to .Rprofile. Permission can be revoked at any time by opening the .Rprofile file and setting \code{"cabinets.permission" = FALSE}.
 #' @export
 #'
 #' @examples
