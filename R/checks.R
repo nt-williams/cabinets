@@ -104,7 +104,10 @@ check_r_profile <- function() {
 }
 
 check_directory <- function() {
-    status <- path.expand("~") == getwd()
+    hd <- normalizePath("~")
+    wd <- normalizePath(getwd())
+
+    status <- hd == wd
     cat("Checking working directory...")
     status <- tryCatch(if (status) {
         cat(cat_ok())
