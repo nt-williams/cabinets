@@ -18,7 +18,6 @@ Imports:
     R6,
     usethis,
     rstudioapi,
-    startup,
     crayon,
     fs,
     stringr,

@@ -84,16 +84,20 @@ create_cabinet <- function(name,
     cat(cabinet, file = r_profile, sep = "\n")
     close(r_profile)
 
-    cat("Cabinet",
-        crayon::green(p0(".", name)),
-        "created... Restarting R.\n")
-    cat("Cabinet can be called using:",
-        crayon::green(p0(".", name)))
-
     if (in_rstudio()) {
+        cat("Cabinet",
+            crayon::green(p0(".", name)),
+            "created... Restarting R.\n")
+        cat("Cabinet can be called using:",
+            crayon::green(p0(".", name)))
         rstudioapi::restartSession()
     } else {
-        startup::restart()
+        cat("Cabinet",
+            crayon::green(p0(".", name)),
+            "created...\n")
+        cat("Cabinet can be called using:",
+            crayon::green(p0(".", name)), "\n")
+        cat("Restart R to use new cabinet.")
     }
 }
 
