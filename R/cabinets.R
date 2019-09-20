@@ -40,7 +40,7 @@ FileCabinet <- R6::R6Class('FileCabinet',
 #'
 #' @return An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
 #' @details Before writing to or creating a .Rprofile file, cabinets will explicitly ask for the user's permission to perform these tasks. Cabinets should only be created when working from the home directory so that the .Rprofile file is written to the home directory. If the working directory is set to a different directory, a warning will be generated prompting the user to change directories.
-#'   The cabinet structure should be defined using a list with the names defining folder paths. If only creating folders, list values should be set to NULL; if not NULL, specific files can be written to the basename file specified in the list name.
+#'   The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
 #' @seealso \code{\link{new_cabinet_proj}}
 #' @export
 #'
