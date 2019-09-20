@@ -17,11 +17,11 @@ FileCabinet <- R6::R6Class('FileCabinet',
         },
         print = function(...) {
             cat('Cabinet name: ',
-                crayon::green(self$name),
+                ccat_green(self$name),
                 '\n',
                 sep = '')
             cat('Cabinet path: ',
-                crayon::blue(self$directory),
+                cat_path(self$directory),
                 '\n',
                 sep = '')
             cat('Cabinet structure: \n')
@@ -86,17 +86,17 @@ create_cabinet <- function(name,
 
     if (in_rstudio()) {
         cat("Cabinet",
-            crayon::green(p0(".", name)),
+            cat_green(p0(".", name)),
             "created... Restarting R.\n")
         cat("Cabinet can be called using:",
-            crayon::green(p0(".", name)))
+            cat_green(p0(".", name)))
         rstudioapi::restartSession()
     } else {
         cat("Cabinet",
-            crayon::green(p0(".", name)),
+            cat_green(p0(".", name)),
             "created...\n")
         cat("Cabinet can be called using:",
-            crayon::green(p0(".", name)), "\n")
+            cat_green(p0(".", name)), "\n")
         cat("Restart R to use new cabinet.")
     }
 }
@@ -116,10 +116,10 @@ get_cabinets <- function() {
 
     if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
         for (i in seq_along(classes)) {
-            if ("FileCabinet" %in% classes[[i]]) cat(crayon::green(hidden[[i]], "\n"))
+            if ("FileCabinet" %in% classes[[i]]) cat(cat_green(hidden[[i]], "\n"))
         }
     } else {
-        cat(crayon::red("No cabinets found."))
+        cat(cat_red("No cabinets found."))
     }
 }
 
@@ -227,7 +227,7 @@ new_cabinet_proj <- function(cabinet,
     cat("Creating",
         project_name,
         "using cabinet template:",
-        crayon::green(p0(".", cabinet$name)),
+        cat_green(p0(".", cabinet$name)),
         "\n")
 
     dir.create(proj_path, recursive = TRUE)

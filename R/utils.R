@@ -6,6 +6,22 @@ cat_ok <- function() {
     crayon::green(" OK\n")
 }
 
+cat_green <- function(...) {
+    crayon::green(...)
+}
+
+cat_yellow <- function(...) {
+    crayon::yellow(...)
+}
+
+cat_path <- function(...) {
+    crayon::blue(...)
+}
+
+cat_red <- function(...) {
+    crayon::red(...)
+}
+
 get_paths <- function(x) {
     files <- fs::path_tidy(x)
     n <- stringr::str_count(files, "/")
