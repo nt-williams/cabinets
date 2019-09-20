@@ -7,9 +7,9 @@
 [![Codecov test coverage](https://codecov.io/gh/nt-williams/cabinets/branch/master/graph/badge.svg)](https://codecov.io/gh/nt-williams/cabinets?branch=master)
 <!-- badges: end -->
 
-*cabinets* works by writing project specific file templates to the `.Rprofile` file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. 
+*Cabinets* makes it easy to create project specific file structure templates that can be referenced at the start of any R session. *Cabinets* works by writing project specific file templates to the .Rprofile file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. On first use, users will be prompted for explicit permission to write to .Rprofile. Permission to write can be revoked at any time by setting the permission option in the .Rprofile file to FALSE. Due to these explicit permission requirements, *cabinets* will only work in interactive R sessions.
 
-*cabinets* has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a `.Rprofile` file. Whenever a fresh R session is started while the default working directory, the `.Rprofile` file loads the previously created cabinet for further use. `FileCabinet` objects simply contain a template that `new_cabinate_proj()` uses to build projects with defined file structures. 
+*cabinets* has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a `.Rprofile` file. Whenever a fresh R session is started from the default working directory, the `.Rprofile` file loads the previously created cabinet for further use. `FileCabinet` objects simply contain a template that `new_cabinate_proj()` uses to build projects with defined file structures. 
 
 ## Installation
 
@@ -17,7 +17,7 @@
 
 ### But, why? 
 
-As a statistician, I work on different contracts with differing standard directories. 
+As a statistician, I work on different contracts with different standard directories. 
 
 For contract X, I might have the standard file structure: 
 ```
@@ -38,7 +38,7 @@ While for contract Y, I have to work with an organization that requires I use th
 └── Log
 ```
 
-*cabinets* results in only having to define these templates once. 
+*Cabinets* results in only having to define these templates once. 
 
 ### Demo
 
@@ -122,7 +122,3 @@ list.files()
 #> [1] "code"            "data"            "documents"       "log"            
 #> [5] "project_1.Rproj" "reports"
 ```
-
-
-
-    
