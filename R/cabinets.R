@@ -12,12 +12,12 @@ FileCabinet <- R6::R6Class('FileCabinet',
             stopifnot(is.list(structure))
 
             self$name <- name
-            self$directory <- directory
+            self$directory <- fs::path_tidy(directory)
             self$structure <- structure
         },
         print = function(...) {
             cat('Cabinet name: ',
-                ccat_green(self$name),
+                cat_green(self$name),
                 '\n',
                 sep = '')
             cat('Cabinet path: ',
@@ -65,12 +65,9 @@ create_cabinet <- function(name,
     check_name(name)
 
     wd <- getwd()
-    r_profile <-
-        file(glue::glue(wd, .Platform$file.sep, ".Rprofile"), open = "a")
+    r_profile <- file(file.path(wd, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
-    directory <- fs::path_tidy(
-        paste(directory, collapse = .Platform$file.sep)
-    )
+    directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
 
     cabinet <- glue::glue(
     "# creating {name} cabinet
@@ -82,6 +79,7 @@ create_cabinet <- function(name,
     )
 
     cat(cabinet, file = r_profile, sep = "\n")
+
     close(r_profile)
 
     if (in_rstudio()) {
