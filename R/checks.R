@@ -40,14 +40,23 @@ ask_permission <- function() {
         cabinets_options_set("cabinets.permission" = TRUE)
     }
 
-    switch(utils::menu(
-        c("YES, I do give permission.",
-          "NO, I do not give permission."),
-        title = "Do you give permission to write .Rprofile and directory files?"
-    ),
-    perm_yes(),
-    perm_no()
-    )
+    interact <- getOption("cabinet.testing")
+    if (is.null(interact)) {
+        switch(utils::menu(
+            c("YES, I do give permission.",
+              "NO, I do not give permission."),
+            title = "Do you give permission to write .Rprofile and directory files?"
+        ),
+        perm_yes(),
+        perm_no()
+        )
+    } else {
+        if (getOption("cabinet.testingPerm") == TRUE) {
+            perm_yes()
+        } else {
+            perm_no()
+        }
+    }
 }
 
 check_permissions <- function() {
@@ -116,17 +125,22 @@ check_directory <- function() {
         cat("\n")
         cat(crayon::blue(path.expand('~')), "\n")
         cat("\n")
-        switch(
-            utils::menu(
-                c("Switch directory to home directory",
-                  "Continue anyways",
-                  "Abort"),
-                title = "Enter one of the following numbers:"
-            ),
-            sw(),
-            cont(),
-            stop()
-        )
+
+        interact <- getOption("cabinet.testing")
+        if (is.null(interact)) {
+            switch(
+                utils::menu(
+                    c("Switch directory to home directory",
+                      "Continue anyways",
+                      "Abort"),
+                    title = "Enter one of the following numbers:"
+                ),
+                sw(),
+                cont(),
+                stop())
+            } else {
+                cont()
+            }
     }, error = function(e) {
         stop("Aborting...", call. = FALSE)
     }
