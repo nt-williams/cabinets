@@ -12,9 +12,9 @@ new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE,
 
 \item{project_name}{The name of the project to store in the cabinet, a character string.}
 
-\item{r_project}{Logical, should an Rproject be created. Default is TRUE if working in RStudio.}
+\item{r_project}{Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).}
 
-\item{open}{Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio.}
+\item{open}{Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio (only works in RStudio).}
 
 \item{...}{Extra arguments to pass to \code{create_r_proj}.}
 }
@@ -22,7 +22,7 @@ new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE,
 Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
 }
 \description{
-\code{new_cabinet_proj} is the second main function of cabinets. It generates new directories using cabinet templates.
+Generate new project directories using cabinet templates.
 }
 \examples{
 \dontrun{

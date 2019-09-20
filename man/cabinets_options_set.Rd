@@ -17,6 +17,9 @@ If no options are set, returns the options specified in \code{options}.
 \description{
 Set cabinets options
 }
+\details{
+Mainly used for specifying if cabinets has permission to write to .Rprofile. Permission can be revoked at any time by opening the .Rprofile file and setting \code{"cabinets.permission" = FALSE}.
+}
 \examples{
 \dontrun{
 cabinets_options_set()

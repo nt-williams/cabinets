@@ -10,6 +10,7 @@ check_interactive <- function() {
 #' @param .envir Environment to set options in; if NULL, will use environment at \code{parent.frame()}
 #'
 #' @return If no options are set, returns the options specified in \code{options}.
+#' @details Mainly used for specifying if cabinets has permission to write to .Rprofile. Permission can be revoked at any time by opening the .Rprofile file and setting \code{"cabinets.permission" = FALSE}.
 #' @export
 #'
 #' @examples
@@ -36,7 +37,7 @@ ask_permission <- function() {
     }
 
     perm_yes <- function() {
-        cat(crayon::green("Permission granted"), "\n")
+        cat(cat_green("Permission granted"), "\n")
         cabinets_options_set("cabinets.permission" = TRUE)
     }
 
@@ -95,7 +96,7 @@ check_r_profile <- function() {
 
     cat("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
-        cat(crayon::yellow(" NOT FOUND\n"))
+        cat(cat_yellow(" NOT FOUND\n"))
         perm_yes()
     } else {
         cat(cat_ok())
@@ -114,19 +115,19 @@ check_directory <- function() {
     } else {
         sw <- function() {
             cat("Switching directory to...",
-                crayon::blue(path.expand('~')),
+                cat_path(path.expand('~')),
                 "\n")
             setwd(path.expand('~'))
         }
         cont <- function() {
             cat("Continuing anyways...\n")
         }
-        cat(crayon::red(" WARNING:\n"))
+        cat(cat_red(" WARNING:\n"))
         cat("Cabinets should be built when the working directory is set to the home directory.\n")
         cat("\n")
         cat("The home directory is...\n")
         cat("\n")
-        cat(crayon::blue(path.expand('~')), "\n")
+        cat(cat_path(path.expand('~')), "\n")
         cat("\n")
 
         interact <- getOption("cabinet.testing")
@@ -161,7 +162,7 @@ check_name <- function(name) {
         } else {
             cat(cat_ok())
         }, error = function(e) {
-            cat(crayon::red("Cabinet already exists.\n"))
+            cat(cat_red("Cabinet already exists.\n"))
             stop("Aborting...", call. = FALSE)
         }
     )
@@ -179,7 +180,7 @@ check_cabinet <- function(cabinet) {
         } else {
             stop()
         }, error = function(e) {
-            cat(crayon::red(" Cabinet not found.\n"))
+            cat(cat_red(" Cabinet not found.\n"))
             cat("These are the available cabinets:\n")
             get_cabinets()
             stop("Aborting...", call. = FALSE)
@@ -197,7 +198,7 @@ check_project <- function(proj_path) {
         } else {
             cat(cat_ok())
         }, error = function(e) {
-            cat(crayon::red("Project already exists in cabinet\n"))
+            cat(cat_red("Project already exists in cabinet\n"))
             stop("Aborting...", call. = FALSE)
         }
     )
