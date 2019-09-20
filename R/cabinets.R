@@ -73,7 +73,8 @@ create_cabinet <- function(name,
     )
 
     cabinet <- glue::glue(
-    ".{name} <- cabinets::FileCabinet$new(
+    "# creating {name} cabinet
+    .{name} <- cabinets::FileCabinet$new(
         name = '{name}',
         directory = '{directory}',
         structure = rjson::fromJSON('{str_json}')
@@ -209,6 +210,10 @@ new_cabinet_proj <- function(cabinet,
                              ...) {
 
     check_cabinet(deparse(substitute(cabinet)))
+
+    if (in_rstudio() == FALSE) {
+        r_project <- FALSE
+    }
 
     proj_path <- file.path(cabinet$directory, project_name)
     proj_folders <- file.path(proj_path, names(cabinet$structure))

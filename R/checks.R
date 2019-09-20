@@ -1,9 +1,21 @@
 check_interactive <- function() {
-    if(!interactive()) {
+    if (!interactive()) {
         stop("cabinets can only be run in an interactive R session.")
     }
 }
 
+#' Set cabinets options
+#'
+#' @param ... Options to be set
+#' @param .envir Environment to set options in; if NULL, will use environment at \code{parent.frame()}
+#'
+#' @return If no options are set, returns the options specified in \code{options}.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' cabinets_options_set()
+#' }
 cabinets_options_set <- function(..., .envir = NULL) {
     if (is.null(.envir)) {
         .envir <- parent.frame()
@@ -28,7 +40,7 @@ ask_permission <- function() {
         cabinets_options_set("cabinets.permission" = TRUE)
     }
 
-    switch (utils::menu(
+    switch(utils::menu(
         c("YES, I do give permission.",
           "NO, I do not give permission."),
         title = "Do you give permission to write .Rprofile and directory files?"
@@ -61,7 +73,15 @@ check_r_profile <- function() {
 
     perm_yes <- function() {
         cat("Creating .Rprofile\n")
-        file.create(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
+        r_profile <- glue::glue(wd, .Platform$file.sep, ".Rprofile")
+        file.create(r_profile)
+
+        permission <- glue::glue(
+            "# cabinets permission
+            cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
+        )
+
+        cat(permission, file = r_profile, sep = "\n")
     }
 
     cat("Checking for .Rprofile...")
