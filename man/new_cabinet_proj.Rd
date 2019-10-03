@@ -25,7 +25,7 @@ Creates a new directory at the path specified in the cabinet template. If r_proj
 Generate new project directories using cabinet templates.
 }
 \examples{
-\dontrun{
+\donttest{
 cab_loc <- tempdir()
 
 create_cabinet(name = "test_cab",

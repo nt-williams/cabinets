@@ -134,7 +134,7 @@ check_directory <- function() {
         if (is.null(interact)) {
             switch(
                 utils::menu(
-                    c("Switch directory to home directory",
+                    c("Switch directory to home directory (will be switched back after automatically)",
                       "Continue anyways",
                       "Abort"),
                     title = "Enter one of the following numbers:"
