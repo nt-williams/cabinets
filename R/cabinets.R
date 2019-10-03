@@ -45,7 +45,7 @@ FileCabinet <- R6::R6Class('FileCabinet',
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' cab_location <- tempdir()
 #'
 #' create_cabinet(name = "test_cab",
@@ -193,7 +193,7 @@ create_r_proj <- function(version = "1.0",
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' cab_loc <- tempdir()
 #'
 #' create_cabinet(name = "test_cab",

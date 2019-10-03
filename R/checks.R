@@ -14,7 +14,7 @@ check_interactive <- function() {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' cabinets_options_set()
 #' }
 cabinets_options_set <- function(..., .envir = NULL) {
