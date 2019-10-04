@@ -85,19 +85,19 @@ create_cabinet <- function(name,
     close(r_profile)
 
     if (in_rstudio()) {
-        cat("Cabinet",
-            cat_green(p0(".", name)),
-            "created... Restarting R.\n")
-        cat("Cabinet can be called using:",
-            cat_green(p0(".", name)))
+        message("Cabinet ",
+                cat_green(p0(".", name)),
+                " created... Restarting R.")
+        message("Cabinet can be called using: ",
+                cat_green(p0(".", name)))
         rstudioapi::restartSession()
     } else {
-        cat("Cabinet",
-            cat_green(p0(".", name)),
-            "created...\n")
-        cat("Cabinet can be called using:",
-            cat_green(p0(".", name)), "\n")
-        cat("Restart R to use new cabinet.")
+        message("Cabinet ",
+                cat_green(p0(".", name)),
+                "created...")
+        message("Cabinet can be called using: ",
+                cat_green(p0(".", name)))
+        message("Restart R to use new cabinet.")
     }
 
     on.exit(setwd(pre_wd))
@@ -118,10 +118,10 @@ get_cabinets <- function() {
 
     if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
         for (i in seq_along(classes)) {
-            if ("FileCabinet" %in% classes[[i]]) cat(cat_green(hidden[[i]], "\n"))
+            if ("FileCabinet" %in% classes[[i]]) message(cat_green(hidden[[i]]))
         }
     } else {
-        cat(cat_red("No cabinets found."))
+        message("No cabinets found.")
     }
 }
 
@@ -226,11 +226,11 @@ new_cabinet_proj <- function(cabinet,
 
     check_project(proj_path)
 
-    cat("Creating",
-        project_name,
-        "using cabinet template:",
-        cat_green(p0(".", cabinet$name)),
-        "\n")
+    message("Creating",
+            project_name,
+            "using cabinet template:",
+            cat_green(p0(".", cabinet$name)),
+            "\n")
 
     dir.create(proj_path, recursive = TRUE)
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
@@ -247,15 +247,15 @@ new_cabinet_proj <- function(cabinet,
         r_project <- file.path(proj_path,
                                paste0(basename(project_name), ".Rproj"))
         cat(proj_settings, file = r_project)
-        cat("\nR project settings:\n")
+        message("\nR project settings:\n")
         cat("\n")
-        cat(proj_settings, "\n")
+        message(proj_settings, "\n")
     } else {
         open <- FALSE
     }
 
     if (open) {
-        cat(glue::glue("Opening new R project, {basename(project_name)}\n"))
+        message(glue::glue("Opening new R project, {basename(project_name)}\n"))
         cat("\n")
         Sys.sleep(2)
         if (usethis::proj_activate(proj_path)) {

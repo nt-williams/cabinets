@@ -1,9 +1,3 @@
-check_interactive <- function() {
-    if (!interactive()) {
-        stop("cabinets can only be run in an interactive R session.")
-    }
-}
-
 #' Set cabinets options
 #'
 #' @param ... Options to be set
@@ -37,7 +31,7 @@ ask_permission <- function() {
     }
 
     perm_yes <- function() {
-        cat(cat_green("Permission granted"), "\n")
+        message("Permission granted")
         cabinets_options_set("cabinets.permission" = TRUE)
     }
 
@@ -60,17 +54,21 @@ ask_permission <- function() {
     }
 }
 
+check_interactive <- function() {
+    if (!interactive()) {
+        stop("cabinets can only be run in an interactive R session.")
+    }
+}
+
 check_permissions <- function() {
     consent <- getOption("cabinets.permission")
 
-    cat("Checking for permissions...")
+    message("Checking for permissions...")
 
     if (is.null(consent)) {
-        cat("\n")
-        cat("\n")
         ask_permission()
     } else if (identical(consent, TRUE)) {
-        cat(cat_ok())
+        message(cat_ok())
     } else if (identical(consent, FALSE)) {
         cat("\n")
         stop("Permission denied...", call. = FALSE)
@@ -82,7 +80,7 @@ check_r_profile <- function() {
     file_stat <- !file.exists(glue::glue(wd, .Platform$file.sep, ".Rprofile"))
 
     perm_yes <- function() {
-        cat("Creating .Rprofile\n")
+        message("Creating .Rprofile")
         r_profile <- glue::glue(wd, .Platform$file.sep, ".Rprofile")
         file.create(r_profile)
 
@@ -94,12 +92,12 @@ check_r_profile <- function() {
         cat(permission, file = r_profile, sep = "\n")
     }
 
-    cat("Checking for .Rprofile...")
+    message("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
-        cat(cat_yellow(" NOT FOUND\n"))
+        message(cat_yellow("Not found."))
         perm_yes()
     } else {
-        cat(cat_ok())
+        message(cat_ok())
     })
     invisible(status)
 }
@@ -109,26 +107,22 @@ check_directory <- function() {
     wd <- normalizePath(getwd())
 
     status <- hd == wd
-    cat("Checking working directory...")
+    message("Checking working directory...")
     status <- tryCatch(if (status) {
-        cat(cat_ok())
+        on.exit()
     } else {
         sw <- function() {
-            cat("Switching directory to...",
+            message("Switching directory to... ",
                 cat_path(path.expand('~')),
                 "\n")
             setwd(path.expand('~'))
         }
         cont <- function() {
-            cat("Continuing anyways...\n")
+            message("Continuing anyways... ")
         }
-        cat(cat_red(" WARNING:\n"))
-        cat("Cabinets should be built when the working directory is set to the home directory.\n")
-        cat("\n")
-        cat("The home directory is...\n")
-        cat("\n")
-        cat(cat_path(path.expand('~')), "\n")
-        cat("\n")
+        message(cat_red(" WARNING: "), "cabinets should be built when the working directory is set to the home directory.")
+        message("The home directory is...")
+        message(cat_path(path.expand('~')), "\n")
 
         interact <- getOption("cabinet.testing")
         if (is.null(interact)) {
@@ -154,15 +148,15 @@ check_directory <- function() {
 
 check_name <- function(name) {
     name_stat <- exists(paste0(".", name), envir = .GlobalEnv)
-    cat("Checking cabinet name...")
+    message("Checking cabinet name... ")
 
     status <- tryCatch(
         if (name_stat) {
             stop("Cabinet already exists.")
         } else {
-            cat(cat_ok())
+            on.exit()
         }, error = function(e) {
-            cat(cat_red("Cabinet already exists.\n"))
+            message(cat_red("Cabinet already exists."))
             stop("Aborting...", call. = FALSE)
         }
     )
@@ -172,16 +166,16 @@ check_name <- function(name) {
 check_cabinet <- function(cabinet) {
 
     cab_stat <- exists(cabinet, envir = .GlobalEnv)
-    cat("Checking cabinet existence...")
+    message("Checking cabinet existence... ")
 
     status <- tryCatch(
         if (cab_stat) {
-            cat(cat_ok())
+            message(cat_ok())
         } else {
             stop()
         }, error = function(e) {
-            cat(cat_red(" Cabinet not found.\n"))
-            cat("These are the available cabinets:\n")
+            message(cat_red(" Cabinet not found."))
+            message("These are the available cabinets:")
             get_cabinets()
             stop("Aborting...", call. = FALSE)
         }
@@ -190,15 +184,15 @@ check_cabinet <- function(cabinet) {
 }
 
 check_project <- function(proj_path) {
-    cat("Checking if project already exits...")
+    message("Checking if project already exits... ")
 
     status <- tryCatch(
         if (dir.exists(proj_path)) {
             stop()
         } else {
-            cat(cat_ok())
+            message(cat_ok())
         }, error = function(e) {
-            cat(cat_red("Project already exists in cabinet\n"))
+            message(cat_red("Project already exists in cabinet\n"))
             stop("Aborting...", call. = FALSE)
         }
     )

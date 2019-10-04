@@ -3,7 +3,6 @@
 \docType{package}
 \name{cabinets}
 \alias{cabinets}
-\alias{cabinets-package}
 \title{Streamlined organization with project specific custom templates}
 \description{
 Cabinets makes it easy to create project specific file structure templates

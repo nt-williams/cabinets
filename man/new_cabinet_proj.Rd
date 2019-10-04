@@ -4,8 +4,7 @@
 \alias{new_cabinet_proj}
 \title{Create a new project using a cabinet template}
 \usage{
-new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE,
-  ...)
+new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE, ...)
 }
 \arguments{
 \item{cabinet}{The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.}
