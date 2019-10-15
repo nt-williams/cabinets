@@ -58,16 +58,13 @@ create_cabinet <- function(name,
                            directory,
                            structure) {
 
-    pre_wd <- getwd()
-
     check_interactive()
     check_permissions()
-    check_directory()
     check_r_profile()
     check_name(name)
 
-    wd <- getwd()
-    r_profile <- file(file.path(wd, ".Rprofile"), open = "a")
+    home <- normalizePath("~")
+    r_profile <- file(file.path(home, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
     directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
 
@@ -81,7 +78,6 @@ create_cabinet <- function(name,
     )
 
     cat(cabinet, file = r_profile, sep = "\n")
-
     close(r_profile)
 
     if (in_rstudio()) {
@@ -99,8 +95,6 @@ create_cabinet <- function(name,
                 cat_green(p0(".", name)))
         message("Restart R to use new cabinet.")
     }
-
-    on.exit(setwd(pre_wd))
 }
 
 #' Print available cabinets
@@ -121,7 +115,7 @@ get_cabinets <- function() {
             if ("FileCabinet" %in% classes[[i]]) message(cat_green(hidden[[i]]))
         }
     } else {
-        message("No cabinets found.")
+        message("No cabinets found. Cabinets can be created using create_cabinets().")
     }
 }
 
@@ -179,7 +173,8 @@ create_r_proj <- function(version = "1.0",
     RnwWeave: {rnw_weave}
     LaTeX: {latex}
     AutoAppendNewline: {auto_append_new_line}
-    StripTrailingWhitespace: {strip_trailing_white_space}')
+    StripTrailingWhitespace: {strip_trailing_white_space}'
+    )
 }
 
 #' Create a new project using a cabinet template
@@ -226,11 +221,10 @@ new_cabinet_proj <- function(cabinet,
 
     check_project(proj_path)
 
-    message("Creating",
+    message("Creating ",
             project_name,
-            "using cabinet template:",
-            cat_green(p0(".", cabinet$name)),
-            "\n")
+            " using cabinet template: ",
+            cat_green(p0(".", cabinet$name)))
 
     dir.create(proj_path, recursive = TRUE)
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
@@ -247,9 +241,8 @@ new_cabinet_proj <- function(cabinet,
         r_project <- file.path(proj_path,
                                paste0(basename(project_name), ".Rproj"))
         cat(proj_settings, file = r_project)
-        message("\nR project settings:\n")
-        cat("\n")
-        message(proj_settings, "\n")
+        message("\nR project settings:")
+        message(proj_settings)
     } else {
         open <- FALSE
     }
