@@ -2,16 +2,26 @@
 % Please edit documentation in R/cabinets.R
 \name{FileCabinet}
 \alias{FileCabinet}
-\title{R6 object generator for class FileCabinet}
+\title{R6 class for a cabinet}
 \description{
-R6 object generator for class FileCabinet
+Constructs an R6 class of FileCabinet. Objects of class FileCabinet contain information that is used by \code{new_cabinet_proj()} to create project directories.
+}
+\examples{
 
-R6 object generator for class FileCabinet
+## ------------------------------------------------
+## Method `FileCabinet$new`
+## ------------------------------------------------
+
+FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{}}{}
+\item{\code{name}}{cabinet name.}
+
+\item{\code{directory}}{the path to where future directories will be created, a string.}
+
+\item{\code{structure}}{the directory structure, a list.}
 }
 \if{html}{\out{</div>}}
 }
@@ -29,12 +39,42 @@ R6 object generator for class FileCabinet
 \if{html}{\out{<div class="r">}}\preformatted{FileCabinet$new(name, directory, structure)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{cabinet name.}
+
+\item{\code{directory}}{the path to where future directories will be created, a string.}
+
+\item{\code{structure}}{the directory structure, a list.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Create a new `FileCabinet` object.
+}
+
+\subsection{Returns}{
+A cabinet object.
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCabinet$print(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{FileCabinet$print()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+Print an object of class FileCabinet.
 }
 
 }

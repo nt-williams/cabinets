@@ -1,11 +1,30 @@
-#' R6 object generator for class FileCabinet
+#' R6 class for a cabinet
+#'
+#' Constructs an R6 class of FileCabinet. Objects of class FileCabinet contain information that is used by \code{new_cabinet_proj()} to create project directories.
 #'
 #' @export
 FileCabinet <- R6::R6Class('FileCabinet',
     public = list(
+        #' @field name cabinet name.
         name = NULL,
+
+        #' @field directory the path to where future directories will be created, a string.
         directory = NULL,
+
+        #' @field structure the directory structure, a list.
         structure = NULL,
+
+        #' @details
+        #' Create a new `FileCabinet` object.
+        #'
+        #' @param name cabinet name.
+        #' @param directory the path to where future directories will be created, a string.
+        #' @param structure the directory structure, a list.
+        #' @return A cabinet object.
+        #'
+        #' @examples
+        #' FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
+
         initialize = function(name, directory, structure) {
             stopifnot(is.character(name), length(name) == 1)
             stopifnot(is.character(directory))
@@ -15,7 +34,11 @@ FileCabinet <- R6::R6Class('FileCabinet',
             self$directory <- fs::path_tidy(directory)
             self$structure <- structure
         },
-        print = function(...) {
+
+        #' @details
+        #' Print an object of class FileCabinet.
+
+        print = function() {
             cat('Cabinet name: ',
                 cat_green(self$name),
                 '\n',
