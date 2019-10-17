@@ -1,3 +1,12 @@
+## Resubmission
+
+This is a resubmission; in this version I have: 
+
+* eliminated use of \dontrun{} in examples
+* the working directory is no longer changed in any functions
+* eliminated situations in which examples and/or tests write to the users home filespace
+* replaced cat() with message() throughout
+
 ## Test environments
 
 * local OS X install, R 3.6.1
