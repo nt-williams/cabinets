@@ -10,6 +10,6 @@ test_that("name already exists", {
 
 test_that("name doesn't exist", {
     withr::with_environment(.GlobalEnv, {
-        expect_output(check_name("test_cab"))
+        expect_message(check_name("test_cab"), "Checking cabinet name...")
     })
 })

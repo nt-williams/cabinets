@@ -45,7 +45,7 @@ ask_permission <- function() {
         perm_no()
         )
     } else {
-        if (identical(getOption("cabinet.testing"), TRUE)) {
+        if (identical(getOption("cabinet.testingPerm"), TRUE)) {
             perm_yes()
         } else {
             perm_no()
