@@ -6,11 +6,6 @@
 #' @return If no options are set, returns the options specified in \code{options}.
 #' @details Mainly used for specifying if cabinets has permission to write to .Rprofile. Permission can be revoked at any time by opening the .Rprofile file and setting \code{"cabinets.permission" = FALSE}.
 #' @export
-#'
-#' @examples
-#' \donttest{
-#' cabinets_options_set()
-#' }
 cabinets_options_set <- function(..., .envir = NULL) {
     if (is.null(.envir)) {
         .envir <- parent.frame()
@@ -148,5 +143,3 @@ check_project <- function(proj_path) {
     )
     invisible(status)
 }
-
-

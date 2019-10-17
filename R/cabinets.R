@@ -66,17 +66,6 @@ FileCabinet <- R6::R6Class('FileCabinet',
 #'   The working directory will be reset on exit. The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
 #' @seealso \code{\link{new_cabinet_proj}}
 #' @export
-#'
-#' @examples
-#' \donttest{
-#' cab_location <- tempdir()
-#'
-#' create_cabinet(name = "test_cab",
-#'                directory = cab_location,
-#'                structure = list('code' = NULL,
-#'                                 'data/derived' = NULL,
-#'                                 'data/source' = NULL))
-#' }
 create_cabinet <- function(name,
                            directory,
                            structure) {
@@ -213,20 +202,6 @@ create_r_proj <- function(version = "1.0",
 #' @return Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
-#'
-#' @examples
-#' \donttest{
-#' cab_loc <- tempdir()
-#'
-#' create_cabinet(name = "test_cab",
-#'                directory = cab_loc,
-#'                structure = list('code' = NULL,
-#'                                 'data/derived' = NULL,
-#'                                 'data/source' = NULL))
-#'
-#' new_cabinet_proj(cabinet = .test_cab,
-#'                  project_name = "project_1")
-#' }
 new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,

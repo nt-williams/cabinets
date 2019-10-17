@@ -23,17 +23,6 @@ An R6 object of class FileCabinet. The code to generate this object is written t
 Before writing to or creating a .Rprofile file, cabinets will explicitly ask for the user's permission to perform these tasks. Cabinets should only be created when working from the home directory so that the .Rprofile file is written to the home directory. If the working directory is set to a different directory, a warning will be generated prompting the user to change directories.
   The working directory will be reset on exit. The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
 }
-\examples{
-\donttest{
-cab_location <- tempdir()
-
-create_cabinet(name = "test_cab",
-               directory = cab_location,
-               structure = list('code' = NULL,
-                                'data/derived' = NULL,
-                                'data/source' = NULL))
-}
-}
 \seealso{
 \code{\link{new_cabinet_proj}}
 }

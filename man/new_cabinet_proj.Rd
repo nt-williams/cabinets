@@ -23,20 +23,6 @@ Creates a new directory at the path specified in the cabinet template. If r_proj
 \description{
 Generate new project directories using cabinet templates.
 }
-\examples{
-\donttest{
-cab_loc <- tempdir()
-
-create_cabinet(name = "test_cab",
-               directory = cab_loc,
-               structure = list('code' = NULL,
-                                'data/derived' = NULL,
-                                'data/source' = NULL))
-
-new_cabinet_proj(cabinet = .test_cab,
-                 project_name = "project_1")
-}
-}
 \seealso{
 \code{\link{create_cabinet}}
 }
