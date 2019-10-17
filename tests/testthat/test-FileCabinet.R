@@ -1,4 +1,4 @@
-context("reate FileCabinet")
+context("create FileCabinet")
 
 test_that("creating FileCabinet", {
     x <- FileCabinet$new(name = "test_cab",

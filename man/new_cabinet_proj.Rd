@@ -4,8 +4,7 @@
 \alias{new_cabinet_proj}
 \title{Create a new project using a cabinet template}
 \usage{
-new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE,
-  ...)
+new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE, ...)
 }
 \arguments{
 \item{cabinet}{The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.}
@@ -23,20 +22,6 @@ Creates a new directory at the path specified in the cabinet template. If r_proj
 }
 \description{
 Generate new project directories using cabinet templates.
-}
-\examples{
-\dontrun{
-cab_loc <- tempdir()
-
-create_cabinet(name = "test_cab",
-               directory = cab_loc,
-               structure = list('code' = NULL,
-                                'data/derived' = NULL,
-                                'data/source' = NULL))
-
-new_cabinet_proj(cabinet = .test_cab,
-                 project_name = "project_1")
-}
 }
 \seealso{
 \code{\link{create_cabinet}}

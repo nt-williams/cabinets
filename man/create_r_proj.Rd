@@ -4,13 +4,20 @@
 \alias{create_r_proj}
 \title{R project settings}
 \usage{
-create_r_proj(version = "1.0", restore_workspace = c("No", "Yes",
-  "Default"), save_workspace = c("No", "Yes", "Default"),
+create_r_proj(
+  version = "1.0",
+  restore_workspace = c("No", "Yes", "Default"),
+  save_workspace = c("No", "Yes", "Default"),
   save_history = c("Default", "No", "Yes"),
   enable_code_indexing = c("Yes", "No", "Default"),
-  spaces_for_tab = c("Yes", "No", "Default"), num_spaces_for_tab = 2,
-  encoding = "UTF-8", rnw_weave = "Sweave", latex = "pdfLaTeX",
-  auto_append_new_line = "Yes", strip_trailing_white_space = "Yes")
+  spaces_for_tab = c("Yes", "No", "Default"),
+  num_spaces_for_tab = 2,
+  encoding = "UTF-8",
+  rnw_weave = "Sweave",
+  latex = "pdfLaTeX",
+  auto_append_new_line = "Yes",
+  strip_trailing_white_space = "Yes"
+)
 }
 \arguments{
 \item{version}{R project version number, to be passed as character string.}

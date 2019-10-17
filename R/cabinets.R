@@ -1,11 +1,30 @@
-#' R6 object generator for class FileCabinet
+#' R6 class for a cabinet
+#'
+#' Constructs an R6 class of FileCabinet. Objects of class FileCabinet contain information that is used by \code{new_cabinet_proj()} to create project directories.
 #'
 #' @export
 FileCabinet <- R6::R6Class('FileCabinet',
     public = list(
+        #' @field name cabinet name.
         name = NULL,
+
+        #' @field directory the path to where future directories will be created, a string.
         directory = NULL,
+
+        #' @field structure the directory structure, a list.
         structure = NULL,
+
+        #' @details
+        #' Create a new `FileCabinet` object.
+        #'
+        #' @param name cabinet name.
+        #' @param directory the path to where future directories will be created, a string.
+        #' @param structure the directory structure, a list.
+        #' @return A cabinet object.
+        #'
+        #' @examples
+        #' FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
+
         initialize = function(name, directory, structure) {
             stopifnot(is.character(name), length(name) == 1)
             stopifnot(is.character(directory))
@@ -15,7 +34,11 @@ FileCabinet <- R6::R6Class('FileCabinet',
             self$directory <- fs::path_tidy(directory)
             self$structure <- structure
         },
-        print = function(...) {
+
+        #' @details
+        #' Print an object of class FileCabinet.
+
+        print = function() {
             cat('Cabinet name: ',
                 cat_green(self$name),
                 '\n',
@@ -40,32 +63,20 @@ FileCabinet <- R6::R6Class('FileCabinet',
 #'
 #' @return An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
 #' @details Before writing to or creating a .Rprofile file, cabinets will explicitly ask for the user's permission to perform these tasks. Cabinets should only be created when working from the home directory so that the .Rprofile file is written to the home directory. If the working directory is set to a different directory, a warning will be generated prompting the user to change directories.
-#'   The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
+#'   The working directory will be reset on exit. The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
 #' @seealso \code{\link{new_cabinet_proj}}
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#' cab_location <- tempdir()
-#'
-#' create_cabinet(name = "test_cab",
-#'                directory = cab_location,
-#'                structure = list('code' = NULL,
-#'                                 'data/derived' = NULL,
-#'                                 'data/source' = NULL))
-#' }
 create_cabinet <- function(name,
                            directory,
                            structure) {
 
     check_interactive()
     check_permissions()
-    check_directory()
     check_r_profile()
     check_name(name)
 
-    wd <- getwd()
-    r_profile <- file(file.path(wd, ".Rprofile"), open = "a")
+    home <- normalizePath("~")
+    r_profile <- file(file.path(home, ".Rprofile"), open = "a")
     str_json <- rjson::toJSON(structure)
     directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
 
@@ -79,23 +90,22 @@ create_cabinet <- function(name,
     )
 
     cat(cabinet, file = r_profile, sep = "\n")
-
     close(r_profile)
 
     if (in_rstudio()) {
-        cat("Cabinet",
-            cat_green(p0(".", name)),
-            "created... Restarting R.\n")
-        cat("Cabinet can be called using:",
-            cat_green(p0(".", name)))
+        message("Cabinet ",
+                cat_green(p0(".", name)),
+                " created... Restarting R.")
+        message("Cabinet can be called using: ",
+                cat_green(p0(".", name)))
         rstudioapi::restartSession()
     } else {
-        cat("Cabinet",
-            cat_green(p0(".", name)),
-            "created...\n")
-        cat("Cabinet can be called using:",
-            cat_green(p0(".", name)), "\n")
-        cat("Restart R to use new cabinet.")
+        message("Cabinet ",
+                cat_green(p0(".", name)),
+                "created...")
+        message("Cabinet can be called using: ",
+                cat_green(p0(".", name)))
+        message("Restart R to use new cabinet.")
     }
 }
 
@@ -114,10 +124,10 @@ get_cabinets <- function() {
 
     if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
         for (i in seq_along(classes)) {
-            if ("FileCabinet" %in% classes[[i]]) cat(cat_green(hidden[[i]], "\n"))
+            if ("FileCabinet" %in% classes[[i]]) message(cat_green(hidden[[i]]))
         }
     } else {
-        cat(cat_red("No cabinets found."))
+        message("No cabinets found. Cabinets can be created using create_cabinets().")
     }
 }
 
@@ -175,7 +185,8 @@ create_r_proj <- function(version = "1.0",
     RnwWeave: {rnw_weave}
     LaTeX: {latex}
     AutoAppendNewline: {auto_append_new_line}
-    StripTrailingWhitespace: {strip_trailing_white_space}')
+    StripTrailingWhitespace: {strip_trailing_white_space}'
+    )
 }
 
 #' Create a new project using a cabinet template
@@ -191,20 +202,6 @@ create_r_proj <- function(version = "1.0",
 #' @return Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#' cab_loc <- tempdir()
-#'
-#' create_cabinet(name = "test_cab",
-#'                directory = cab_loc,
-#'                structure = list('code' = NULL,
-#'                                 'data/derived' = NULL,
-#'                                 'data/source' = NULL))
-#'
-#' new_cabinet_proj(cabinet = .test_cab,
-#'                  project_name = "project_1")
-#' }
 new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,
@@ -222,11 +219,10 @@ new_cabinet_proj <- function(cabinet,
 
     check_project(proj_path)
 
-    cat("Creating",
-        project_name,
-        "using cabinet template:",
-        cat_green(p0(".", cabinet$name)),
-        "\n")
+    message("Creating ",
+            project_name,
+            " using cabinet template: ",
+            cat_green(p0(".", cabinet$name)))
 
     dir.create(proj_path, recursive = TRUE)
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
@@ -243,15 +239,14 @@ new_cabinet_proj <- function(cabinet,
         r_project <- file.path(proj_path,
                                paste0(basename(project_name), ".Rproj"))
         cat(proj_settings, file = r_project)
-        cat("\nR project settings:\n")
-        cat("\n")
-        cat(proj_settings, "\n")
+        message("\nR project settings:")
+        message(proj_settings)
     } else {
         open <- FALSE
     }
 
     if (open) {
-        cat(glue::glue("Opening new R project, {basename(project_name)}\n"))
+        message(glue::glue("Opening new R project, {basename(project_name)}\n"))
         cat("\n")
         Sys.sleep(2)
         if (usethis::proj_activate(proj_path)) {

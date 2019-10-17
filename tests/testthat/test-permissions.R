@@ -4,7 +4,7 @@ test_that("permission is granted", {
   options("cabinet.testing" = TRUE)
   options("cabinet.testingPerm" = TRUE)
 
-  expect_output(ask_permission())
+  expect_message(ask_permission(), "Permission granted.")
 })
 
 test_that("permission is denied", {
@@ -19,7 +19,7 @@ test_that("check permission catches permission", {
     expect_error(check_permissions())
 
     options("cabinets.permission" = TRUE)
-    expect_output(check_permissions(), "OK")
+    expect_message(check_permissions(), "Checking for permissions...")
 
     options("cabinets.permission" = NULL)
     options("cabinet.testing" = TRUE)
