@@ -7,5 +7,5 @@ test_that("project directory already exists", {
 })
 
 test_that("project doesn't exist", {
-    expect_message(check_project(file.path("a", "random", "path")), "Checking if project already exits...")
+    expect_message(check_project(file.path("a", "random", "path")), "Checking if project already exists...")
 })

@@ -104,7 +104,7 @@ check_name <- function(name) {
         } else {
             on.exit()
         }, error = function(e) {
-            stop("Cabinet already exits.", call. = FALSE)
+            stop("Cabinet already exists.", call. = FALSE)
         }
     )
     invisible(status)
@@ -130,7 +130,7 @@ check_cabinet <- function(cabinet) {
 }
 
 check_project <- function(proj_path) {
-    message("Checking if project already exits... ")
+    message("Checking if project already exists... ")
 
     status <- tryCatch(
         if (dir.exists(proj_path)) {

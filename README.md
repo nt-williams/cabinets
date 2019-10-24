@@ -95,7 +95,7 @@ new_cabinet_proj(cabinet = .contract_x,
                  project_name = "project_1")
 
 #> Checking cabinet existence... OK
-#> Checking if project already exits... OK
+#> Checking if project already exists... OK
 #> Creating project_1 using cabinet template: .contract_x 
 #> 
 #> R project settings:
