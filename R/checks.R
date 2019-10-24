@@ -81,7 +81,7 @@ check_r_profile <- function() {
             cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
         )
 
-        cat(permission, file = r_profile, sep = "\n")
+        writeLines(permission, r_profile)
     }
 
     message("Checking for .Rprofile...")
