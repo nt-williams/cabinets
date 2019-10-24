@@ -1,11 +1,8 @@
 ## Resubmission
 
-This is a resubmission; in this version I have: 
+This is a resubmission; in this version (0.2.2) I have: 
 
-* eliminated use of \dontrun{} in examples
-* the working directory is no longer changed in any functions
-* eliminated situations in which examples and/or tests write to the users home filespace
-* replaced cat() with message() throughout
+* eliminated the use of cat() across all functions outside of print() in FileCabinet()
 
 ## Test environments
 
