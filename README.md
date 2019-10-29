@@ -14,7 +14,9 @@
 
 ## Installation
 
-`cabinets` can be installed using `devtools::install_github("nt-williams/cabinets")`.
+
+
+`cabinets` can be installed from CRAN using `install.packages("cabinets")`. The development version can be installed using `devtools::install_github("nt-williams/cabinets")`.
 
 ### But, why? 
 
