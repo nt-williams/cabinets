@@ -62,14 +62,15 @@ create_cabinet(name = "contract_x",
                directory = cabinet_loc, 
                structure = cabinet_str)
                
-#> Checking for permissions... OK
-#> Checking working directory... OK
-#> Checking for .Rprofile... OK
-#> Checking cabinet name... OK
+#> Permission granted.
+#> Checking for .Rprofile...
+#> .Rprofile not found.
+#> Creating .Rprofile...
+#> Checking cabinet name... 
 #> Cabinet .contract_x created... Restarting R.
 #> Cabinet can be called using: .contract_x
-
-Restarting R session...
+#> 
+#> Restarting R session...
 ```
 
 The cabinet is now created and doesn't have to be redfined in future R sessions. To examine the cabinet we just call it.
@@ -95,8 +96,8 @@ The cabinet is now created and doesn't have to be redfined in future R sessions.
 new_cabinet_proj(cabinet = .contract_x, 
                  project_name = "project_1")
 
-#> Checking cabinet existence... OK
-#> Checking if project already exists... OK
+#> Checking cabinet existence...
+#> Checking if project already exists...
 #> Creating project_1 using cabinet template: .contract_x 
 #> 
 #> R project settings:
@@ -114,6 +115,7 @@ new_cabinet_proj(cabinet = .contract_x,
 #> AutoAppendNewline: Yes
 #> StripTrailingWhitespace: Yes 
 #> Opening new R project, project_1
+#> 
 #> ✔ Opening '/Users/nickwilliams/cabinet_test/project_1/' in new RStudio session
 ```
 
