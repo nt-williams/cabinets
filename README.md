@@ -2,7 +2,8 @@
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/cabinets)](https://CRAN.R-project.org/package=cabinets)
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+![](http://cranlogs.r-pkg.org/badges/grand-total/cabinets)
+[![Lifecycle: stable]("https://img.shields.io/badge/lifecycle-stable-brightgreen.svg"](https://www.tidyverse.org/lifecycle/#stable)
 [![Travis build status](https://travis-ci.org/nt-williams/cabinets.svg?branch=master)](https://travis-ci.org/nt-williams/cabinets)
 [![Codecov test coverage](https://codecov.io/gh/nt-williams/cabinets/branch/master/graph/badge.svg)](https://codecov.io/gh/nt-williams/cabinets?branch=master)
 <!-- badges: end -->
