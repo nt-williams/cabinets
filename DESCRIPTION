@@ -1,6 +1,6 @@
 Package: cabinets
 Title: Project Specific Workspace Organization Templates
-Version: 0.2.2.9000
+Version: 0.3.2.9000
 Authors@R: 
     person(given = "Nick",
            family = "Williams",
