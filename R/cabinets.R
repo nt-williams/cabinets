@@ -252,3 +252,29 @@ new_cabinet_proj <- function(cabinet,
         }
     }
 }
+
+#' Open .Rprofile for editing
+#'
+#' \code{edit_r_profile} opens the .Rprofile file for editing. If the .Rprofile file doesn't exist an error message will be returned. This is essentially a wrapper function for \code{file.edit}.
+#'
+#' @return A message that .Rprofile is being opened or that it doesn't exist.
+#' @export
+edit_r_profile <- function() {
+
+    rprof_path <- file.path(normalizePath("~"), ".Rprofile")
+    file_stat <- file.exists(rprof_path)
+
+    go <- function(path) {
+        utils::file.edit(path)
+    }
+
+    status <- tryCatch(if (file_stat) {
+        message("Opening .Rprofile")
+        go(rprof_path)
+    } else {
+        stop()
+    }, error = function(e) {
+        stop(".Rprofile doesn't exist.", call. = FALSE)
+    })
+    invisible(status)
+}
