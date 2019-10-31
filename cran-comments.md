@@ -1,8 +1,8 @@
 ## Resubmission
 
-This is a resubmission; in this version (0.2.2) I have: 
+This is a resubmission after cabinets (0.2.2) was archived for a violation of CRAN policies; in this version (0.3.1): 
 
-* eliminated the use of cat() across all functions outside of print() in FileCabinet()
+* a bug was discovered in test-r_profile.R that was resulting in the writing of .Rprofile to the users home directory without explicit permission---this file has been removed. All checks have been re-run and cabinets now complies with CRAN policies regarding user permission for writing to the user's home directory. 
 
 ## Test environments
 
@@ -14,7 +14,7 @@ This is a resubmission; in this version (0.2.2) I have:
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release.
+* This is a new release (previously archived).
 
 ## Downstream dependencies
 

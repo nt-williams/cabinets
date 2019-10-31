@@ -247,7 +247,7 @@ new_cabinet_proj <- function(cabinet,
     if (open) {
         message(glue::glue("Opening new R project, {basename(project_name)}"), "\n")
         Sys.sleep(2)
-        if (usethis::proj_activate(proj_path)) {
+        if (usethis::proj_activate(path.expand(proj_path))) {
             on.exit()
         }
     }
