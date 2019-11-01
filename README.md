@@ -14,8 +14,6 @@
 
 ## Installation
 
-
-
 `cabinets` can be installed from CRAN using `install.packages("cabinets")`. The development version can be installed using `devtools::install_github("nt-williams/cabinets")`.
 
 ### But, why? 
@@ -128,3 +126,10 @@ list.files()
 #> [1] "code"            "data"            "documents"       "log"            
 #> [5] "project_1.Rproj" "reports"
 ```
+
+## Contributing
+
+Please note that the 'cabinets' project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
+
