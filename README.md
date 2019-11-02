@@ -127,6 +127,13 @@ list.files()
 #> [5] "project_1.Rproj" "reports"
 ```
 
+## Inspiration
+
+'cabinets' was originally inspired by the 'workflowr' package. It differs in 2 main ways: 
+
+1. 'cabinets' allows users to create their own templates for project organization, while 'workflowr' requires the use of their file structure and naming conventions. 
+2. 'workflowr' results in the creation of a website; while a website might be useful for large scale projects, it is not necessary for reproducibility and is arguably excessive and adds extra layers of undue complexity. 
+
 ## Contributing
 
 Please note that the 'cabinets' project is released with a
