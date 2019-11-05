@@ -127,7 +127,7 @@ list.files()
 #> [5] "project_1.Rproj" "reports"
 ```
 
-## Similiar implementations
+## Other implementations
 
 The `workflowr` package has similiar functionality; `cabinets` differs in 2 main ways: 
 
