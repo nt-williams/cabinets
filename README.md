@@ -127,12 +127,12 @@ list.files()
 #> [5] "project_1.Rproj" "reports"
 ```
 
-## Other implementations
+## Similiar implementations
 
 The `workflowr` package has similiar functionality; `cabinets` differs in 2 main ways: 
 
 1. `cabinets` allows users to create their own templates for project organization, while `workflowr` requires the use of their file structure and naming conventions. 
-2. `workflowr` is centered around the creation of a website; while a website might be useful for large scale projects, it is not necessary for reproducibility and is arguably excessive with added layers of undue complexity for the average project. 
+2. `cabinets` keeps things simpler. `workflowr` is centered around the creation of a website; a website might be useful for large scale projects, but it is not necessary for reproducibility/organization and arguably adds layers of undue complexity for the average project. 
 
 ## Contributing
 
