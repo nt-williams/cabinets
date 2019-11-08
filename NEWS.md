@@ -1,6 +1,7 @@
 # cabinets 0.3.2.9000
 
 * bug fix for cabinets permission when .Rprofile already exists on first use.
+* bug fix for unrecognized characters when printing cabinet structure
 
 # cabinets 0.3.1
 
