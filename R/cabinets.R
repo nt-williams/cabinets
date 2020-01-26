@@ -196,6 +196,9 @@ create_r_proj <- function(version = "1.0",
 #' @param project_name The name of the project to store in the cabinet, a character string.
 #' @param r_project Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).
 #' @param open Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio (only works in RStudio).
+#' @param git Logical, should a git repository be initiated.
+#' @param git_root A path relative to the project to initiate the git repository. Default is NULL and the repository is initiated at the root of the project.
+#' @param git_ignore Character vector of files and directories to add to .gitignore file.
 #' @param ... Extra arguments to pass to \code{create_r_proj}.
 #'
 #' @return Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
@@ -205,6 +208,9 @@ new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,
                              open = TRUE,
+                             git = TRUE,
+                             git_root = NULL,
+                             git_ignore = NULL,
                              ...) {
 
     check_cabinet(deparse(substitute(cabinet)))
@@ -225,6 +231,15 @@ new_cabinet_proj <- function(cabinet,
 
     dir.create(proj_path, recursive = TRUE)
     purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
+
+    if (git) {
+        if (is.null(git_root)) {
+            git_root <- proj_path
+        } else {
+            git_root <- file.path(proj_path, git_root)
+        }
+        use_git(git_root, git_ignore)
+    }
 
     if (r_project) {
         r_proj_args <- list(...)
@@ -278,3 +293,32 @@ edit_r_profile <- function() {
     })
     invisible(status)
 }
+
+use_git <- function(git_root, git_ignore = NULL) {
+
+    cg <- check_git()
+    status <- tryCatch(
+        if (cg) {
+            init_git(git_root, git_ignore)
+        } else {
+            warning()
+        }, warning = function(w) {
+            message("Git not found or git not fully configured. Check out https://happygitwithr.com/ for configuring git with R.")
+        }
+    )
+    invisible(status)
+}
+
+init_git <- function(git_root, git_ignore = NULL) {
+
+    ignores <- c(".Rproj.user", ".Rhistory", ".Rdata", ".Ruserdata")
+    if (!is.null(git_ignore)) ignores <- c(ignores, git_ignore)
+    ignores <- paste0(ignores, "\n", collapse = "")
+
+    git2r::init(git_root)
+    gi <- file.path(git_root, ".gitignore")
+    writeLines(ignores, gi)
+
+    message(glue::glue("Git repository initiated in {git_root}"))
+}
+
