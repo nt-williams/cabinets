@@ -162,3 +162,22 @@ check_project <- function(proj_path) {
     )
     invisible(status)
 }
+
+check_git <- function() {
+    message("Checking for git configuration... ")
+
+    files <- git2r::git_config_files()
+    git_stat <- is.na(files[3, "path"])
+    config_stat <- git2r::config()
+
+    status <- tryCatch(
+        if (git_stat || length(config_stat) == 0) {
+            warning()
+        } else {
+            on.exit()
+        }, warning = function(w) {
+            message("Git not found or git not fully configured. Check out https://happygitwithr.com/ for configuring git with R.")
+        }
+    )
+    invisible(status)
+}
