@@ -205,6 +205,9 @@ new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,
                              open = TRUE,
+                             git = TRUE,
+                             git_root = NULL,
+                             git_ignore = NULL,
                              ...) {
 
     check_cabinet(deparse(substitute(cabinet)))
@@ -244,6 +247,38 @@ new_cabinet_proj <- function(cabinet,
         open <- FALSE
     }
 
+    if (git) {
+        continue <- TRUE
+        tryCatch(
+            check_git(),
+            warning = function(w) {
+                continue <- FALSE
+            }
+        )
+
+        if (continue) {
+            if (is.null(git_root)) git_root <- proj_path
+            configure_git(git_root, git_ignore)
+        }
+    }
+
+    if (git) {
+        cg <- tryCatch(
+            check_git(),
+            warning = function(w) {
+                w
+            }
+        )
+
+        continue <- TRUE
+        if (is(cg, "warning")) continue <- FALSE
+
+        if (continue) {
+            if (is.null(git_root)) git_root <- proj_path
+            use_git(git_root, git_ignore)
+        }
+    }
+
     if (open) {
         message(glue::glue("Opening new R project, {basename(project_name)}"), "\n")
         Sys.sleep(2)
@@ -278,3 +313,16 @@ edit_r_profile <- function() {
     })
     invisible(status)
 }
+
+use_git <- function(git_root, git_ignore = NULL) {
+
+    check_git()
+    ignores <- c(".Rproj.user", ".Rhistory", ".Rdata", ".Ruserdata")
+
+    if (!is.null(git_ignore)) ignores <- c(ignores, git_ignore)
+
+    git2r::init(git_root)
+    usethis::use_git_ignore(ignores, git_root)
+
+}
+

@@ -177,6 +177,7 @@ check_git <- function() {
             on.exit()
         }, warning = function(w) {
             message("Git not found or git not fully configured. Check out https://happygitwithr.com/ for configuring git with R.")
+            warning(call. = FALSE)
         }
     )
     invisible(status)
