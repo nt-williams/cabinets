@@ -289,12 +289,7 @@ use_git <- function(git_root, git_ignore = NULL) {
     cg <- check_git()
     status <- tryCatch(
         if (cg) {
-            ignores <- c(".Rproj.user", ".Rhistory", ".Rdata", ".Ruserdata")
-
-            if (!is.null(git_ignore)) ignores <- c(ignores, git_ignore)
-
-            git2r::init(git_root)
-            usethis::use_git_ignore(ignores, git_root)
+            init_git(git_root, git_ignore)
         } else {
             warning()
         }, warning = function(w) {
@@ -302,5 +297,14 @@ use_git <- function(git_root, git_ignore = NULL) {
         }
     )
     invisible(status)
+}
+
+init_git <- function(git_root, git_ignore = NULL) {
+    ignores <- c(".Rproj.user", ".Rhistory", ".Rdata", ".Ruserdata")
+
+    if (!is.null(git_ignore)) ignores <- c(ignores, git_ignore)
+
+    git2r::init(git_root)
+    usethis::use_git_ignore(ignores, git_root)
 }
 
