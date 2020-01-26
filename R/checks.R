@@ -170,15 +170,11 @@ check_git <- function() {
     git_stat <- is.na(files[3, "path"])
     config_stat <- git2r::config()
 
-    status <- tryCatch(
-        if (git_stat || length(config_stat) == 0) {
-            warning()
-        } else {
-            on.exit()
-        }, warning = function(w) {
-            message("Git not found or git not fully configured. Check out https://happygitwithr.com/ for configuring git with R.")
-            warning(call. = FALSE)
-        }
-    )
-    invisible(status)
+    if (git_stat || length(config_stat) == 0) {
+        status <- FALSE
+    } else {
+        status <- TRUE
+    }
+
+    return(status)
 }
