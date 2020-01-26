@@ -4,7 +4,16 @@
 \alias{new_cabinet_proj}
 \title{Create a new project using a cabinet template}
 \usage{
-new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE, ...)
+new_cabinet_proj(
+  cabinet,
+  project_name,
+  r_project = TRUE,
+  open = TRUE,
+  git = TRUE,
+  git_root = NULL,
+  git_ignore = NULL,
+  ...
+)
 }
 \arguments{
 \item{cabinet}{The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.}
@@ -14,6 +23,12 @@ new_cabinet_proj(cabinet, project_name, r_project = TRUE, open = TRUE, ...)
 \item{r_project}{Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).}
 
 \item{open}{Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio (only works in RStudio).}
+
+\item{git}{Logical, should a git repository be initiated.}
+
+\item{git_root}{A path relative to the project to initiate the git repository. Default is NULL and the repository is initiated at the root of the project.}
+
+\item{git_ignore}{Character vector of files and directories to add to .gitignore file.}
 
 \item{...}{Extra arguments to pass to \code{create_r_proj}.}
 }

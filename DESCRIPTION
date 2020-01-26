@@ -23,7 +23,8 @@ Imports:
     stringr,
     utils,
     purrr,
-    withr
+    withr,
+    git2r
 Suggests: 
     testthat (>= 2.1.0),
     covr

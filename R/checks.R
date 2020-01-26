@@ -103,11 +103,11 @@ check_r_profile <- function() {
         }
     }
 
-    message("Checking for .Rprofile...")
     status <- tryCatch(if (file_stat) {
-        message(".Rprofile not found.")
+        message("Checking for .Rprofile... .Rprofile not found.")
         new_rprof()
     } else {
+        message("Checking for .Rprofile...")
         old_rprof()
     })
     invisible(status)
