@@ -94,11 +94,15 @@ The cabinet is now created and doesn't have to be redfined in future R sessions.
 
 ``` r
 new_cabinet_proj(cabinet = .contract_x, 
-                 project_name = "project_1")
+                 project_name = "project_1", 
+                 git = TRUE, 
+                 git_ignore = "data")
 
 #> Checking cabinet existence...
 #> Checking if project already exists...
 #> Creating project_1 using cabinet template: .contract_x 
+#> Checking for git configuration... 
+#> Git repository initiated in ~/cabinet_test
 #> 
 #> R project settings:
 #> 
@@ -119,20 +123,16 @@ new_cabinet_proj(cabinet = .contract_x,
 #> ✔ Opening '/Users/nickwilliams/cabinet_test/project_1/' in new RStudio session
 ```
 
-Checking the files in the newly opened project...
-
-``` r
-list.files()
-#> [1] "code"            "data"            "documents"       "log"            
-#> [5] "project_1.Rproj" "reports"
-```
-
 ## Similiar implementations
 
-The `workflowr` package has similiar functionality; `cabinets` differs in 2 main ways: 
+Similiar implementations exist elsewhere. `cabinets` is unique however for giving the user the true ability to design their own project templates. 
 
-1. `cabinets` allows users to create their own templates for project organization, while `workflowr` requires the use of their file structure and naming conventions. 
-2. `cabinets` keeps things simpler. `workflowr` is centered around the creation of a website; a website might be useful for large scale projects, but it is not necessary for reproducibility/organization and arguably adds layers of undue complexity for the average project. 
+The following list of R packages contain similiar implementations: 
+
+* [workflowr](https://github.com/jdblischak/workflowr)
+* [projects](https://github.com/NikKrieger/projects)
+* [starters](https://github.com/lockedata/starters)
+* [ProjectTemplate](https://github.com/KentonWhite/ProjectTemplate)
 
 ## Contributing
 
