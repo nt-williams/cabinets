@@ -1,3 +1,7 @@
+## Version 0.4.0 resubmission
+
+* README.md was added to .rbuildignore
+
 ## Test environments
 
 * local OS X install, R 3.6.2
