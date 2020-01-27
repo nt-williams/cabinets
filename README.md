@@ -14,9 +14,19 @@
 
 ## Installation
 
-`cabinets` can be installed from CRAN using `install.packages("cabinets")`. The development version can be installed using `devtools::install_github("nt-williams/cabinets")`.
+### CRAN
 
-### But, why? 
+```
+install.packages("cabinets")
+```
+
+### Development version
+
+```
+devtools::install_github("nt-williams/cabinets")
+```
+
+## Motivation
 
 As a statistician, I work on different contracts with different standard directories. 
 
@@ -41,7 +51,7 @@ While for contract Y, I have to work with an organization that requires I use th
 
 `Cabinets` results in only having to define these templates once. 
 
-### Demo
+## Demo
 
 Using the first project file structure described above, we define a new cabinet. 
 
@@ -102,7 +112,7 @@ new_cabinet_proj(cabinet = .contract_x,
 #> Checking if project already exists...
 #> Creating project_1 using cabinet template: .contract_x 
 #> Checking for git configuration... 
-#> Git repository initiated in ~/cabinet_test
+#> Git repository initiated in ~/project_1
 #> 
 #> R project settings:
 #> 
