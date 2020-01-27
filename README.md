@@ -83,7 +83,7 @@ create_cabinet(name = "contract_x",
 #> Restarting R session...
 ```
 
-The cabinet is now created and doesn't have to be redfined in future R sessions. To examine the cabinet we just call it.
+The cabinet is now created and doesn't have to be redefined in future R sessions. To examine the cabinet we just call it.
 
 ``` r
 .contract_x
@@ -133,11 +133,11 @@ new_cabinet_proj(cabinet = .contract_x,
 #> ✔ Opening '/Users/nickwilliams/cabinet_test/project_1/' in new RStudio session
 ```
 
-## Similiar implementations
+## Similar implementations
 
-Similiar implementations exist elsewhere. `cabinets` is unique however for giving the user the true ability to design their own project templates. 
+Similar implementations exist elsewhere. `cabinets` is unique however for giving the user the true ability to design their own project templates. 
 
-The following list of R packages contain similiar implementations: 
+The following list of R packages contain similar implementations: 
 
 * [workflowr](https://github.com/jdblischak/workflowr)
 * [projects](https://github.com/NikKrieger/projects)

@@ -1,6 +1,6 @@
 # cabinet 0.4.0
 
-* `new_cabinet_proj()` now includes a feature for the initiation of a git reposity when creating a new project.
+* `new_cabinet_proj()` now includes a feature for the initiation of a git repository when creating a new project.
 
 # cabinets 0.3.2.9000
 
