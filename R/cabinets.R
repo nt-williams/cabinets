@@ -73,23 +73,7 @@ create_cabinet <- function(name,
     check_permissions()
     check_r_profile()
     check_name(name)
-
-    home <- normalizePath("~")
-    r_profile <- file(file.path(home, ".Rprofile"), open = "a")
-    str_json <- rjson::toJSON(structure)
-    directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
-
-    cabinet <- glue::glue(
-    "# creating {name} cabinet
-    .{name} <- cabinets::FileCabinet$new(
-        name = '{name}',
-        directory = '{directory}',
-        structure = rjson::fromJSON('{str_json}')
-    )"
-    )
-
-    writeLines(cabinet, con = r_profile)
-    close(r_profile)
+    write_cabinet(name, directory, structure)
 
     if (in_rstudio()) {
         message("Cabinet ",
@@ -106,6 +90,37 @@ create_cabinet <- function(name,
                 p0(".", name))
         message("Restart R to use new cabinet.")
     }
+}
+
+write_cabinet <- function(name, directory, structure) {
+
+    home <- normalizePath("~")
+    r_profile <- file(file.path(home, ".Rprofile"), open = "a")
+    directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
+
+    newFileCabinet <-
+        call("$",
+             x = call("::",
+                      pkg = substitute(cabinets),
+                      name = substitute(FileCabinet)),
+             name = substitute(new)
+        )
+
+    x <- paste0(".", name)
+
+    value <-
+        as.call(list(
+            newFileCabinet,
+            name = "test",
+            directory = directory,
+            structure = structure)
+        )
+
+    cabinet <- call("<-", x = as.symbol(x), value = value)
+
+    writeLines(paste("# creating ", name, " cabinet"), con = r_profile)
+    capture.output(cabinet, file = r_profile, append = TRUE)
+    close(r_profile)
 }
 
 #' Print available cabinets
@@ -230,7 +245,7 @@ new_cabinet_proj <- function(cabinet,
             p0(".", cabinet$name))
 
     dir.create(proj_path, recursive = TRUE)
-    purrr::walk(proj_folders, ~dir.create(.x, recursive = TRUE))
+    purrr::walk(proj_folders, ~ dir.create(.x, recursive = TRUE))
 
     if (git) {
         if (is.null(git_root)) {
