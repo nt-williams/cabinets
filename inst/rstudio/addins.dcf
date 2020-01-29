@@ -1,0 +1,4 @@
+Name: Work with cabinets
+Description: Creates cabinets or creates new projects based on cabinets
+Binding: cabinets_gadget
+Interactive: true
