@@ -19,13 +19,19 @@ available_cabinets <- function() {
 cabinets_gadget <- function() {
 
     ui <- miniUI::miniPage(
-        miniUI::gadgetTitleBar("Cabinets"),
         shinyjs::useShinyjs(),
         miniUI::miniTabstripPanel(
             id = "project",
+            # new cabinet UI
             miniUI::miniTabPanel(
                 title = "Create a cabinet",
                 icon = shiny::icon("archive"),
+                miniUI::miniTitleBar(NULL,
+                                     right = miniUI::miniTitleBarButton("create",
+                                                                        "Create cabinet",
+                                                                        primary = TRUE),
+                                     left = miniUI::miniTitleBarCancelButton()
+                ),
                 shiny::fillRow(
                     miniUI::miniContentPanel(
                         shiny::textInput(
@@ -35,7 +41,7 @@ cabinets_gadget <- function() {
                             width = "100%"
                         ),
                         shiny::tags$p(
-                            "Please choose the directory for where the cabinet will exist. This is where
+                            "Please choose the directory where the cabinet will exist. This is where any
                             project created using the cabinet will be located on your system."
                         ),
                         shinyFiles::shinyDirButton(
@@ -51,7 +57,8 @@ cabinets_gadget <- function() {
                             width = "100%",
                             placeholder = "ex. data/source"
                         ),
-                        shiny::actionButton("add", "Add to template"),
+                        shiny::actionButton("add", NULL, icon = icon("plus")),
+                        shiny::br(),
                         shiny::br(),
                         shiny::helpText(shiny::a("Click here for help with creating a cabinet structure",
                                                  href = "https://github.com/nt-williams/cabinets",
@@ -59,9 +66,16 @@ cabinets_gadget <- function() {
                     )
                 )
             ),
+            # new project UI
             miniUI::miniTabPanel(
                 title = "Start a new project",
                 icon = shiny::icon("folder"),
+                miniUI::miniTitleBar(NULL,
+                                     right = miniUI::miniTitleBarButton("new",
+                                                                        "Create project",
+                                                                        primary = TRUE),
+                                     left = miniUI::miniTitleBarCancelButton()
+                ),
                 shiny::fillRow(
                     miniUI::miniContentPanel(
                         shiny::selectizeInput(
@@ -98,8 +112,7 @@ cabinets_gadget <- function() {
                         shiny::conditionalPanel(
                             condition = "input.git == true",
                             shiny::tags$p(
-                                "The default directory for the git repository is is the root of the project.
-                            However you change it to be one of the project subdirectories."
+                                "The default directory for the git repository is is the root of the project. However you can change it to be one of the project subdirectories."
                             ),
                             shinyFiles::shinyDirButton(
                                 "root",
@@ -139,15 +152,51 @@ cabinets_gadget <- function() {
         })
 
         # start new project
+        cabinet <- reactive({
+            as.symbol(input$select_cabinet)
+        })
 
-        shiny::observeEvent(input$done, {
-            returnValue <- ...
-            stopApp(returnValue)
+        volumes <- reactive({
+            normalizePath(eval(cabinet())$directory)
+        })
+
+        base <- reactive({
+            basename(volumes())
+        })
+
+        shiny::observe({
+            v <- c(volumes())
+            names(v) <- base()
+            shinyFiles::shinyDirChoose(
+                input,
+                "root",
+                roots = v,
+                session = session
+            )
+        })
+
+        shiny::observeEvent(input$new, {
+            stopApp()
+            cat("\n")
+            eval(
+                call(
+                    "new_cabinet_proj",
+                    cabinet = cabinet(),
+                    project_name = input$project_name,
+                    r_project = input$rproj,
+                    open = input$open,
+                    git = input$git
+                )
+            )
         })
     }
 
-    viewer <- shiny::dialogViewer("cabinets: Project Specific Workspace Organization Templates", width = 600, height = 400)
+    viewer <- shiny::dialogViewer(
+        "cabinets: Project Specific Workspace Organization Templates",
+        width = 600,
+        height = 400)
     shiny::runGadget(ui, server, viewer = viewer)
 
 }
+
 
