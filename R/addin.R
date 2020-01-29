@@ -67,13 +67,13 @@ cabinets_gadget <- function() {
                         shiny::selectizeInput(
                             "select_cabinet",
                             "Select cabinet",
-                            choices = c("Please select a cabinet...", available_cabinets()),
+                            choices = available_cabinets(),
                             width = "100%"
                         ),
                         shiny::textInput(
                             "project_name",
                             "Project name",
-                            value = "Enter project name...",
+                            placeholder = "ex. ds_project",
                             width = "100%"
                         )),
                     miniUI::miniContentPanel(
@@ -95,12 +95,12 @@ cabinets_gadget <- function() {
                             "Git",
                             value = TRUE
                         ),
-                        shiny::tags$p(
-                            "The default directory for the git repository is is the root of the project.
-                            However you change it to be one of the project subdirectories."
-                        ),
                         shiny::conditionalPanel(
                             condition = "input.git == true",
+                            shiny::tags$p(
+                                "The default directory for the git repository is is the root of the project.
+                            However you change it to be one of the project subdirectories."
+                            ),
                             shinyFiles::shinyDirButton(
                                 "root",
                                 label = "Change git root",
@@ -116,6 +116,16 @@ cabinets_gadget <- function() {
 
     server <- function(input, output, session) {
 
+        # create cabinet
+        volumes <- c(Home = fs::path_home())
+
+        shinyFiles::shinyDirChoose(
+            input,
+            "directory",
+            roots = volumes,
+            session = session
+        )
+
         shiny::observeEvent(input$add, {
             insertUI(
                 selector = "#add",
@@ -127,6 +137,8 @@ cabinets_gadget <- function() {
                     )
             )
         })
+
+        # start new project
 
         shiny::observeEvent(input$done, {
             returnValue <- ...
