@@ -25,7 +25,39 @@ cabinets_gadget <- function() {
             id = "project",
             miniUI::miniTabPanel(
                 title = "Create a cabinet",
-                icon = shiny::icon("archive")
+                icon = shiny::icon("archive"),
+                shiny::fillRow(
+                    miniUI::miniContentPanel(
+                        shiny::textInput(
+                            "cabinet_name",
+                            "Choose a cabinet name",
+                            placeholder = "ex. contractX",
+                            width = "100%"
+                        ),
+                        shiny::tags$p(
+                            "Please choose the directory for where the cabinet will exist. This is where
+                            project created using the cabinet will be located on your system."
+                        ),
+                        shinyFiles::shinyDirButton(
+                            "directory",
+                            "Select directory",
+                            "Please select a directory"
+                        )
+                    ),
+                    miniUI::miniContentPanel(
+                        shiny::textInput(
+                            "structure",
+                            "Create the cabinet structure",
+                            width = "100%",
+                            placeholder = "ex. data/source"
+                        ),
+                        shiny::actionButton("add", "Add to template"),
+                        shiny::br(),
+                        shiny::helpText(shiny::a("Click here for help with creating a cabinet structure",
+                                                 href = "https://github.com/nt-williams/cabinets",
+                                                 target="_blank"))
+                    )
+                )
             ),
             miniUI::miniTabPanel(
                 title = "Start a new project",
@@ -63,17 +95,18 @@ cabinets_gadget <- function() {
                             "Git",
                             value = TRUE
                         ),
+                        shiny::tags$p(
+                            "The default directory for the git repository is is the root of the project.
+                            However you change it to be one of the project subdirectories."
+                        ),
                         shiny::conditionalPanel(
                             condition = "input.git == true",
                             shinyFiles::shinyDirButton(
                                 "root",
                                 label = "Change git root",
-                                title = "Please choose a folder",
-                                class = "btn-primary"
+                                title = "Please choose a folder"
                             ),
-                            shiny::uiOutput("folder"),
-                            shiny::br(),
-                            shiny::helpText("The default directory for the git repository is is the root directory of the project. The following files are automatically added to .gitignore: .Rproj.user", ".Rhistory", ".Rdata", ".Ruserdata")
+                            shiny::uiOutput("folder")
                         )
                     )
                 )
@@ -83,13 +116,25 @@ cabinets_gadget <- function() {
 
     server <- function(input, output, session) {
 
+        shiny::observeEvent(input$add, {
+            insertUI(
+                selector = "#add",
+                where = "beforeBegin",
+                ui = shiny::textInput(
+                    paste0("txt", input$add),
+                    label = NULL,
+                    placeholder = "ex. data/source"
+                    )
+            )
+        })
+
         shiny::observeEvent(input$done, {
             returnValue <- ...
             stopApp(returnValue)
         })
     }
 
-    viewer <- shiny::dialogViewer("Create cabinets and start projects", width = 600, height = 400)
+    viewer <- shiny::dialogViewer("cabinets: Project Specific Workspace Organization Templates", width = 600, height = 400)
     shiny::runGadget(ui, server, viewer = viewer)
 
 }
