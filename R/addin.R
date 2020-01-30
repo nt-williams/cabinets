@@ -89,7 +89,8 @@ cabinetsGadget <- function() {
                             "Project name",
                             placeholder = "ex. ds_project",
                             width = "100%"
-                        )),
+                        ),
+                        verbatimTextOutput("selected_cabinet")),
                     miniUI::miniContentPanel(
                         shiny::checkboxInput(
                             "rproj",
@@ -180,6 +181,10 @@ cabinetsGadget <- function() {
             as.symbol(input$select_cabinet)
         })
 
+        output$selected_cabinet <- renderPrint({
+            eval(call("print", as.symbol(input$select_cabinet)))
+        })
+
         volumes <- reactive({
             normalizePath(eval(cabinet())$directory)
         })
@@ -217,10 +222,8 @@ cabinetsGadget <- function() {
 
     viewer <- shiny::dialogViewer(
         "cabinets: Project Specific Workspace Organization Templates",
-        width = 600,
-        height = 400)
+        width = 625,
+        height = 475)
     shiny::runGadget(ui, server, viewer = viewer)
 
 }
-
-
