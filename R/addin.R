@@ -16,7 +16,7 @@ available_cabinets <- function() {
     return(available)
 }
 
-cabinets_gadget <- function() {
+cabinetsGadget <- function() {
 
     ui <- miniUI::miniPage(
         shinyjs::useShinyjs(),
@@ -52,12 +52,12 @@ cabinets_gadget <- function() {
                     ),
                     miniUI::miniContentPanel(
                         shiny::textInput(
-                            "structure",
+                            "structure0",
                             "Create the cabinet structure",
                             width = "100%",
                             placeholder = "ex. data/source"
                         ),
-                        shiny::actionButton("add", NULL, icon = icon("plus")),
+                        shiny::actionButton("add", NULL, icon = shiny::icon("plus")),
                         shiny::br(),
                         shiny::br(),
                         shiny::helpText(shiny::a("Click here for help with creating a cabinet structure",
@@ -139,16 +139,40 @@ cabinets_gadget <- function() {
             session = session
         )
 
+        strucIds <- c("structure0")
         shiny::observeEvent(input$add, {
+            pressed <- input$add
+            id <- paste0("structure", pressed)
             insertUI(
                 selector = "#add",
                 where = "beforeBegin",
                 ui = shiny::textInput(
-                    paste0("txt", input$add),
+                    inputId = id,
                     label = NULL,
                     placeholder = "ex. data/source"
-                    )
+                )
             )
+            strucIds <<- append(strucIds, id)
+        })
+
+        toStructure <- reactive({
+            purrr::map(strucIds, ~ purrr:::pluck(input, .x))
+        })
+
+        directory <- renderPrint({
+            shinyFiles::parseDirPath(roots = c(Home = fs::path_home()), input$directory)
+        })
+
+        shiny::observeEvent(input$create, {
+            stopApp()
+            for_struc <- unlist(toStructure())
+            struc <- vector(mode = "list", length = length(strucIds))
+            names(struc) <- for_struc
+
+            cat("\n")
+            create_cabinet(name = input$cabinet_name,
+                           directory = directory(),
+                           structure = struc)
         })
 
         # start new project
