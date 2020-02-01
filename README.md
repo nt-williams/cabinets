@@ -8,19 +8,19 @@
 [![Codecov test coverage](https://codecov.io/gh/nt-williams/cabinets/branch/master/graph/badge.svg)](https://codecov.io/gh/nt-williams/cabinets?branch=master)
 <!-- badges: end -->
 
-`Cabinets` makes it easy to create project specific file structure templates that can be referenced at the start of any R session. `Cabinets` works by writing project specific file templates to the .Rprofile file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. On first use, users will be prompted for explicit permission to write to .Rprofile. Permission to write can be revoked at any time by setting the permission option in the .Rprofile file to `FALSE`. Due to these explicit permission requirements, `cabinets` will only work in interactive R sessions.
+`cabinets` makes it easy to create project specific file structure templates that can be referenced at the start of any R session without having to redefine them. The goal is to encourage reproducibility by automating some of the work that being reproducible requires. 
 
-`cabinets` has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a `.Rprofile` file. Whenever a fresh R session is started from the default working directory, the `.Rprofile` file loads the previously created cabinet for further use. `FileCabinet` objects simply contain a template that `new_cabinate_proj()` uses to build projects with defined file structures. 
+`cabinets` has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a `.Rprofile` file. Whenever a fresh R session is started from the default working directory, the `.Rprofile` file loads previously created cabinets for further use. `FileCabinet` objects simply contain a template that `new_cabinet_proj()` uses to build projects with pre-defined file structures and locations. 
 
 ## Installation
 
-### CRAN
+`cabinets` can be installed from CRAN using: 
 
 ```
 install.packages("cabinets")
 ```
 
-### Development version
+The development version can be installed from github using:
 
 ```
 devtools::install_github("nt-williams/cabinets")
@@ -28,9 +28,10 @@ devtools::install_github("nt-williams/cabinets")
 
 ## Motivation
 
-As a statistician, I work on different contracts with different standard directories. 
+Reproducibility takes effort. `cabinets` seeks to cut down on this effort by automating one of the layers of reproducibility---project organization. In addition, not everyone should be forced to use the same template for a project. If something works best for you, you should use it. `cabinets` was developed with this in mind. 
 
-For contract X, I might have the standard file structure: 
+For example, a statistician might have the following standard project structure: 
+
 ```
 ├── data
 │   ├── derived
@@ -40,20 +41,12 @@ For contract X, I might have the standard file structure:
 ├── documents
 └── log
 ```
-While for contract Y, I have to work with an organization that requires I use their own system: 
-```
-├── Code
-│   ├── ReportsCode
-│   └── AnalysisCode
-├── Notes
-└── Log
-```
 
-`Cabinets` results in only having to define these templates once. 
+This template can be defined in R using `cabinets`. This prevents having to copy and paste pre-exisiting projects to start new ones or relying on a github repo that only contains empty folders. 
 
 ## Demo
 
-Using the first project file structure described above, we define a new cabinet. 
+Using the project file structure described above, we define a new cabinet: 
 
 ``` r
 cabinet_loc <- "~/cabinet_test"

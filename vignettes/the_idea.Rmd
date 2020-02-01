@@ -1,0 +1,92 @@
+---
+title: "The big picture and getting started"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The main goal of `cabinets` is to encourage reproducibility by automating some of the work that being reproducible requires. Beginning a new project is similiar to writing a piece of code: if you write the same code more than twice then you should write a function --> if you use the same project structure then you should automate its use. 
+
+`cabinets` is designed for use across different domains, whether that be individual work, a classroom, or a more organzied data science team. 
+
+As a basic example, imagine you're teaching in a intro to data science course. Not only do you want to teach your students good workflow habits, but you also want them to all use the same project format for ease with grading assignments. `cabinets` solves this problem. First, you come up with a project template ([click here for help creating templates](templates.html)) that you want your students homework submissions to follow: 
+
+```{r}
+library(cabinets)
+
+class_template <- list(
+    'code' = NULL, 
+    'data' = NULL, 
+    'rmarkdown' = NULL
+)
+```
+
+You also have them create a folder on their computer where all of their projects should be stored: 
+
+```{r}
+class_location <- "~/intro_data_science/homework"
+```
+
+All that's left is to create the cabinet: 
+
+```{r eval=FALSE}
+create_cabinet(name = "intro_ds", 
+               directory = class_location, 
+               structure = class_template)
+
+#> Checking for permissions...
+#> Checking for .Rprofile...
+#> Checking cabinet name... 
+#> Cabinet .intro_ds created... Restarting R.
+#> Cabinet can be called using: .intro_ds
+```
+
+That's it, this is the only setup and the new cabinet is now available in future R sessions without ever having to redefine it. When `create_cabinet()` is called, an R6 object of class `FileCabinet` is created. The cabinet can be inspected by calling it's name with a period:
+
+```{r eval=FALSE}
+.intro_ds
+
+#> Cabinet name: intro_ds
+#> Cabinet path: ~/intro_data_science/homework
+#> Cabinet structure: 
+#> ├── code
+#> ├── data
+#> └── rmarkdown
+```
+
+When the students start a new assignment they simply call `new_cabinet_proj()` and specify the cabinet template to use and the name of the project: 
+
+```{r eval=FALSE}
+new_cabinet_proj(cabinet = .intro_ds, 
+                 project_name = "homework_1")
+
+#> Checking cabinet existence... 
+#> Checking if project already exists... 
+#> Creating homework_1 using cabinet template: .intro_ds
+#> Checking for git configuration... 
+#> Git repository initiated in ~/intro_data_science/homework/homework_1
+#> 
+#> R project settings:
+#> Version: 1.0
+#> RestoreWorkspace: No
+#> SaveWorkspace: No
+#> AlwaysSaveHistory: Default
+#> EnableCodeIndexing: Yes
+#> UseSpacesForTab: Yes
+#> NumSpacesForTab: 2
+#> Encoding: UTF-8
+#> RnwWeave: Sweave
+#> LaTeX: pdfLaTeX
+#> AutoAppendNewline: Yes
+#> StripTrailingWhitespace: Yes
+#> Opening new R project, homework_1
+#> 
+#> ✔ Opening '/Users/Nick/intro_data_science/homework/homework_1/' in new RStudio session
+```
+
+Additional options exist for the initiation of an RStudio project, whether that project should be immediately opened, and the option to initiate a git repository. 
+

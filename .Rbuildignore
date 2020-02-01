@@ -6,3 +6,7 @@
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^CODE_OF_CONDUCT\.md$
+^vignettes/templates\.Rmd$
+^vignettes/the_idea\.Rmd$
+^vignettes/new_project\.Rmd$
+^vignettes/create_cabinet\.Rmd$

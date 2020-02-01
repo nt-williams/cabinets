@@ -53,6 +53,21 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/templates.html">Making templates</a>
+    </li>
+    <li>
+      <a href="articles/the_idea.html">The big picture and getting started</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -75,27 +90,21 @@
 </h1></div>
 <!-- badges: start -->
 <p><a href="https://CRAN.R-project.org/package=cabinets"><img src="https://www.r-pkg.org/badges/version/cabinets" alt="CRAN status"></a> <img src="http://cranlogs.r-pkg.org/badges/grand-total/cabinets"><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <a href="https://travis-ci.org/nt-williams/cabinets"><img src="https://travis-ci.org/nt-williams/cabinets.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/nt-williams/cabinets?branch=master"><img src="https://codecov.io/gh/nt-williams/cabinets/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <!-- badges: end --></p>
-<p><code>Cabinets</code> makes it easy to create project specific file structure templates that can be referenced at the start of any R session. <code>Cabinets</code> works by writing project specific file templates to the .Rprofile file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. On first use, users will be prompted for explicit permission to write to .Rprofile. Permission to write can be revoked at any time by setting the permission option in the .Rprofile file to <code>FALSE</code>. Due to these explicit permission requirements, <code>cabinets</code> will only work in interactive R sessions.</p>
-<p><code>cabinets</code> has two main functions: <code><a href="reference/create_cabinet.html">create_cabinet()</a></code> and <code><a href="reference/new_cabinet_proj.html">new_cabinet_proj()</a></code>. <code><a href="reference/create_cabinet.html">create_cabinet()</a></code> constructs an R6 object of class <code>FileCabinet</code> which is then written to a <code>.Rprofile</code> file. Whenever a fresh R session is started from the default working directory, the <code>.Rprofile</code> file loads the previously created cabinet for further use. <code>FileCabinet</code> objects simply contain a template that <code>new_cabinate_proj()</code> uses to build projects with defined file structures.</p>
+<p><code>cabinets</code> makes it easy to create project specific file structure templates that can be referenced at the start of any R session without having to redefine them. The goal is to encourage reproducibility by automating some of the work that being reproducible requires.</p>
+<p><code>cabinets</code> has two main functions: <code><a href="reference/create_cabinet.html">create_cabinet()</a></code> and <code><a href="reference/new_cabinet_proj.html">new_cabinet_proj()</a></code>. <code><a href="reference/create_cabinet.html">create_cabinet()</a></code> constructs an R6 object of class <code>FileCabinet</code> which is then written to a <code>.Rprofile</code> file. Whenever a fresh R session is started from the default working directory, the <code>.Rprofile</code> file loads previously created cabinets for further use. <code>FileCabinet</code> objects simply contain a template that <code><a href="reference/new_cabinet_proj.html">new_cabinet_proj()</a></code> uses to build projects with pre-defined file structures and locations.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div id="cran" class="section level3">
-<h3 class="hasAnchor">
-<a href="#cran" class="anchor"></a>CRAN</h3>
+<p><code>cabinets</code> can be installed from CRAN using:</p>
 <pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("cabinets")</a></code></pre>
-</div>
-<div id="development-version" class="section level3">
-<h3 class="hasAnchor">
-<a href="#development-version" class="anchor"></a>Development version</h3>
+<p>The development version can be installed from github using:</p>
 <pre><code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("nt-williams/cabinets")</a></code></pre>
-</div>
 </div>
 <div id="motivation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#motivation" class="anchor"></a>Motivation</h2>
-<p>As a statistician, I work on different contracts with different standard directories.</p>
-<p>For contract X, I might have the standard file structure:</p>
+<p>Reproducibility takes effort. <code>cabinets</code> seeks to cut down on this effort by automating one of the layers of reproducibility—project organization. In addition, not everyone should be forced to use the same template for a project. If something works best for you, you should use it. <code>cabinets</code> was developed with this in mind.</p>
+<p>For example, a statistician might have the following standard project structure:</p>
 <pre><code>├── data
 │   ├── derived
 │   └── source
@@ -103,85 +112,79 @@
 ├── reports
 ├── documents
 └── log</code></pre>
-<p>While for contract Y, I have to work with an organization that requires I use their own system:</p>
-<pre><code>├── Code
-│   ├── ReportsCode
-│   └── AnalysisCode
-├── Notes
-└── Log</code></pre>
-<p><code>Cabinets</code> results in only having to define these templates once.</p>
+<p>This template can be defined in R using <code>cabinets</code>. This prevents having to copy and paste pre-exisiting projects to start new ones or relying on a github repo that only contains empty folders.</p>
 </div>
 <div id="demo" class="section level2">
 <h2 class="hasAnchor">
 <a href="#demo" class="anchor"></a>Demo</h2>
-<p>Using the first project file structure described above, we define a new cabinet.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cabinet_loc &lt;-<span class="st"> "~/cabinet_test"</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">cabinet_str &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="st">'data'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="st">'code'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">    <span class="st">'data/derived'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">    <span class="st">'data/source'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">    <span class="st">'reports'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">    <span class="st">'documents'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">    <span class="st">'log'</span> =<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw"><a href="reference/create_cabinet.html">create_cabinet</a></span>(<span class="dt">name =</span> <span class="st">"contract_x"</span>, </a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">               <span class="dt">directory =</span> cabinet_loc, </a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">               <span class="dt">structure =</span> cabinet_str)</a>
-<a class="sourceLine" id="cb5-16" data-line-number="16">               </a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; Permission granted.</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; Checking for .Rprofile...</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; .Rprofile not found.</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; Creating .Rprofile...</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; Checking cabinet name... </span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; Cabinet .contract_x created... Restarting R.</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; Cabinet can be called using: .contract_x</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; Restarting R session...</span></a></code></pre></div>
+<p>Using the project file structure described above, we define a new cabinet:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">cabinet_loc &lt;-<span class="st"> "~/cabinet_test"</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">cabinet_str &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="st">'data'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="st">'code'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">    <span class="st">'data/derived'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">    <span class="st">'data/source'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">    <span class="st">'reports'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">    <span class="st">'documents'</span> =<span class="st"> </span><span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">    <span class="st">'log'</span> =<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="kw"><a href="reference/create_cabinet.html">create_cabinet</a></span>(<span class="dt">name =</span> <span class="st">"contract_x"</span>, </a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">               <span class="dt">directory =</span> cabinet_loc, </a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">               <span class="dt">structure =</span> cabinet_str)</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">               </a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; Permission granted.</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; Checking for .Rprofile...</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; .Rprofile not found.</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; Creating .Rprofile...</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; Checking cabinet name... </span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; Cabinet .contract_x created... Restarting R.</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; Cabinet can be called using: .contract_x</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; Restarting R session...</span></a></code></pre></div>
 <p>The cabinet is now created and doesn’t have to be redfined in future R sessions. To examine the cabinet we just call it.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">.contract_x</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Cabinet name: contract_x</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; Cabinet path: ~/cabinet_test</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Cabinet structure: </span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; ├── data</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; │   ├── derived</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; │   └── source</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; ├── code</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; ├── reports</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; ├── documents</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; └── log</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">.contract_x</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Cabinet name: contract_x</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; Cabinet path: ~/cabinet_test</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Cabinet structure: </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; ├── data</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; │   ├── derived</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; │   └── source</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; ├── code</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; ├── reports</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; ├── documents</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; └── log</span></a></code></pre></div>
 <p><code><a href="reference/new_cabinet_proj.html">new_cabinet_proj()</a></code> is used to create a new directory from a cabinet template.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/new_cabinet_proj.html">new_cabinet_proj</a></span>(<span class="dt">cabinet =</span> .contract_x, </a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">                 <span class="dt">project_name =</span> <span class="st">"project_1"</span>, </a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">                 <span class="dt">git =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">                 <span class="dt">git_ignore =</span> <span class="st">"data"</span>)</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Checking cabinet existence...</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; Checking if project already exists...</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; Creating project_1 using cabinet template: .contract_x </span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; Checking for git configuration... </span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; Git repository initiated in ~/project_1</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; R project settings:</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; Version: 1.0</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; RestoreWorkspace: No</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; SaveWorkspace: No</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; AlwaysSaveHistory: Default</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; EnableCodeIndexing: Yes</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; UseSpacesForTab: Yes</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; NumSpacesForTab: 2</span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; Encoding: UTF-8</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; RnwWeave: Sweave</span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; LaTeX: pdfLaTeX</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; AutoAppendNewline: Yes</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; StripTrailingWhitespace: Yes </span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt; Opening new R project, project_1</span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; ✔ Opening '/Users/nickwilliams/cabinet_test/project_1/' in new RStudio session</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="reference/new_cabinet_proj.html">new_cabinet_proj</a></span>(<span class="dt">cabinet =</span> .contract_x, </a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">                 <span class="dt">project_name =</span> <span class="st">"project_1"</span>, </a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">                 <span class="dt">git =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">                 <span class="dt">git_ignore =</span> <span class="st">"data"</span>)</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; Checking cabinet existence...</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; Checking if project already exists...</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; Creating project_1 using cabinet template: .contract_x </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; Checking for git configuration... </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; Git repository initiated in ~/project_1</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; R project settings:</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; Version: 1.0</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; RestoreWorkspace: No</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; SaveWorkspace: No</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; AlwaysSaveHistory: Default</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; EnableCodeIndexing: Yes</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; UseSpacesForTab: Yes</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; NumSpacesForTab: 2</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; Encoding: UTF-8</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; RnwWeave: Sweave</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; LaTeX: pdfLaTeX</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; AutoAppendNewline: Yes</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; StripTrailingWhitespace: Yes </span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; Opening new R project, project_1</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; ✔ Opening '/Users/nickwilliams/cabinet_test/project_1/' in new RStudio session</span></a></code></pre></div>
 </div>
 <div id="similiar-implementations" class="section level2">
 <h2 class="hasAnchor">

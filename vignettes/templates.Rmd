@@ -1,0 +1,42 @@
+---
+title: "Making templates"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The novelty of `cabinets` is it gives the user the freedom to define their own project templates instead of relying on pre-packaged setups. `FileCabinet` templates are simply designed using a list. The names of the list define the relative paths for the directories to be used in future projects. All list items should be NULL, however this might change in the future.  
+
+A simple exmaple is this template which contains 3 directories: a code folder, a data folder, and a log folder. 
+
+```{r simple}
+simple_template <- list(
+    'code' = NULL, 
+    'data' = NULL, 
+    'log' = NULL
+)
+```
+
+Templates can be as complex as necessary and contain as many subdirectories as needed. It isn't necessary to explicitly define top-level directories if they contain subdirecorties as long as the top-level folder is included in the subdirectory path. For example, in this cabinet, it's unnecessary to include `'data' = NULL`: 
+
+```{r complex}
+complex_template <- list(
+    'data/external' = NULL, 
+    'data/interim' = NULL, 
+    'data/processed' = NULL, 
+    'data/raw' = NULL, 
+    'docs' = NULL, 
+    'models' = NULL, 
+    'references' = NULL, 
+    'reports/figures' = NULL, 
+    'code/analyses' = NULL, 
+    'code/figures' = NULL
+)
+```
+
+
+
