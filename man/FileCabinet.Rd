@@ -30,6 +30,7 @@ FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data
 \itemize{
 \item \href{#method-new}{\code{FileCabinet$new()}}
 \item \href{#method-print}{\code{FileCabinet$print()}}
+\item \href{#method-clone}{\code{FileCabinet$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -77,5 +78,21 @@ A cabinet object.
 Print an object of class FileCabinet.
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{FileCabinet$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }
