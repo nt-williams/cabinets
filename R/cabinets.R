@@ -208,7 +208,7 @@ create_r_proj <- function(version = "1.0",
 #' Generate new project directories using cabinet templates.
 #'
 #' @param cabinet The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.
-#' @param project_name The name of the project to store in the cabinet, a character string.
+#' @param project_name The name of the project to store in the cabinet, a character string. Can be a file path pointing to a directory within the specified cabinet.
 #' @param r_project Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).
 #' @param open Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio (only works in RStudio).
 #' @param git Logical, should a git repository be initiated.

@@ -18,7 +18,7 @@ new_cabinet_proj(
 \arguments{
 \item{cabinet}{The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.}
 
-\item{project_name}{The name of the project to store in the cabinet, a character string.}
+\item{project_name}{The name of the project to store in the cabinet, a character string. Can be a file path pointing to a directory within the specified cabinet.}
 
 \item{r_project}{Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).}
 
