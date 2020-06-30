@@ -23,7 +23,7 @@ install.packages("cabinets")
 ### Development version
 
 ```
-devtools::install_github("nt-williams/cabinets")
+devtools::install_github("nt-williams/cabinets@dev")
 ```
 
 ## Motivation
