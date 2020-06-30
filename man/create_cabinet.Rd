@@ -4,7 +4,7 @@
 \alias{create_cabinet}
 \title{Create a cabinet template}
 \usage{
-create_cabinet(name, directory, structure)
+create_cabinet(name, directory, structure, .alias = name)
 }
 \arguments{
 \item{name}{Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.}
@@ -12,6 +12,8 @@ create_cabinet(name, directory, structure)
 \item{directory}{The file path for where the cabinet will exist.}
 
 \item{structure}{A list of paths of folders/files to create. See details for further explanation.}
+
+\item{.alias}{An optional name for the object the cabinet will be stored in R as. Defaults to \code{name}.}
 }
 \value{
 An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.

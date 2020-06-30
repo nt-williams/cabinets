@@ -1,6 +1,6 @@
 Package: cabinets
 Title: Project Specific Workspace Organization Templates
-Version: 0.4.1.9000
+Version: 0.4.2.9000
 Authors@R: 
     person(given = "Nick",
            family = "Williams",
@@ -11,7 +11,7 @@ Description: Creates project specific directory and file templates that are writ
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Imports: 
     here,
     rjson,

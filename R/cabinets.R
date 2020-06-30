@@ -60,6 +60,7 @@ FileCabinet <- R6::R6Class('FileCabinet',
 #' @param name Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.
 #' @param directory The file path for where the cabinet will exist.
 #' @param structure A list of paths of folders/files to create. See details for further explanation.
+#' @param .alias An optional name for the object the cabinet will be stored in R as. Defaults to \code{name}.
 #'
 #' @return An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
 #' @details Before writing to or creating a .Rprofile file, cabinets will explicitly ask for the user's permission to pn exit. The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
@@ -67,32 +68,33 @@ FileCabinet <- R6::R6Class('FileCabinet',
 #' @export
 create_cabinet <- function(name,
                            directory,
-                           structure) {
+                           structure,
+                           .alias = name) {
 
     check_interactive()
     check_permissions()
     check_r_profile()
     check_name(name)
-    write_cabinet(name, directory, structure)
+    write_cabinet(name, directory, structure, .alias)
 
     if (in_rstudio()) {
         message("Cabinet ",
-                p0(".", name),
+                p0(".", .alias),
                 " created... Restarting R.")
         message("Cabinet can be called using: ",
-                p0(".", name))
+                p0(".", .alias))
         rstudioapi::restartSession()
     } else {
         message("Cabinet ",
-                p0(".", name),
+                p0(".", .alias),
                 "created...")
         message("Cabinet can be called using: ",
-                p0(".", name))
+                p0(".", .alias))
         message("Restart R to use new cabinet.")
     }
 }
 
-write_cabinet <- function(name, directory, structure) {
+write_cabinet <- function(name, directory, structure, .alias) {
 
     home <- normalizePath("~")
     r_profile <- file(file.path(home, ".Rprofile"), open = "a")
@@ -106,12 +108,12 @@ write_cabinet <- function(name, directory, structure) {
              name = substitute(new)
         )
 
-    x <- paste0(".", name)
+    x <- paste0(".", .alias)
 
     value <-
         as.call(list(
             newFileCabinet,
-            name = "test",
+            name = name,
             directory = directory,
             structure = structure)
         )
