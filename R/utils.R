@@ -69,3 +69,13 @@ str_chars <- function() {
 }
 
 p0 <- function(...) paste0(..., collapse = "")
+
+# taken from the usethis package!
+read_utf8 <- function(path, n = -1L) {
+    base::readLines(path, n = n, encoding = "UTF-8", warn = FALSE)
+}
+
+# taken from the usethis package!
+platform_line_ending <- function() {
+    if (.Platform$OS.type == "windows") "\r\n" else "\n"
+}

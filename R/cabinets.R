@@ -120,9 +120,9 @@ write_cabinet <- function(name, directory, structure, .alias) {
 
     cabinet <- call("<-", x = as.symbol(x), value = value)
 
-    writeLines(glue::glue("## {x} cabinet start"), con = r_profile)
+    writeLines(glue::glue("## {name} cabinet start"), con = r_profile)
     capture.output(cabinet, file = r_profile, append = TRUE)
-    writeLines(glue::glue("## {x} cabinet end\n"), con = r_profile)
+    writeLines(glue::glue("## {name} cabinet end\n"), con = r_profile)
     on.exit(close(r_profile))
 }
 
