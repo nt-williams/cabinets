@@ -25,7 +25,7 @@ ask_permission <- function() {
     }
 
     perm_yes <- function() {
-        message("Permission granted.")
+        cli::cli_alert_success("Permission granted.")
         cabinets_options_set("cabinets.permission" = TRUE)
     }
 
@@ -57,7 +57,8 @@ check_interactive <- function() {
 check_permissions <- function() {
     consent <- getOption("cabinets.permission")
 
-    message("Checking for permissions...")
+    cli::cli_alert_info("Checking for permissions...")
+    # message("Checking for permissions...")
 
     if (is.null(consent)) {
         ask_permission()
@@ -72,7 +73,7 @@ check_r_profile <- function() {
     file_stat <- !file.exists(file.path(normalizePath("~"), ".Rprofile"))
 
     new_rprof <- function() {
-        message("Creating .Rprofile...")
+        # message("Creating .Rprofile...")
         r_profile <- file.path(normalizePath("~"), ".Rprofile")
         file.create(r_profile)
 
@@ -82,6 +83,7 @@ check_r_profile <- function() {
         )
 
         writeLines(permission, r_profile)
+        on.exit(cli::cli_alert_success("Creating .Rprofile..."))
     }
 
     old_rprof <- function() {
@@ -130,7 +132,6 @@ check_name <- function(name) {
 }
 
 check_cabinet <- function(cabinet) {
-
     cab_stat <- exists(cabinet, envir = .GlobalEnv)
     message("Checking cabinet existence... ")
 
@@ -149,13 +150,11 @@ check_cabinet <- function(cabinet) {
 }
 
 check_project <- function(proj_path) {
-    message("Checking if project already exists... ")
-
     status <- tryCatch(
         if (dir.exists(proj_path)) {
             stop()
         } else {
-            on.exit()
+            checking_project()
         }, error = function(e) {
             stop("Project already exists in cabinet.", call. = FALSE)
         }
