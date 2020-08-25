@@ -140,8 +140,9 @@ get_cabinets <- function() {
 
     # TODO refactor this into it's own function
     if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
+        cli::cli_text("These are the available cabinets:")
         for (i in seq_along(classes)) {
-            if ("FileCabinet" %in% classes[[i]]) message(hidden[[i]])
+            if ("FileCabinet" %in% classes[[i]]) cli::cli_ul(hidden[[i]])
         }
     } else {
         message("No cabinets found. Cabinets can be created using create_cabinets().")

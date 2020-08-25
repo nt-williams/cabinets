@@ -14,6 +14,7 @@ block_delete <- function(block_start, block_end,
     on.exit(close(con))
 }
 
+# based on code from the usethis package
 block_find <- function(lines, block_start, block_end) {
     if (is.null(lines)) {
         return(NULL)

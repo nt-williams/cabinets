@@ -133,17 +133,13 @@ check_name <- function(name) {
 
 check_cabinet <- function(cabinet) {
     cab_stat <- exists(cabinet, envir = .GlobalEnv)
-    message("Checking cabinet existence... ")
-
     status <- tryCatch(
         if (cab_stat) {
-            on.exit()
+            checking_existence()
         } else {
             warning()
         }, warning = function(w) {
-            message("Cabinet not found.")
-            message("These are the available cabinets:")
-            get_cabinets()
+            cabinet_not_found()
         }
     )
     invisible(status)

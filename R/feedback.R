@@ -10,3 +10,12 @@ opening_project <- function(project_name) {
 checking_project <- function() {
     cli::cli_alert_success("Checking if project already exists... ")
 }
+
+checking_existence <- function() {
+    cli::cli_alert_success("Checking cabinet existence... ")
+}
+
+cabinet_not_found <- function() {
+    cli::cli_alert_warning("Cabinet not found!")
+    get_cabinets()
+}
