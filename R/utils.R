@@ -10,6 +10,12 @@ cat_path <- function(...) {
     crayon::blue(...)
 }
 
+create_subdirectories <- function(folders) {
+    for (i in 1:length(folders)) {
+        dir.create(folders[i], recursive = TRUE)
+    }
+}
+
 get_paths <- function(x) {
     files <- fs::path_tidy(x)
     n <- stringr::str_count(files, "/")

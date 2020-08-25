@@ -77,13 +77,14 @@ create_cabinet <- function(name,
     check_name(name)
     write_cabinet(name, directory, structure, .alias)
 
+    ## TODO refactor this into its own function
     if (in_rstudio()) {
         message("Cabinet ",
                 p0(".", .alias),
                 " created... Restarting R.")
         message("Cabinet can be called using: ",
                 p0(".", .alias))
-        rstudioapi::restartSession()
+        rstudioapi::restartSession() ## TODO questioning if I like this restart
     } else {
         message("Cabinet ",
                 p0(".", .alias),
@@ -95,9 +96,6 @@ create_cabinet <- function(name,
 }
 
 write_cabinet <- function(name, directory, structure, .alias) {
-
-    home <- normalizePath("~")
-    r_profile <- file(file.path(home, ".Rprofile"), open = "a")
     directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
 
     newFileCabinet <-
@@ -120,10 +118,11 @@ write_cabinet <- function(name, directory, structure, .alias) {
 
     cabinet <- call("<-", x = as.symbol(x), value = value)
 
-    writeLines(glue::glue("## {name} cabinet start"), con = r_profile)
-    capture.output(cabinet, file = r_profile, append = TRUE)
-    writeLines(glue::glue("## {name} cabinet end"), con = r_profile)
-    on.exit(close(r_profile))
+    con <- file(file.path(normalizePath("~"), ".Rprofile"), open = "a")
+    writeLines(glue::glue("## {name} cabinet start"), con = con)
+    capture.output(cabinet, file = con, append = TRUE)
+    writeLines(glue::glue("## {name} cabinet end"), con = con)
+    on.exit(close(con))
 }
 
 #' Print available cabinets
@@ -139,6 +138,7 @@ get_cabinets <- function() {
     hidden <- as.list(ls(all.names = TRUE, envir = .GlobalEnv))
     classes <- lapply(hidden, function(x) class(eval(parse(text = x))))
 
+    # TODO refactor this into it's own function
     if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
         for (i in seq_along(classes)) {
             if ("FileCabinet" %in% classes[[i]]) message(hidden[[i]])
@@ -222,7 +222,7 @@ create_r_proj <- function(version = "1.0",
 #' @return Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
-new_cabinet_proj <- function(cabinet,
+new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
                              project_name,
                              r_project = TRUE,
                              open = TRUE,
@@ -241,14 +241,16 @@ new_cabinet_proj <- function(cabinet,
     proj_folders <- file.path(proj_path, names(cabinet$structure))
 
     check_project(proj_path)
+    creating_cabinet(project_name, cabinet$name)
 
-    message("Creating ",
-            project_name,
-            " using cabinet template: ",
-            p0(".", cabinet$name))
+    if (r_project) {
+        rstudioapi::initializeProject(proj_path)
+    } else {
+        dir.create(proj_path, recursive = TRUE)
+        open <- FALSE
+    }
 
-    dir.create(proj_path, recursive = TRUE)
-    purrr::walk(proj_folders, ~ dir.create(.x, recursive = TRUE))
+    create_subdirectories(proj_folders)
 
     if (git) {
         if (is.null(git_root)) {
@@ -259,30 +261,10 @@ new_cabinet_proj <- function(cabinet,
         use_git(git_root, git_ignore)
     }
 
-    if (r_project) {
-        r_proj_args <- list(...)
-
-        if (length(r_proj_args) == 0) {
-            proj_settings <- create_r_proj()
-        } else {
-            proj_settings <- create_r_proj(r_proj_args)
-        }
-
-        r_project <- file.path(proj_path,
-                               paste0(basename(project_name), ".Rproj"))
-        writeLines(proj_settings, r_project)
-        message("\nR project settings:")
-        message(proj_settings)
-    } else {
-        open <- FALSE
-    }
-
     if (open) {
-        message(glue::glue("Opening new R project, {basename(project_name)}"), "\n")
+        opening_project(project_name)
         Sys.sleep(2)
-        if (usethis::proj_activate(path.expand(proj_path))) {
-            on.exit()
-        }
+        rstudioapi::openProject(proj_path, TRUE)
     }
 }
 
@@ -293,7 +275,6 @@ new_cabinet_proj <- function(cabinet,
 #' @return A message that .Rprofile is being opened or that it doesn't exist.
 #' @export
 edit_r_profile <- function() {
-
     rprof_path <- file.path(normalizePath("~"), ".Rprofile")
     file_stat <- file.exists(rprof_path)
 
@@ -313,7 +294,6 @@ edit_r_profile <- function() {
 }
 
 use_git <- function(git_root, git_ignore = NULL) {
-
     cg <- check_git()
     status <- tryCatch(
         if (cg) {
@@ -328,7 +308,6 @@ use_git <- function(git_root, git_ignore = NULL) {
 }
 
 init_git <- function(git_root, git_ignore = NULL) {
-
     ignores <- c(".Rproj.user", ".Rhistory", ".Rdata", ".Ruserdata")
     if (!is.null(git_ignore)) ignores <- c(ignores, git_ignore)
     ignores <- paste0(ignores, "\n", collapse = "")
