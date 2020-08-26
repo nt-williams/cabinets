@@ -46,3 +46,7 @@ cabinet_not_found <- function() {
 no_cabinets <- function() {
     cli::cli_alert_danger("No cabinets found. Cabinets can be created using {.code create_cabinets()}")
 }
+
+no_r_profile <- function() {
+    cli::cli_alert_danger("{.path .Rprofile} doesn't exist")
+}

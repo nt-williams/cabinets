@@ -195,18 +195,13 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
 edit_r_profile <- function() {
     rprof_path <- file.path(normalizePath("~"), ".Rprofile")
     file_stat <- file.exists(rprof_path)
-
-    go <- function(path) {
-        utils::file.edit(path)
-    }
-
     status <- tryCatch(if (file_stat) {
-        message("Opening .Rprofile")
+        cli::cli_text("Opening .Rprofile")
         go(rprof_path)
     } else {
         stop()
     }, error = function(e) {
-        stop(".Rprofile doesn't exist.", call. = FALSE)
+        no_r_profile()
     })
     invisible(status)
 }

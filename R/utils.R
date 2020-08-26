@@ -76,6 +76,10 @@ str_chars <- function() {
 
 p0 <- function(...) paste0(..., collapse = "")
 
+go <- function(path) {
+    utils::file.edit(path)
+}
+
 # taken from the usethis package!
 read_utf8 <- function(path, n = -1L) {
     base::readLines(path, n = n, encoding = "UTF-8", warn = FALSE)
