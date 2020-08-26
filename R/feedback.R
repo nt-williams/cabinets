@@ -19,3 +19,7 @@ cabinet_not_found <- function() {
     cli::cli_alert_warning("Cabinet not found!")
     get_cabinets()
 }
+
+no_cabinets <- function() {
+    cli::cli_alert_danger("No cabinets found. Cabinets can be created using {.code create_cabinets()}")
+}

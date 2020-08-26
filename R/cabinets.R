@@ -138,14 +138,13 @@ get_cabinets <- function() {
     hidden <- as.list(ls(all.names = TRUE, envir = .GlobalEnv))
     classes <- lapply(hidden, function(x) class(eval(parse(text = x))))
 
-    # TODO refactor this into it's own function
     if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
         cli::cli_text("These are the available cabinets:")
         for (i in seq_along(classes)) {
             if ("FileCabinet" %in% classes[[i]]) cli::cli_ul(hidden[[i]])
         }
     } else {
-        message("No cabinets found. Cabinets can be created using create_cabinets().")
+        no_cabinets()
     }
 }
 
