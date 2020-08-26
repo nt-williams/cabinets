@@ -23,7 +23,6 @@ Imports:
     fs,
     stringr,
     utils,
-    purrr,
     withr,
     git2r
 Suggests: 

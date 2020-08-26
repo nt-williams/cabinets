@@ -3,7 +3,6 @@
 export(FileCabinet)
 export(cabinets_options_set)
 export(create_cabinet)
-export(create_r_proj)
 export(delete_cabinet)
 export(edit_r_profile)
 export(get_cabinets)

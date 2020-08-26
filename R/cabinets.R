@@ -117,7 +117,6 @@ write_cabinet <- function(name, directory, structure, .alias) {
         )
 
     cabinet <- call("<-", x = as.symbol(x), value = value)
-
     con <- file(file.path(normalizePath("~"), ".Rprofile"), open = "a")
     writeLines(glue::glue("## {name} cabinet start"), con = con)
     capture.output(cabinet, file = con, append = TRUE)
