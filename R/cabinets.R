@@ -148,64 +148,6 @@ get_cabinets <- function() {
     }
 }
 
-#' R project settings
-#'
-#' \code{create_r_proj} is a helper function for \code{new_cabinet_proj}. Calling it outside the scope of \code{new_cabinet_proj} will only print the specified settings the console.
-#'
-#' @param version R project version number, to be passed as character string.
-#' @param restore_workspace Load the .Rdata file (if any) found in the initial working directory into the  R workspace. Options are "No" (default), "Yes", and "Default". If "Default", global behaviour settings are inherited.
-#' @param save_workspace Save .RData on exit. Options are "No" (default), "Yes", and "Default". If "Default", global behaviour settings are inherited.
-#' @param save_history Always save history (even when not saving .RData). Options are "Default" (default), "Yes", and "No". If "Default", global behaviour settings are inherited.
-#' @param enable_code_indexing Determines whether R source files within the project directory are indexed for code navigation. Options are "Yes" (default), "No", and "Default". If "Default", global behaviour settings are inherited.
-#' @param spaces_for_tab Determine whether the tab key inserts multiple spaces rather than a tab character (soft tabs). Options are "Yes" (default), "No", and "Default". If "Default", global behaviour settings are inherited.
-#' @param num_spaces_for_tab Specify the number of spaces per soft-tab, integer.
-#' @param encoding Specify the default text encoding for source files. Default is "UTF-8".
-#' @param rnw_weave Specify how to weave Rnw files. Default is "Sweave".
-#' @param latex Specify LaTeX processing. Default is "pdfLaTeX".
-#' @param auto_append_new_line Ensure that source files end with a new line. Default is "Yes".
-#' @param strip_trailing_white_space Strip trailing horizontal white space when saving. Default is "Yes".
-#'
-#' @return The settings used to write a .Rproj file.
-#' @seealso \url{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects} for more information on these settings.
-#' @export
-#'
-#' @examples
-#' create_r_proj()
-create_r_proj <- function(version = "1.0",
-                          restore_workspace = c("No", "Yes", "Default"),
-                          save_workspace = c("No", "Yes", "Default"),
-                          save_history = c("Default", "No", "Yes"),
-                          enable_code_indexing = c("Yes", "No", "Default"),
-                          spaces_for_tab = c("Yes", "No", "Default"),
-                          num_spaces_for_tab = 2,
-                          encoding = "UTF-8",
-                          rnw_weave = "Sweave",
-                          latex = "pdfLaTeX",
-                          auto_append_new_line = "Yes",
-                          strip_trailing_white_space = "Yes") {
-
-    restore <- match.arg(restore_workspace)
-    save <- match.arg(save_workspace)
-    always <- match.arg(save_history)
-    code_index <- match.arg(enable_code_indexing)
-    space_tabs <- match.arg(spaces_for_tab)
-
-    glue::glue(
-    'Version: {version}
-    RestoreWorkspace: {restore}
-    SaveWorkspace: {save}
-    AlwaysSaveHistory: {always}
-    EnableCodeIndexing: {code_index}
-    UseSpacesForTab: {space_tabs}
-    NumSpacesForTab: {num_spaces_for_tab}
-    Encoding: {encoding}
-    RnwWeave: {rnw_weave}
-    LaTeX: {latex}
-    AutoAppendNewline: {auto_append_new_line}
-    StripTrailingWhitespace: {strip_trailing_white_space}'
-    )
-}
-
 #' Create a new project using a cabinet template
 #'
 #' Generate new project directories using cabinet templates.
