@@ -76,23 +76,7 @@ create_cabinet <- function(name,
     check_r_profile()
     check_name(name)
     write_cabinet(name, directory, structure, .alias)
-
-    ## TODO refactor this into its own function
-    if (in_rstudio()) {
-        message("Cabinet ",
-                p0(".", .alias),
-                " created... Restarting R.")
-        message("Cabinet can be called using: ",
-                p0(".", .alias))
-        rstudioapi::restartSession() ## TODO questioning if I like this restart
-    } else {
-        message("Cabinet ",
-                p0(".", .alias),
-                "created...")
-        message("Cabinet can be called using: ",
-                p0(".", .alias))
-        message("Restart R to use new cabinet.")
-    }
+    created_cabinet(.alias)
 }
 
 write_cabinet <- function(name, directory, structure, .alias) {

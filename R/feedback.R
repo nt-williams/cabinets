@@ -50,3 +50,9 @@ no_cabinets <- function() {
 no_r_profile <- function() {
     cli::cli_alert_danger("{.path .Rprofile} doesn't exist")
 }
+
+created_cabinet <- function(name) {
+    cli::cli_alert_success("Cabinet .{name} created")
+    cli::cli_ul(c("Restart R for changes to take effect",
+                  "Cabinet can be called with .{name}"))
+}
