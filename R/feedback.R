@@ -39,7 +39,7 @@ checking_existence <- function() {
 }
 
 cabinet_not_found <- function() {
-    cli::cli_alert_warning("Cabinet not found!")
+    cli::cli_alert_danger("Cabinet not found!")
     get_cabinets()
 }
 

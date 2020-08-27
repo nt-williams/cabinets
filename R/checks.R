@@ -82,14 +82,14 @@ check_name <- function(name) {
 }
 
 check_cabinet <- function(cabinet) {
-    cab_stat <- exists(cabinet, envir = .GlobalEnv)
     status <- tryCatch(
-        if (cab_stat) {
+        if (exists(cabinet, envir = .GlobalEnv)) {
             checking_existence()
         } else {
-            warning()
-        }, warning = function(w) {
+            stop()
+        }, error = function(e) {
             cabinet_not_found()
+            stop_quietly()
         }
     )
     invisible(status)
