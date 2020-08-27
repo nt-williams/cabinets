@@ -1,6 +1,8 @@
 #' R6 class for a cabinet
 #'
-#' Constructs an R6 class of FileCabinet. Objects of class FileCabinet contain information that is used by \code{new_cabinet_proj()} to create project directories.
+#' Constructs an R6 class of FileCabinet. Objects of class
+#' FileCabinet contain information that is used by \code{new_cabinet_proj()}
+#' to create project directories.
 #'
 #' @export
 FileCabinet <- R6::R6Class('FileCabinet',
@@ -23,7 +25,8 @@ FileCabinet <- R6::R6Class('FileCabinet',
         #' @return A cabinet object.
         #'
         #' @examples
-        #' FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
+        #' FileCabinet$new("test", "a/path",
+        #'                 list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
 
         initialize = function(name, directory, structure) {
             stopifnot(is.character(name), length(name) == 1)
@@ -55,15 +58,30 @@ FileCabinet <- R6::R6Class('FileCabinet',
 
 #' Create a cabinet template
 #'
-#' \code{create_cabinet} writes code to the .Rprofile file so that when new R sessions are started, the newly created cabinet, an R6 object of class FileCabinet, is available in the global environment as a hidden object. The cabinet simply stores file location and file template information that \code{new_cabinet_proj} uses to create new projects with the pre-defined structure.
+#' \code{create_cabinet} writes code to the .Rprofile file so
+#'  that when new R sessions are started, the newly created
+#'  cabinet, an R6 object of class FileCabinet, is available
+#'  in the global environment as a hidden object. The cabinet
+#'  simply stores file location and file template information
+#'  that \code{new_cabinet_proj} uses to create new projects
+#'  with the pre-defined structure.
 #'
-#' @param name Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.
+#' @param name Name of the cabinet; character of length 1.
+#'  This is how the cabinet will be referenced, so best to
+#'  chose something memorable.
 #' @param directory The file path for where the cabinet will exist.
-#' @param structure A list of paths of folders/files to create. See details for further explanation.
-#' @param .alias An optional name for the object the cabinet will be stored in R as. Defaults to \code{name}.
+#' @param structure A list of paths of folders/files to
+#'  create. See details for further explanation.
+#' @param .alias An optional name for the object the cabinet
+#'  will be stored in R as. Defaults to \code{name}.
 #'
-#' @return An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
-#' @details Before writing to or creating a .Rprofile file, cabinets will explicitly ask for the user's permission to pn exit. The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
+#' @return An R6 object of class FileCabinet. The code to
+#'  generate this object is written to the .Rprofile file
+#'  of the home directory.
+#' @details Before writing to or creating a .Rprofile file,
+#'  cabinets will explicitly ask for the user's permission to on exit.
+#'  The cabinet structure should be defined using a list with the
+#'  names defining folder paths. List values should be set to NULL.
 #' @seealso \code{\link{new_cabinet_proj}}
 #' @export
 create_cabinet <- function(name,
@@ -105,16 +123,28 @@ write_cabinet <- function(name, directory, structure, .alias) {
 #'
 #' Generate new project directories using cabinet templates.
 #'
-#' @param cabinet The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.
-#' @param project_name The name of the project to store in the cabinet, a character string. Can be a file path pointing to a directory within the specified cabinet.
-#' @param r_project Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).
-#' @param open Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio (only works in RStudio).
+#' @param cabinet The name of the cabinet template. Available cabinets can
+#'  be found using \code{get_cabinets()}.
+#' @param project_name The name of the project to store in the cabinet,
+#'  a character string. Can be a file path pointing to a directory
+#'  within the specified cabinet.
+#' @param r_project Logical, should an Rproject be created. Default is
+#'  TRUE if working in RStudio (only works in RStudio).
+#' @param open Logical, if creating an Rproject, should that project
+#'  be opened once created. Default is TRUE if working in
+#'  RStudio (only works in RStudio).
 #' @param git Logical, should a git repository be initiated.
-#' @param git_root A path relative to the project to initiate the git repository. Default is NULL and the repository is initiated at the root of the project.
-#' @param git_ignore Character vector of files and directories to add to .gitignore file.
+#' @param git_root A path relative to the project to initiate the
+#'  git repository. Default is NULL and the repository is
+#'  initiated at the root of the project.
+#' @param git_ignore Character vector of files and directories
+#'  to add to .gitignore file.
 #' @param ... Extra arguments to pass to \code{create_r_proj}.
 #'
-#' @return Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
+#' @return Creates a new directory at the path specified in the
+#'  cabinet template. If r_project is set to TRUE, a .Rproj file
+#'  will also be created using the project name. If open is set
+#'  to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
 new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
@@ -165,14 +195,15 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
 
 #' Open .Rprofile for editing
 #'
-#' \code{edit_r_profile} opens the .Rprofile file for editing. If the .Rprofile file doesn't exist an error message will be returned. This is essentially a wrapper function for \code{file.edit}.
+#' \code{edit_r_profile} opens the .Rprofile file for editing.
+#'  If the .Rprofile file doesn't exist an error message will be returned.
+#'  This is essentially a wrapper function for \code{file.edit}.
 #'
 #' @return A message that .Rprofile is being opened or that it doesn't exist.
 #' @export
 edit_r_profile <- function() {
     rprof_path <- file.path(normalizePath("~"), ".Rprofile")
-    file_stat <- file.exists(rprof_path)
-    status <- tryCatch(if (file_stat) {
+    status <- tryCatch(if (file.exists(rprof_path)) {
         cli::cli_text("Opening .Rprofile")
         go(rprof_path)
     } else {

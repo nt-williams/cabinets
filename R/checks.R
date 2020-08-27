@@ -69,15 +69,13 @@ check_r_profile <- function() {
 
 check_name <- function(name) {
     name_stat <- exists(paste0(".", name), envir = .GlobalEnv)
-    message("Checking cabinet name... ")
-
     status <- tryCatch(
         if (name_stat) {
             stop()
         } else {
-            on.exit()
+            checking_name()
         }, error = function(e) {
-            stop("Cabinet already exists.", call. = FALSE)
+            stop("Cabinet already exists!", call. = FALSE)
         }
     )
     invisible(status)
@@ -104,15 +102,13 @@ check_project <- function(proj_path) {
         } else {
             checking_project()
         }, error = function(e) {
-            stop("Project already exists in cabinet.", call. = FALSE)
+            stop("Project already exists in cabinet!", call. = FALSE)
         }
     )
     invisible(status)
 }
 
 check_git <- function() {
-    message("Checking for git configuration... ")
-
     files <- git2r::git_config_files()
     git_stat <- is.na(files[3, "path"])
     config_stat <- git2r::config()
@@ -121,6 +117,7 @@ check_git <- function() {
         status <- FALSE
     } else {
         status <- TRUE
+        checking_git()
     }
 
     return(status)

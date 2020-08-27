@@ -23,24 +23,32 @@ get_cabinets <- function() {
 }
 
 creating_cabinet <- function(project_name, cabinet_name) {
-    cli::cli_text("Creating {project_name} using cabinet template: {p0('.', cabinet_name)}")
+    cli::cli_alert_success("Creating {project_name} using cabinet template: {.field {p0('.', cabinet_name)}}")
 }
 
 opening_project <- function(project_name) {
-    cli::cli_text("Opening R project, {basename(project_name)}, in a new session")
+    cli::cli_ul("Opening R project, {basename(project_name)}, in a new session")
 }
 
 checking_project <- function() {
-    cli::cli_alert_success("Checking if project already exists... ")
+    cli::cli_alert_success("Checking if project already exists")
 }
 
 checking_existence <- function() {
-    cli::cli_alert_success("Checking cabinet existence... ")
+    cli::cli_alert_success("Checking cabinet existence")
 }
 
 cabinet_not_found <- function() {
     cli::cli_alert_warning("Cabinet not found!")
     get_cabinets()
+}
+
+checking_name <- function() {
+    cli::cli_alert_success("Checking cabinet name")
+}
+
+checking_git <- function() {
+    cli::cli_alert_success("Checking for git configuration")
 }
 
 no_cabinets <- function() {
@@ -55,4 +63,13 @@ created_cabinet <- function(name) {
     cli::cli_alert_success("Cabinet .{name} created")
     cli::cli_ul(c("Restart R for changes to take effect",
                   "Cabinet can be called with .{name}"))
+}
+
+initiated_git <- function(root) {
+    cli::cli_alert_success("Git repository initiated in {.path {root}}")
+}
+
+no_git <- function() {
+    cli::cli_alert_warning("Git not found or git not fully configured")
+    cli::cli_ul("Check out {.url https://happygitwithr.com/} for configuring git with R.")
 }
