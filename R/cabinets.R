@@ -70,7 +70,6 @@ create_cabinet <- function(name,
                            directory,
                            structure,
                            .alias = name) {
-
     check_interactive()
     check_permissions()
     check_r_profile()
@@ -83,24 +82,18 @@ write_cabinet <- function(name, directory, structure, .alias) {
     directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
 
     newFileCabinet <-
-        call("$",
-             x = call("::",
-                      pkg = substitute(cabinets),
-                      name = substitute(FileCabinet)),
-             name = substitute(new)
-        )
-
-    x <- paste0(".", .alias)
+        call("$", x = call("::",
+                           pkg = substitute(cabinets),
+                           name = substitute(FileCabinet)),
+             name = substitute(new))
 
     value <-
-        as.call(list(
-            newFileCabinet,
-            name = name,
-            directory = directory,
-            structure = structure)
-        )
+        as.call(list(newFileCabinet,
+                     name = name,
+                     directory = directory,
+                     structure = structure))
 
-    cabinet <- call("<-", x = as.symbol(x), value = value)
+    cabinet <- call("<-", x = as.symbol(paste0(".", .alias)), value = value)
     con <- file(file.path(normalizePath("~"), ".Rprofile"), open = "a")
     writeLines(glue::glue("## {name} cabinet start"), con = con)
     capture.output(cabinet, file = con, append = TRUE)

@@ -89,3 +89,48 @@ read_utf8 <- function(path, n = -1L) {
 platform_line_ending <- function() {
     if (.Platform$OS.type == "windows") "\r\n" else "\n"
 }
+
+perm_no <- function() {
+    cabinets_options_set("cabinets.permission" = FALSE)
+    stop("Permission denied.", call. = FALSE)
+
+}
+
+perm_yes <- function() {
+    cli::cli_alert_success("Checking for permissions")
+    cabinets_options_set("cabinets.permission" = TRUE)
+}
+
+new_rprof <- function() {
+    r_profile <- file.path(normalizePath("~"), ".Rprofile")
+    file.create(r_profile)
+
+    permission <- glue::glue(
+        "# cabinets permission
+        cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
+    )
+
+    writeLines(permission, r_profile)
+    cli::cli_alert_success("Creating .Rprofile")
+}
+
+old_rprof <- function() {
+    r_profile_path <- file.path(normalizePath("~"), ".Rprofile")
+    rprof_lines <- readLines(r_profile_path)
+    perm_status <- any(grepl("cabinets_options_set", rprof_lines))
+
+    permission <- glue::glue(
+        "# cabinets permission
+        cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
+    )
+
+    if (perm_status) {
+        on.exit()
+    } else {
+        r_profile <- file(r_profile_path, open = "a")
+        writeLines(permission, r_profile)
+        close(r_profile)
+    }
+    cli::cli_alert_success("Checking for .Rprofile")
+}
+
