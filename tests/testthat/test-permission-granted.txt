@@ -1,3 +1,3 @@
 > capt(ask_permission())
-[1] "\033[32m✓\033[39m Checking for permissions\n"
+[1] "\033[32mv\033[39m Checking for permissions\n"
 

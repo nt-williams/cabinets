@@ -9,5 +9,6 @@ test_that("project directory already exists", {
 test_that("project doesn't exist", {
     verify_output(test_path("test-project-doesnt-exist.txt"), {
         capt(check_project(file.path("a", "random", "path")))
-    })
+    },
+    crayon = TRUE)
 })

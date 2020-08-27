@@ -5,7 +5,8 @@ test_that("finding existing cabinets", {
         .test_cab <<- NULL
         verify_output(test_path("test-find-existing-cabinets.txt"), {
             capt(check_cabinet(".test_cab"))
-        })
+        },
+        crayon = TRUE)
         rm(.test_cab, envir = .GlobalEnv)
     })
 })

@@ -6,7 +6,8 @@ test_that("permission is granted", {
 
   verify_output(test_path("test-permission-granted.txt"), {
     capt(ask_permission())
-  })
+  },
+  crayon = TRUE)
 })
 
 test_that("permission is denied", {
@@ -24,7 +25,8 @@ test_that("check permission catches permission", {
 
     verify_output(test_path("test-checking-permissions.txt"), {
       capt(check_permissions())
-    })
+    },
+    crayon = TRUE)
 
     options("cabinets.permission" = NULL)
     options("cabinet.testing" = TRUE)
