@@ -1,16 +1,18 @@
 
 #' Print available cabinets
 #'
-#' \code{get_cabinets} returns objects of class FileCabinet found in the global environment.
+#' \code{get_cabinets} returns objects of class FileCabinet.
+#'
+#' @param envir The environment to check in. The default is the global environment.
 #'
 #' @return Objects of class FileCabinet found in the global environment.
 #' @export
 #'
 #' @examples
 #' get_cabinets()
-get_cabinets <- function() {
-    hidden <- as.list(ls(all.names = TRUE, envir = .GlobalEnv))
-    classes <- lapply(hidden, function(x) class(eval(parse(text = x))))
+get_cabinets <- function(envir = parent.frame()) {
+    hidden <- as.list(ls(all.names = TRUE, envir = envir))
+    classes <- lapply(hidden, function(x) class(eval(parse(text = x), envir = envir)))
 
     if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
         cli::cli_text("These are the available cabinets:")

@@ -1,0 +1,5 @@
+> get_cabinets(env)
+Message: These are the available cabinets:
+
+Message: * x
+

@@ -10,5 +10,7 @@ edit_r_profile()
 A message that .Rprofile is being opened or that it doesn't exist.
 }
 \description{
-\code{edit_r_profile} opens the .Rprofile file for editing. If the .Rprofile file doesn't exist an error message will be returned. This is essentially a wrapper function for \code{file.edit}.
+\code{edit_r_profile} opens the .Rprofile file for editing.
+ If the .Rprofile file doesn't exist an error message will be returned.
+ This is essentially a wrapper function for \code{file.edit}.
 }

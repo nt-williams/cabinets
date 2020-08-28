@@ -10,9 +10,9 @@ test_that("name already exists", {
 
 test_that("name doesn't exist", {
     withr::with_environment(.GlobalEnv, {
+        cli::cli_div(theme = list(".alert-success" = list(before = "PASSING ")))
         verify_output(test_path("test-name-doesnt-exist.txt"), {
-            capt(check_name("test_cab"))
-        },
-        crayon = TRUE)
+            check_name("test_cab")
+        })
     })
 })

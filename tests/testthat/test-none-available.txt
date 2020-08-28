@@ -1,0 +1,3 @@
+> get_cabinets(env)
+Message: [31mx[39m No cabinets found. Cabinets can be created using `create_cabinets()`
+

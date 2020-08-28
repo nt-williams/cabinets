@@ -4,13 +4,16 @@
 \alias{get_cabinets}
 \title{Print available cabinets}
 \usage{
-get_cabinets()
+get_cabinets(envir = parent.frame())
+}
+\arguments{
+\item{envir}{The environment to check in. The default is the global environment.}
 }
 \value{
 Objects of class FileCabinet found in the global environment.
 }
 \description{
-\code{get_cabinets} returns objects of class FileCabinet found in the global environment.
+\code{get_cabinets} returns objects of class FileCabinet.
 }
 \examples{
 get_cabinets()

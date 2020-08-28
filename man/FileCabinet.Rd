@@ -4,7 +4,9 @@
 \alias{FileCabinet}
 \title{R6 class for a cabinet}
 \description{
-Constructs an R6 class of FileCabinet. Objects of class FileCabinet contain information that is used by \code{new_cabinet_proj()} to create project directories.
+Constructs an R6 class of FileCabinet. Objects of class
+FileCabinet contain information that is used by \code{new_cabinet_proj()}
+to create project directories.
 }
 \examples{
 
@@ -12,7 +14,8 @@ Constructs an R6 class of FileCabinet. Objects of class FileCabinet contain info
 ## Method `FileCabinet$new`
 ## ------------------------------------------------
 
-FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
+FileCabinet$new("test", "a/path",
+                list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -61,7 +64,8 @@ A cabinet object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
+\preformatted{FileCabinet$new("test", "a/path",
+                list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
 }
 \if{html}{\out{</div>}}
 

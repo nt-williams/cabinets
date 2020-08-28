@@ -32,8 +32,8 @@ get_paths <- function(x) {
 print_structure <- function(x, ...) {
     files <- paste0("./",
                     unique(unlist(sapply(names(x),
-                           get_paths),
-                    use.names = FALSE)))
+                                         get_paths),
+                                  use.names = FALSE)))
     by_dir <- split(files, fs::path_dir(files))
     ch <- str_chars()
 
@@ -57,7 +57,7 @@ print_structure <- function(x, ...) {
                     sep = "")
                 print_files(leafs[[i]],
                             paste0(indent,
-                            p0(ch$v, "   ")))
+                                   p0(ch$v, "   ")))
             }
         }
     }
@@ -92,7 +92,6 @@ platform_line_ending <- function() {
 perm_no <- function() {
     cabinets_options_set("cabinets.permission" = FALSE)
     stop("Permission denied.", call. = FALSE)
-
 }
 
 perm_yes <- function() {

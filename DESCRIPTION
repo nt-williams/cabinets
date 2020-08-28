@@ -13,18 +13,17 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
 Imports: 
-    here,
     rjson,
     glue,
     R6,
-    usethis,
     rstudioapi,
     crayon,
     fs,
     stringr,
     utils,
-    withr,
-    git2r
+    git2r,
+    cli
 Suggests: 
     testthat (>= 2.1.0),
-    covr
+    covr, 
+    withr
