@@ -5,6 +5,7 @@ env <- new.env()
 test_that("correct feedback", {
     cli::cli_div(theme = list(".alert-success" = list(before = "PASSING ")))
     cli::cli_div(theme = list(ul = list("list-style-type" = "*")))
+    cli::cli_div(theme = list(".alert-danger" = list(before = "PASSING ")))
     cli::cli_div(theme = list(".alert-warning" = list(before = "PASSING ")))
     verify_output(test_path("test-feedback.txt"), {
         creating_cabinet("hello", "world")

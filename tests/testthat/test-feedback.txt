@@ -11,10 +11,10 @@ Message: PASSING Checking cabinet existence
 Message: PASSING Checking for git configuration
 
 > no_cabinets()
-Message: [31mx[39m No cabinets found. Cabinets can be created using `create_cabinets()`
+Message: PASSING No cabinets found. Cabinets can be created using `create_cabinets()`
 
 > no_r_profile()
-Message: [31mx[39m .Rprofile doesn't exist
+Message: PASSING .Rprofile doesn't exist
 
 > initiated_git("test")
 Message: PASSING Git repository initiated in test
