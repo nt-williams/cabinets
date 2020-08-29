@@ -14,6 +14,8 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 status](https://travis-ci.org/nt-williams/cabinets.svg?branch=master)](https://travis-ci.org/nt-williams/cabinets)
 [![Codecov test
 coverage](https://codecov.io/gh/nt-williams/cabinets/branch/master/graph/badge.svg)](https://codecov.io/gh/nt-williams/cabinets?branch=master)
+[![R build
+status](https://github.com/nt-williams/cabinets/workflows/R-CMD-check/badge.svg)](https://github.com/nt-williams/cabinets/actions)
 <!-- badges: end -->
 
 **cabinets** makes it easy to create project specific file structure

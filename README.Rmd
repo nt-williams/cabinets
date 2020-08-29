@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Travis build status](https://travis-ci.org/nt-williams/cabinets.svg?branch=master)](https://travis-ci.org/nt-williams/cabinets)
 [![Codecov test coverage](https://codecov.io/gh/nt-williams/cabinets/branch/master/graph/badge.svg)](https://codecov.io/gh/nt-williams/cabinets?branch=master)
+[![R build status](https://github.com/nt-williams/cabinets/workflows/R-CMD-check/badge.svg)](https://github.com/nt-williams/cabinets/actions)
 <!-- badges: end -->
 
 **cabinets** makes it easy to create project specific file structure templates that can be referenced at the start of any R session. **cabinets** works by writing project specific file templates to the .Rprofile file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. 
