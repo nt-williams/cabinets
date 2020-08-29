@@ -42,7 +42,7 @@ interactive R sessions.
 Installation
 ------------
 
-You can install the released version of cabinets from
+You can install the released version of **cabinets** from
 [CRAN](https://CRAN.R-project.org) with:
 
     install.packages("cabinets")
@@ -75,7 +75,7 @@ While another uses a structure like this:
     ├── Notes
     └── Log
 
-`cabinets` makes it easy to define these templates once and then call
+**cabinets** makes it easy to define these templates once and then call
 them for use whenever starting new projects in R.
 
 Example
@@ -139,9 +139,9 @@ cabinet template.
 Similar implementations
 -----------------------
 
-Similar implementations exist elsewhere. `cabinets` is unique for giving
-the user the ability to design their own project templates. These are
-all great packages, use what’s best for you!
+Similar implementations exist elsewhere. **cabinets** is unique for
+giving the user the ability to design their own project templates. These
+are all great packages, use what’s best for you!
 
 -   [workflowr](https://github.com/jdblischak/workflowr)
 -   [projects](https://github.com/NikKrieger/projects)
@@ -151,6 +151,6 @@ all great packages, use what’s best for you!
 Contributing
 ------------
 
-Please note that the ‘cabinets’ project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Please note that the **cabinets** project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
+this project, you agree to abide by its terms.
