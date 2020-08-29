@@ -11,4 +11,5 @@
 #'
 #' @docType package
 #' @name cabinets
+#' @importFrom utils capture.output
 NULL
