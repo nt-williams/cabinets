@@ -1,31 +1,33 @@
 Package: cabinets
 Title: Project Specific Workspace Organization Templates
-Version: 0.4.1.9000
+Version: 0.5.0
 Authors@R: 
     person(given = "Nick",
            family = "Williams",
            role = c("aut", "cre"),
            email = "ntwilliams.personal@gmail.com", 
            comment = c(ORCID = "0000-0002-1378-4831"))
-Description: Creates project specific directory and file templates that are written to a .Rprofile file. Upon starting a new R session, these templates can be used to streamline the creation of new directories that are standardized to the user's preferences.
+Description: Creates project specific directory and file templates that are 
+ written to a .Rprofile file. Upon starting a new R session, these templates 
+ can be used to streamline the creation of new directories that are 
+ standardized to the user's preferences.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
+URL: https://github.com/nt-williams/cabinets
+BugReports: https://github.com/nt-williams/cabinets/issues
 Imports: 
-    here,
-    rjson,
     glue,
     R6,
-    usethis,
     rstudioapi,
     crayon,
     fs,
     stringr,
     utils,
-    purrr,
-    withr,
-    git2r
+    git2r,
+    cli
 Suggests: 
     testthat (>= 2.1.0),
-    covr
+    covr, 
+    withr

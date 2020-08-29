@@ -7,3 +7,5 @@
 ^CRAN-RELEASE$
 ^CODE_OF_CONDUCT\.md$
 ^README\.md$
+^README\.Rmd$
+^\.github$

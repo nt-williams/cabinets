@@ -1,0 +1,3 @@
+> check_name("test_cab")
+Message: PASSING Checking cabinet name
+

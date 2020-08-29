@@ -16,24 +16,36 @@ new_cabinet_proj(
 )
 }
 \arguments{
-\item{cabinet}{The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.}
+\item{cabinet}{The name of the cabinet template. Available cabinets can
+be found using \code{get_cabinets()}.}
 
-\item{project_name}{The name of the project to store in the cabinet, a character string. Can be a file path pointing to a directory within the specified cabinet.}
+\item{project_name}{The name of the project to store in the cabinet,
+a character string. Can be a file path pointing to a directory
+within the specified cabinet.}
 
-\item{r_project}{Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).}
+\item{r_project}{Logical, should an Rproject be created. Default is
+TRUE if working in RStudio (only works in RStudio).}
 
-\item{open}{Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio (only works in RStudio).}
+\item{open}{Logical, if creating an Rproject, should that project
+be opened once created. Default is TRUE if working in
+RStudio (only works in RStudio).}
 
 \item{git}{Logical, should a git repository be initiated.}
 
-\item{git_root}{A path relative to the project to initiate the git repository. Default is NULL and the repository is initiated at the root of the project.}
+\item{git_root}{A path relative to the project to initiate the
+git repository. Default is NULL and the repository is
+initiated at the root of the project.}
 
-\item{git_ignore}{Character vector of files and directories to add to .gitignore file.}
+\item{git_ignore}{Character vector of files and directories
+to add to .gitignore file.}
 
 \item{...}{Extra arguments to pass to \code{create_r_proj}.}
 }
 \value{
-Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
+Creates a new directory at the path specified in the
+ cabinet template. If r_project is set to TRUE, a .Rproj file
+ will also be created using the project name. If open is set
+ to TRUE, the new R project will opened in a new R session.
 }
 \description{
 Generate new project directories using cabinet templates.

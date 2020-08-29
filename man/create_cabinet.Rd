@@ -4,23 +4,40 @@
 \alias{create_cabinet}
 \title{Create a cabinet template}
 \usage{
-create_cabinet(name, directory, structure)
+create_cabinet(name, directory, structure, .alias = name)
 }
 \arguments{
-\item{name}{Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.}
+\item{name}{Name of the cabinet; character of length 1.
+This is how the cabinet will be referenced, so best to
+chose something memorable.}
 
 \item{directory}{The file path for where the cabinet will exist.}
 
-\item{structure}{A list of paths of folders/files to create. See details for further explanation.}
+\item{structure}{A list of paths of folders/files to
+create. See details for further explanation.}
+
+\item{.alias}{An optional name for the object the cabinet
+will be stored in R as. Defaults to \code{name}.}
 }
 \value{
-An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
+An R6 object of class FileCabinet. The code to
+ generate this object is written to the .Rprofile file
+ of the home directory.
 }
 \description{
-\code{create_cabinet} writes code to the .Rprofile file so that when new R sessions are started, the newly created cabinet, an R6 object of class FileCabinet, is available in the global environment as a hidden object. The cabinet simply stores file location and file template information that \code{new_cabinet_proj} uses to create new projects with the pre-defined structure.
+\code{create_cabinet} writes code to the .Rprofile file so
+ that when new R sessions are started, the newly created
+ cabinet, an R6 object of class FileCabinet, is available
+ in the global environment as a hidden object. The cabinet
+ simply stores file location and file template information
+ that \code{new_cabinet_proj} uses to create new projects
+ with the pre-defined structure.
 }
 \details{
-Before writing to or creating a .Rprofile file, cabinets will explicitly ask for the user's permission to pn exit. The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
+Before writing to or creating a .Rprofile file,
+ cabinets will explicitly ask for the user's permission to on exit.
+ The cabinet structure should be defined using a list with the
+ names defining folder paths. List values should be set to NULL.
 }
 \seealso{
 \code{\link{new_cabinet_proj}}

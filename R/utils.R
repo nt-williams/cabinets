@@ -10,6 +10,12 @@ cat_path <- function(...) {
     crayon::blue(...)
 }
 
+create_subdirectories <- function(folders) {
+    for (i in 1:length(folders)) {
+        dir.create(folders[i], recursive = TRUE)
+    }
+}
+
 get_paths <- function(x) {
     files <- fs::path_tidy(x)
     n <- stringr::str_count(files, "/")
@@ -24,11 +30,10 @@ get_paths <- function(x) {
 }
 
 print_structure <- function(x, ...) {
-
     files <- paste0("./",
                     unique(unlist(sapply(names(x),
-                           get_paths),
-                    use.names = FALSE)))
+                                         get_paths),
+                                  use.names = FALSE)))
     by_dir <- split(files, fs::path_dir(files))
     ch <- str_chars()
 
@@ -52,7 +57,7 @@ print_structure <- function(x, ...) {
                     sep = "")
                 print_files(leafs[[i]],
                             paste0(indent,
-                            p0(ch$v, "   ")))
+                                   p0(ch$v, "   ")))
             }
         }
     }
@@ -69,3 +74,66 @@ str_chars <- function() {
 }
 
 p0 <- function(...) paste0(..., collapse = "")
+
+go <- function(path) {
+    utils::file.edit(path)
+}
+
+# taken from the usethis package!
+read_utf8 <- function(path, n = -1L) {
+    base::readLines(path, n = n, encoding = "UTF-8", warn = FALSE)
+}
+
+# taken from the usethis package!
+platform_line_ending <- function() {
+    if (.Platform$OS.type == "windows") "\r\n" else "\n"
+}
+
+perm_no <- function() {
+    cabinets_options_set("cabinets.permission" = FALSE)
+    stop("Permission denied.", call. = FALSE)
+}
+
+perm_yes <- function() {
+    cli::cli_alert_success("Checking for permissions")
+    cabinets_options_set("cabinets.permission" = TRUE)
+}
+
+new_rprof <- function() {
+    r_profile <- file.path(normalizePath("~"), ".Rprofile")
+    file.create(r_profile)
+
+    permission <- glue::glue(
+        "# cabinets permission
+        cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
+    )
+
+    writeLines(permission, r_profile)
+    cli::cli_alert_success("Creating .Rprofile")
+}
+
+old_rprof <- function() {
+    r_profile_path <- file.path(normalizePath("~"), ".Rprofile")
+    rprof_lines <- readLines(r_profile_path)
+    perm_status <- any(grepl("cabinets_options_set", rprof_lines))
+
+    permission <- glue::glue(
+        "# cabinets permission
+        cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
+    )
+
+    if (perm_status) {
+        on.exit()
+    } else {
+        r_profile <- file(r_profile_path, open = "a")
+        writeLines(permission, r_profile)
+        close(r_profile)
+    }
+    cli::cli_alert_success("Checking for .Rprofile")
+}
+
+stop_quietly <- function() {
+    opt <- options(show.error.messages = FALSE)
+    on.exit(options(opt))
+    stop()
+}

@@ -10,6 +10,9 @@ test_that("name already exists", {
 
 test_that("name doesn't exist", {
     withr::with_environment(.GlobalEnv, {
-        expect_message(check_name("test_cab"), "Checking cabinet name...")
+        cli::cli_div(theme = list(".alert-success" = list(before = "PASSING ")))
+        verify_output(test_path("test-name-doesnt-exist.txt"), {
+            check_name("test_cab")
+        })
     })
 })

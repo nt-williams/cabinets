@@ -1,0 +1,3 @@
+> check_project(file.path("a", "random", "path"))
+Message: PASSING Checking if project already exists
+

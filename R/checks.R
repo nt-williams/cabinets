@@ -18,17 +18,6 @@ cabinets_options_set <- function(..., .envir = NULL) {
 }
 
 ask_permission <- function() {
-    perm_no <- function() {
-        cabinets_options_set("cabinets.permission" = FALSE)
-        stop("Permission denied.", call. = FALSE)
-
-    }
-
-    perm_yes <- function() {
-        message("Permission granted.")
-        cabinets_options_set("cabinets.permission" = TRUE)
-    }
-
     interact <- getOption("cabinet.testing")
     if (is.null(interact)) {
         switch(utils::menu(
@@ -57,12 +46,10 @@ check_interactive <- function() {
 check_permissions <- function() {
     consent <- getOption("cabinets.permission")
 
-    message("Checking for permissions...")
-
     if (is.null(consent)) {
         ask_permission()
     } else if (identical(consent, TRUE)) {
-        on.exit()
+        cli::cli_alert_success("Checking for permissions")
     } else if (identical(consent, FALSE)) {
         stop("Permission denied.", call. = FALSE)
     }
@@ -70,102 +57,58 @@ check_permissions <- function() {
 
 check_r_profile <- function() {
     file_stat <- !file.exists(file.path(normalizePath("~"), ".Rprofile"))
-
-    new_rprof <- function() {
-        message("Creating .Rprofile...")
-        r_profile <- file.path(normalizePath("~"), ".Rprofile")
-        file.create(r_profile)
-
-        permission <- glue::glue(
-            "# cabinets permission
-            cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
-        )
-
-        writeLines(permission, r_profile)
-    }
-
-    old_rprof <- function() {
-        r_profile_path <- file.path(normalizePath("~"), ".Rprofile")
-        rprof_lines <- readLines(r_profile_path)
-        perm_status <- any(grepl("cabinets_options_set", rprof_lines))
-
-        permission <- glue::glue(
-            "# cabinets permission
-            cabinets::cabinets_options_set('cabinets.permission' = TRUE)"
-        )
-
-        if (perm_status) {
-            on.exit()
+    status <- tryCatch(
+        if (file_stat) {
+            new_rprof()
         } else {
-            r_profile <- file(r_profile_path, open = "a")
-            writeLines(permission, r_profile)
-            close(r_profile)
+            old_rprof()
         }
-    }
-
-    status <- tryCatch(if (file_stat) {
-        message("Checking for .Rprofile... .Rprofile not found.")
-        new_rprof()
-    } else {
-        message("Checking for .Rprofile...")
-        old_rprof()
-    })
+    )
     invisible(status)
 }
 
 check_name <- function(name) {
     name_stat <- exists(paste0(".", name), envir = .GlobalEnv)
-    message("Checking cabinet name... ")
-
     status <- tryCatch(
         if (name_stat) {
             stop()
         } else {
-            on.exit()
+            checking_name()
         }, error = function(e) {
-            stop("Cabinet already exists.", call. = FALSE)
+            stop("Cabinet already exists!", call. = FALSE)
         }
     )
     invisible(status)
 }
 
 check_cabinet <- function(cabinet) {
-
-    cab_stat <- exists(cabinet, envir = .GlobalEnv)
-    message("Checking cabinet existence... ")
-
     status <- tryCatch(
-        if (cab_stat) {
-            on.exit()
+        if (exists(cabinet, envir = .GlobalEnv)) {
+            checking_existence()
         } else {
-            warning()
-        }, warning = function(w) {
-            message("Cabinet not found.")
-            message("These are the available cabinets:")
-            get_cabinets()
+            stop()
+        }, error = function(e) {
+            cabinet_not_found()
+            stop_quietly()
         }
     )
     invisible(status)
 }
 
 check_project <- function(proj_path) {
-    message("Checking if project already exists... ")
-
     status <- tryCatch(
         if (dir.exists(proj_path)) {
             stop()
         } else {
-            on.exit()
+            checking_project()
         }, error = function(e) {
-            stop("Project already exists in cabinet.", call. = FALSE)
+            stop("Project already exists in cabinet!", call. = FALSE)
         }
     )
     invisible(status)
 }
 
 check_git <- function() {
-    message("Checking for git configuration... ")
-
     files <- git2r::git_config_files()
     git_stat <- is.na(files[3, "path"])
     config_stat <- git2r::config()
@@ -174,6 +117,7 @@ check_git <- function() {
         status <- FALSE
     } else {
         status <- TRUE
+        checking_git()
     }
 
     return(status)

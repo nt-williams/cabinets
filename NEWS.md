@@ -1,4 +1,12 @@
-# cabinet 0.4.0
+# cabinets 0.5.0
+
+* new function `delete_cabinet()` for deleting cabinets without the user having to open the .Rprofile
+* upon creation of a new cabinet, R no longer automatically restarts if in RStudio
+* user feedback has generally been improved with the cli package
+* a variety of dependencies have been removed
+* creation of new RStudio projects has been handed over to the rstudioapi package
+
+# cabinets 0.4.0
 
 * `new_cabinet_proj()` now includes a feature for the initiation of a git repository when creating a new project.
 

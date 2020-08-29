@@ -1,6 +1,8 @@
 #' R6 class for a cabinet
 #'
-#' Constructs an R6 class of FileCabinet. Objects of class FileCabinet contain information that is used by \code{new_cabinet_proj()} to create project directories.
+#' Constructs an R6 class of FileCabinet. Objects of class
+#' FileCabinet contain information that is used by \code{new_cabinet_proj()}
+#' to create project directories.
 #'
 #' @export
 FileCabinet <- R6::R6Class('FileCabinet',
@@ -23,7 +25,8 @@ FileCabinet <- R6::R6Class('FileCabinet',
         #' @return A cabinet object.
         #'
         #' @examples
-        #' FileCabinet$new("test", "a/path", list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
+        #' FileCabinet$new("test", "a/path",
+        #'                 list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
 
         initialize = function(name, directory, structure) {
             stopifnot(is.character(name), length(name) == 1)
@@ -55,171 +58,96 @@ FileCabinet <- R6::R6Class('FileCabinet',
 
 #' Create a cabinet template
 #'
-#' \code{create_cabinet} writes code to the .Rprofile file so that when new R sessions are started, the newly created cabinet, an R6 object of class FileCabinet, is available in the global environment as a hidden object. The cabinet simply stores file location and file template information that \code{new_cabinet_proj} uses to create new projects with the pre-defined structure.
+#' \code{create_cabinet} writes code to the .Rprofile file so
+#'  that when new R sessions are started, the newly created
+#'  cabinet, an R6 object of class FileCabinet, is available
+#'  in the global environment as a hidden object. The cabinet
+#'  simply stores file location and file template information
+#'  that \code{new_cabinet_proj} uses to create new projects
+#'  with the pre-defined structure.
 #'
-#' @param name Name of the cabinet; character of length 1. This is how the cabinet will be referenced, so best to chose something memorable.
+#' @param name Name of the cabinet; character of length 1.
+#'  This is how the cabinet will be referenced, so best to
+#'  chose something memorable.
 #' @param directory The file path for where the cabinet will exist.
-#' @param structure A list of paths of folders/files to create. See details for further explanation.
+#' @param structure A list of paths of folders/files to
+#'  create. See details for further explanation.
+#' @param .alias An optional name for the object the cabinet
+#'  will be stored in R as. Defaults to \code{name}.
 #'
-#' @return An R6 object of class FileCabinet. The code to generate this object is written to the .Rprofile file of the home directory.
-#' @details Before writing to or creating a .Rprofile file, cabinets will explicitly ask for the user's permission to pn exit. The cabinet structure should be defined using a list with the names defining folder paths. List values should be set to NULL.
+#' @return An R6 object of class FileCabinet. The code to
+#'  generate this object is written to the .Rprofile file
+#'  of the home directory.
+#' @details Before writing to or creating a .Rprofile file,
+#'  cabinets will explicitly ask for the user's permission to on exit.
+#'  The cabinet structure should be defined using a list with the
+#'  names defining folder paths. List values should be set to NULL.
 #' @seealso \code{\link{new_cabinet_proj}}
 #' @export
 create_cabinet <- function(name,
                            directory,
-                           structure) {
-
+                           structure,
+                           .alias = name) {
     check_interactive()
     check_permissions()
     check_r_profile()
     check_name(name)
-    write_cabinet(name, directory, structure)
-
-    if (in_rstudio()) {
-        message("Cabinet ",
-                p0(".", name),
-                " created... Restarting R.")
-        message("Cabinet can be called using: ",
-                p0(".", name))
-        rstudioapi::restartSession()
-    } else {
-        message("Cabinet ",
-                p0(".", name),
-                "created...")
-        message("Cabinet can be called using: ",
-                p0(".", name))
-        message("Restart R to use new cabinet.")
-    }
+    write_cabinet(name, directory, structure, .alias)
+    created_cabinet(.alias)
 }
 
-write_cabinet <- function(name, directory, structure) {
-
-    home <- normalizePath("~")
-    r_profile <- file(file.path(home, ".Rprofile"), open = "a")
+write_cabinet <- function(name, directory, structure, .alias) {
     directory <- fs::path_tidy(paste(directory, collapse = .Platform$file.sep))
 
     newFileCabinet <-
-        call("$",
-             x = call("::",
-                      pkg = substitute(cabinets),
-                      name = substitute(FileCabinet)),
-             name = substitute(new)
-        )
-
-    x <- paste0(".", name)
+        call("$", x = call("::",
+                           pkg = substitute(cabinets),
+                           name = substitute(FileCabinet)),
+             name = substitute(new))
 
     value <-
-        as.call(list(
-            newFileCabinet,
-            name = "test",
-            directory = directory,
-            structure = structure)
-        )
+        as.call(list(newFileCabinet,
+                     name = name,
+                     directory = directory,
+                     structure = structure))
 
-    cabinet <- call("<-", x = as.symbol(x), value = value)
-
-    writeLines(paste("# creating ", name, " cabinet"), con = r_profile)
-    capture.output(cabinet, file = r_profile, append = TRUE)
-    close(r_profile)
-}
-
-#' Print available cabinets
-#'
-#' \code{get_cabinets} returns objects of class FileCabinet found in the global environment.
-#'
-#' @return Objects of class FileCabinet found in the global environment.
-#' @export
-#'
-#' @examples
-#' get_cabinets()
-get_cabinets <- function() {
-    hidden <- as.list(ls(all.names = TRUE, envir = .GlobalEnv))
-    classes <- lapply(hidden, function(x) class(eval(parse(text = x))))
-
-    if (any(sapply(classes, function(x) "FileCabinet" %in% x))) {
-        for (i in seq_along(classes)) {
-            if ("FileCabinet" %in% classes[[i]]) message(hidden[[i]])
-        }
-    } else {
-        message("No cabinets found. Cabinets can be created using create_cabinets().")
-    }
-}
-
-#' R project settings
-#'
-#' \code{create_r_proj} is a helper function for \code{new_cabinet_proj}. Calling it outside the scope of \code{new_cabinet_proj} will only print the specified settings the console.
-#'
-#' @param version R project version number, to be passed as character string.
-#' @param restore_workspace Load the .Rdata file (if any) found in the initial working directory into the  R workspace. Options are "No" (default), "Yes", and "Default". If "Default", global behaviour settings are inherited.
-#' @param save_workspace Save .RData on exit. Options are "No" (default), "Yes", and "Default". If "Default", global behaviour settings are inherited.
-#' @param save_history Always save history (even when not saving .RData). Options are "Default" (default), "Yes", and "No". If "Default", global behaviour settings are inherited.
-#' @param enable_code_indexing Determines whether R source files within the project directory are indexed for code navigation. Options are "Yes" (default), "No", and "Default". If "Default", global behaviour settings are inherited.
-#' @param spaces_for_tab Determine whether the tab key inserts multiple spaces rather than a tab character (soft tabs). Options are "Yes" (default), "No", and "Default". If "Default", global behaviour settings are inherited.
-#' @param num_spaces_for_tab Specify the number of spaces per soft-tab, integer.
-#' @param encoding Specify the default text encoding for source files. Default is "UTF-8".
-#' @param rnw_weave Specify how to weave Rnw files. Default is "Sweave".
-#' @param latex Specify LaTeX processing. Default is "pdfLaTeX".
-#' @param auto_append_new_line Ensure that source files end with a new line. Default is "Yes".
-#' @param strip_trailing_white_space Strip trailing horizontal white space when saving. Default is "Yes".
-#'
-#' @return The settings used to write a .Rproj file.
-#' @seealso \url{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects} for more information on these settings.
-#' @export
-#'
-#' @examples
-#' create_r_proj()
-create_r_proj <- function(version = "1.0",
-                          restore_workspace = c("No", "Yes", "Default"),
-                          save_workspace = c("No", "Yes", "Default"),
-                          save_history = c("Default", "No", "Yes"),
-                          enable_code_indexing = c("Yes", "No", "Default"),
-                          spaces_for_tab = c("Yes", "No", "Default"),
-                          num_spaces_for_tab = 2,
-                          encoding = "UTF-8",
-                          rnw_weave = "Sweave",
-                          latex = "pdfLaTeX",
-                          auto_append_new_line = "Yes",
-                          strip_trailing_white_space = "Yes") {
-
-    restore <- match.arg(restore_workspace)
-    save <- match.arg(save_workspace)
-    always <- match.arg(save_history)
-    code_index <- match.arg(enable_code_indexing)
-    space_tabs <- match.arg(spaces_for_tab)
-
-    glue::glue(
-    'Version: {version}
-    RestoreWorkspace: {restore}
-    SaveWorkspace: {save}
-    AlwaysSaveHistory: {always}
-    EnableCodeIndexing: {code_index}
-    UseSpacesForTab: {space_tabs}
-    NumSpacesForTab: {num_spaces_for_tab}
-    Encoding: {encoding}
-    RnwWeave: {rnw_weave}
-    LaTeX: {latex}
-    AutoAppendNewline: {auto_append_new_line}
-    StripTrailingWhitespace: {strip_trailing_white_space}'
-    )
+    cabinet <- call("<-", x = as.symbol(paste0(".", .alias)), value = value)
+    con <- file(file.path(normalizePath("~"), ".Rprofile"), open = "a")
+    writeLines(glue::glue("## {name} cabinet start"), con = con)
+    capture.output(cabinet, file = con, append = TRUE)
+    writeLines(glue::glue("## {name} cabinet end"), con = con)
+    on.exit(close(con))
 }
 
 #' Create a new project using a cabinet template
 #'
 #' Generate new project directories using cabinet templates.
 #'
-#' @param cabinet The name of the cabinet template. Available cabinets can be found using \code{get_cabinets()}.
-#' @param project_name The name of the project to store in the cabinet, a character string. Can be a file path pointing to a directory within the specified cabinet.
-#' @param r_project Logical, should an Rproject be created. Default is TRUE if working in RStudio (only works in RStudio).
-#' @param open Logical, if creating an Rproject, should that project be opened once created. Default is TRUE if working in RStudio (only works in RStudio).
+#' @param cabinet The name of the cabinet template. Available cabinets can
+#'  be found using \code{get_cabinets()}.
+#' @param project_name The name of the project to store in the cabinet,
+#'  a character string. Can be a file path pointing to a directory
+#'  within the specified cabinet.
+#' @param r_project Logical, should an Rproject be created. Default is
+#'  TRUE if working in RStudio (only works in RStudio).
+#' @param open Logical, if creating an Rproject, should that project
+#'  be opened once created. Default is TRUE if working in
+#'  RStudio (only works in RStudio).
 #' @param git Logical, should a git repository be initiated.
-#' @param git_root A path relative to the project to initiate the git repository. Default is NULL and the repository is initiated at the root of the project.
-#' @param git_ignore Character vector of files and directories to add to .gitignore file.
+#' @param git_root A path relative to the project to initiate the
+#'  git repository. Default is NULL and the repository is
+#'  initiated at the root of the project.
+#' @param git_ignore Character vector of files and directories
+#'  to add to .gitignore file.
 #' @param ... Extra arguments to pass to \code{create_r_proj}.
 #'
-#' @return Creates a new directory at the path specified in the cabinet template. If r_project is set to TRUE, a .Rproj file will also be created using the project name. If open is set to TRUE, the new R project will opened in a new R session.
+#' @return Creates a new directory at the path specified in the
+#'  cabinet template. If r_project is set to TRUE, a .Rproj file
+#'  will also be created using the project name. If open is set
+#'  to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
-new_cabinet_proj <- function(cabinet,
+new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
                              project_name,
                              r_project = TRUE,
                              open = TRUE,
@@ -238,14 +166,16 @@ new_cabinet_proj <- function(cabinet,
     proj_folders <- file.path(proj_path, names(cabinet$structure))
 
     check_project(proj_path)
+    creating_cabinet(project_name, cabinet$name)
 
-    message("Creating ",
-            project_name,
-            " using cabinet template: ",
-            p0(".", cabinet$name))
+    if (r_project) {
+        rstudioapi::initializeProject(proj_path)
+    } else {
+        dir.create(proj_path, recursive = TRUE)
+        open <- FALSE
+    }
 
-    dir.create(proj_path, recursive = TRUE)
-    purrr::walk(proj_folders, ~ dir.create(.x, recursive = TRUE))
+    create_subdirectories(proj_folders)
 
     if (git) {
         if (is.null(git_root)) {
@@ -256,84 +186,30 @@ new_cabinet_proj <- function(cabinet,
         use_git(git_root, git_ignore)
     }
 
-    if (r_project) {
-        r_proj_args <- list(...)
-
-        if (length(r_proj_args) == 0) {
-            proj_settings <- create_r_proj()
-        } else {
-            proj_settings <- create_r_proj(r_proj_args)
-        }
-
-        r_project <- file.path(proj_path,
-                               paste0(basename(project_name), ".Rproj"))
-        writeLines(proj_settings, r_project)
-        message("\nR project settings:")
-        message(proj_settings)
-    } else {
-        open <- FALSE
-    }
-
     if (open) {
-        message(glue::glue("Opening new R project, {basename(project_name)}"), "\n")
+        opening_project(project_name)
         Sys.sleep(2)
-        if (usethis::proj_activate(path.expand(proj_path))) {
-            on.exit()
-        }
+        rstudioapi::openProject(proj_path, TRUE)
     }
 }
 
 #' Open .Rprofile for editing
 #'
-#' \code{edit_r_profile} opens the .Rprofile file for editing. If the .Rprofile file doesn't exist an error message will be returned. This is essentially a wrapper function for \code{file.edit}.
+#' \code{edit_r_profile} opens the .Rprofile file for editing.
+#'  If the .Rprofile file doesn't exist an error message will be returned.
+#'  This is essentially a wrapper function for \code{file.edit}.
 #'
 #' @return A message that .Rprofile is being opened or that it doesn't exist.
 #' @export
 edit_r_profile <- function() {
-
     rprof_path <- file.path(normalizePath("~"), ".Rprofile")
-    file_stat <- file.exists(rprof_path)
-
-    go <- function(path) {
-        utils::file.edit(path)
-    }
-
-    status <- tryCatch(if (file_stat) {
-        message("Opening .Rprofile")
+    status <- tryCatch(if (file.exists(rprof_path)) {
+        cli::cli_text("Opening .Rprofile")
         go(rprof_path)
     } else {
         stop()
     }, error = function(e) {
-        stop(".Rprofile doesn't exist.", call. = FALSE)
+        no_r_profile()
     })
     invisible(status)
 }
-
-use_git <- function(git_root, git_ignore = NULL) {
-
-    cg <- check_git()
-    status <- tryCatch(
-        if (cg) {
-            init_git(git_root, git_ignore)
-        } else {
-            warning()
-        }, warning = function(w) {
-            message("Git not found or git not fully configured. Check out https://happygitwithr.com/ for configuring git with R.")
-        }
-    )
-    invisible(status)
-}
-
-init_git <- function(git_root, git_ignore = NULL) {
-
-    ignores <- c(".Rproj.user", ".Rhistory", ".Rdata", ".Ruserdata")
-    if (!is.null(git_ignore)) ignores <- c(ignores, git_ignore)
-    ignores <- paste0(ignores, "\n", collapse = "")
-
-    git2r::init(git_root)
-    gi <- file.path(git_root, ".gitignore")
-    writeLines(ignores, gi)
-
-    message(glue::glue("Git repository initiated in {git_root}"))
-}
-

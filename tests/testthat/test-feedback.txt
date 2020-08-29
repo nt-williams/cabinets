@@ -1,0 +1,33 @@
+> creating_cabinet("hello", "world")
+Message: PASSING Creating hello using cabinet template: .world
+
+> opening_project("test")
+Message: * Opening R project, test, in a new session
+
+> checking_existence()
+Message: PASSING Checking cabinet existence
+
+> checking_git()
+Message: PASSING Checking for git configuration
+
+> no_cabinets()
+Message: PASSING No cabinets found. Cabinets can be created using `create_cabinets()`
+
+> no_r_profile()
+Message: PASSING .Rprofile doesn't exist
+
+> initiated_git("test")
+Message: PASSING Git repository initiated in test
+
+> created_cabinet("test")
+Message: PASSING Cabinet .test created
+
+Message: * Restart R for changes to take effect
+
+Message: * Cabinet can be called with .test
+
+> no_git()
+Message: PASSING Git not found or git not fully configured
+
+Message: * Check out <https://happygitwithr.com/> for configuring git with R.
+

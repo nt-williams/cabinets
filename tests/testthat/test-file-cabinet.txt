@@ -1,0 +1,8 @@
+> FileCabinet$new(name = "test", directory = "hello/world", structure = list(
++   `hello/world` = NULL))
+Cabinet name: test
+Cabinet path: hello/world
+Cabinet structure: 
+└── hello
+    └── world
+

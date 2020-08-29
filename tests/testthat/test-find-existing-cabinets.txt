@@ -1,0 +1,3 @@
+> check_cabinet(".test_cab")
+Message: PASSING Checking cabinet existence
+
