@@ -152,6 +152,7 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
                              r_project = TRUE,
                              open = TRUE,
                              git = TRUE,
+                             renv = TRUE,
                              git_root = NULL,
                              git_ignore = NULL,
                              ...) {

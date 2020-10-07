@@ -26,7 +26,8 @@ Imports:
     stringr,
     utils,
     git2r,
-    cli
+    cli,
+    renv
 Suggests: 
     testthat (>= 2.1.0),
     withr
