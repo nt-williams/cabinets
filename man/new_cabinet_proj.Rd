@@ -9,10 +9,10 @@ new_cabinet_proj(
   project_name,
   r_project = TRUE,
   open = TRUE,
+  renv = TRUE,
   git = TRUE,
   git_root = NULL,
-  git_ignore = NULL,
-  ...
+  git_ignore = NULL
 )
 }
 \arguments{
@@ -30,6 +30,10 @@ TRUE if working in RStudio (only works in RStudio).}
 be opened once created. Default is TRUE if working in
 RStudio (only works in RStudio).}
 
+\item{renv}{Logical, should a \code{renv} project be initiated.
+If \code{TRUE} a \code{renv} project will be created using
+\code{\link[renv]{init}} with default settings.}
+
 \item{git}{Logical, should a git repository be initiated.}
 
 \item{git_root}{A path relative to the project to initiate the
@@ -38,8 +42,6 @@ initiated at the root of the project.}
 
 \item{git_ignore}{Character vector of files and directories
 to add to .gitignore file.}
-
-\item{...}{Extra arguments to pass to \code{create_r_proj}.}
 }
 \value{
 Creates a new directory at the path specified in the

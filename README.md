@@ -27,20 +27,22 @@ them.
 
 **cabinets** has two main functions: `create_cabinet()` and
 `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of
-class `FileCabinet` which is then written to a .Rprofile file. Whenever
-a fresh R session is started from the default working directory, the
-.Rprofile file loads the previously created cabinet for further use.
+class `FileCabinet` which is then written to a .Rprofile file. At the
+start of fresh R sessions, the .Rprofile file loads the previously
+created cabinets for further use. `new_cabinet_proj()` can then be used
+to create future projects based on a cabinet template. Projects have the
+option of being created with an RStudio project and a git repository.
 
-On first use, users will be prompted for explicit permission to write to
-.Rprofile. Permission to write can be revoked at any time by setting the
+Users will be prompted for explicit permission to write to .Rprofile on
+first use. Permission to write can be revoked at any time by setting the
 permission option in the .Rprofile file to `FALSE`. Due to these
-explicit permission requirements, `cabinets` will only work in
+explicit permission requirements, **cabinets** will only work in
 interactive R sessions.
 
 Installation
 ------------
 
-You can install the released version of cabinets from
+You can install the released version of **cabinets** from
 [CRAN](https://CRAN.R-project.org) with:
 
     install.packages("cabinets")
@@ -73,7 +75,7 @@ While another uses a structure like this:
     ├── Notes
     └── Log
 
-`cabinets` makes it easy to define these templates once and then call
+**cabinets** makes it easy to define these templates once and then call
 them for use whenever starting new projects in R.
 
 Example
@@ -137,9 +139,9 @@ cabinet template.
 Similar implementations
 -----------------------
 
-Similar implementations exist elsewhere. `cabinets` is unique for giving
-the user the ability to design their own project templates. These are
-all great packages, use what’s best for you!
+Similar implementations exist elsewhere. **cabinets** is unique for
+giving the user the ability to design their own project templates. These
+are all great packages, use what’s best for you!
 
 -   [workflowr](https://github.com/jdblischak/workflowr)
 -   [projects](https://github.com/NikKrieger/projects)
@@ -149,6 +151,6 @@ all great packages, use what’s best for you!
 Contributing
 ------------
 
-Please note that the ‘cabinets’ project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Please note that the **cabinets** project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
+this project, you agree to abide by its terms.

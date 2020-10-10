@@ -24,7 +24,7 @@ get_cabinets <- function(envir = parent.frame()) {
     }
 }
 
-creating_cabinet <- function(project_name, cabinet_name) {
+creating_project <- function(project_name, cabinet_name) {
     cli::cli_alert_success("Creating {project_name} using cabinet template: {.field {p0('.', cabinet_name)}}")
 }
 
