@@ -8,7 +8,7 @@ test_that("correct feedback", {
     cli::cli_div(theme = list(".alert-danger" = list(before = "PASSING ")))
     cli::cli_div(theme = list(".alert-warning" = list(before = "PASSING ")))
     verify_output(test_path("test-feedback.txt"), {
-        creating_cabinet("hello", "world")
+        creating_project("hello", "world")
         opening_project("test")
         checking_existence()
         checking_git()
