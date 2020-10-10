@@ -1,6 +1,6 @@
 Package: cabinets
 Title: Project Specific Workspace Organization Templates
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: 
     person(given = "Nick",
            family = "Williams",
@@ -10,7 +10,9 @@ Authors@R:
 Description: Creates project specific directory and file templates that are 
  written to a .Rprofile file. Upon starting a new R session, these templates 
  can be used to streamline the creation of new directories that are 
- standardized to the user's preferences.
+ standardized to the user's preferences and can include the initiation of a 
+ git repository, an RStudio R project, and project-local dependency management 
+ with the 'renv' package.  
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
