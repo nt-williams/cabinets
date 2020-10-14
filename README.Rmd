@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/nt-williams/cabinets/workflows/R-CMD-check/badge.svg)](https://github.com/nt-williams/cabinets/actions)
 <!-- badges: end -->
 
-**cabinets** makes it easy to create project specific file structure templates that can be referenced at the start of any R session. **cabinets** works by writing project specific file templates to the .Rprofile file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. 
+Reproducibility can be tedious, **cabinets** makes it easier! **cabinets** creates project specific file structure templates that can be referenced at the start of any R session. These templates can then be used to initiate future projects with the option for them to be initiatied with a git repository. **cabinets** works by writing project specific file templates to the .Rprofile file of the default working directory. Doing so allows the templates to be accessed in new R sessions without having to redefine them. 
 
 **cabinets** has two main functions: `create_cabinet()` and `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of class `FileCabinet` which is then written to a .Rprofile file. At the start of fresh R sessions, the .Rprofile file loads the previously created cabinets for further use. `new_cabinet_proj()` can then be used to create future projects based on a cabinet template. Projects have the option of being created with an RStudio project and a git repository.
 
