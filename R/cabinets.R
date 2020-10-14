@@ -134,8 +134,8 @@ write_cabinet <- function(name, directory, structure, .alias) {
 #'  be opened once created. Default is TRUE if working in
 #'  RStudio (only works in RStudio).
 #' @param renv Logical, should a \code{renv} project be initiated.
-#'  If \code{TRUE} a \code{renv} project will be created using
-#'  \code{\link[renv]{init}} with default settings.
+#'  If \code{TRUE}, \code{renv} project infrastructure will be created using
+#'  \code{\link[renv]{scaffold}}.
 #' @param git Logical, should a git repository be initiated.
 #' @param git_root A path relative to the project to initiate the
 #'  git repository. Default is NULL and the repository is
@@ -180,8 +180,7 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
     create_subdirectories(proj_folders)
 
     if (renv) {
-        renv::init(project = proj_path,
-                   restart = FALSE)
+        renv::scaffold(project = proj_path)
     }
 
     if (git) {

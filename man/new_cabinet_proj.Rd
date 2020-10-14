@@ -31,8 +31,8 @@ be opened once created. Default is TRUE if working in
 RStudio (only works in RStudio).}
 
 \item{renv}{Logical, should a \code{renv} project be initiated.
-If \code{TRUE} a \code{renv} project will be created using
-\code{\link[renv]{init}} with default settings.}
+If \code{TRUE}, \code{renv} project infrastructure will be created using
+\code{\link[renv]{scaffold}}.}
 
 \item{git}{Logical, should a git repository be initiated.}
 
