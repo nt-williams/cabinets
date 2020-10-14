@@ -17,6 +17,7 @@ test_that("correct feedback", {
         initiated_git("test")
         created_cabinet("test")
         no_git()
+        initiating_renv()
     })
 })
 
