@@ -31,3 +31,6 @@ Message: PASSING Git not found or git not fully configured
 
 Message: * Check out <https://happygitwithr.com/> for configuring git with R.
 
+> initiating_renv()
+Message: PASSING Creating renv infrastructure
+

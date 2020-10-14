@@ -134,8 +134,8 @@ write_cabinet <- function(name, directory, structure, .alias) {
 #'  be opened once created. Default is TRUE if working in
 #'  RStudio (only works in RStudio).
 #' @param renv Logical, should a \code{renv} project be initiated.
-#'  If \code{TRUE} a \code{renv} project will be created using
-#'  \code{\link[renv]{init}} with default settings.
+#'  If \code{TRUE}, \code{renv} project infrastructure will be created using
+#'  \code{\link[renv]{scaffold}}.
 #' @param git Logical, should a git repository be initiated.
 #' @param git_root A path relative to the project to initiate the
 #'  git repository. Default is NULL and the repository is
@@ -144,12 +144,12 @@ write_cabinet <- function(name, directory, structure, .alias) {
 #'  to add to .gitignore file.
 #'
 #' @return Creates a new directory at the path specified in the
-#'  cabinet template. If r_project is set to TRUE, a .Rproj file
+#'  cabinet template. If \code{r_project = TRUE}, a .Rproj file
 #'  will also be created using the project name. If open is set
 #'  to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
-new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
+new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,
                              open = TRUE,
@@ -180,8 +180,8 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
     create_subdirectories(proj_folders)
 
     if (renv) {
-        renv::init(project = proj_path,
-                   restart = FALSE)
+        capture.output(renv::scaffold(project = proj_path))
+        initiating_renv()
     }
 
     if (git) {
