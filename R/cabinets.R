@@ -180,7 +180,7 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
     create_subdirectories(proj_folders)
 
     if (renv) {
-        renv::scaffold(project = proj_path)
+        capture.output(renv::scaffold(project = proj_path))
     }
 
     if (git) {
