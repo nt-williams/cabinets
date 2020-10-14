@@ -1,8 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-cabinets <img src='https://i.imgur.com/0QTXJ7D.png' align="right" height="139" /></a>
-=====================================================================================
+# cabinets <img src='https://i.imgur.com/0QTXJ7D.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
@@ -18,12 +17,14 @@ coverage](https://codecov.io/gh/nt-williams/cabinets/branch/master/graph/badge.s
 status](https://github.com/nt-williams/cabinets/workflows/R-CMD-check/badge.svg)](https://github.com/nt-williams/cabinets/actions)
 <!-- badges: end -->
 
-**cabinets** makes it easy to create project specific file structure
-templates that can be referenced at the start of any R session.
-**cabinets** works by writing project specific file templates to the
-.Rprofile file of the default working directory. Doing so allows the
-templates to be accessed in new R sessions without having to redefine
-them.
+Reproducibility can be tedious, **cabinets** makes it easier\!
+**cabinets** creates project specific file structure templates that can
+be referenced at the start of any R session. These templates can then be
+used to initiate future projects with the option for them to be
+initiatied with a git repository. **cabinets** works by writing project
+specific file templates to the .Rprofile file of the default working
+directory. Doing so allows the templates to be accessed in new R
+sessions without having to redefine them.
 
 **cabinets** has two main functions: `create_cabinet()` and
 `new_cabinet_proj()`. `create_cabinet()` constructs an R6 object of
@@ -39,21 +40,23 @@ permission option in the .Rprofile file to `FALSE`. Due to these
 explicit permission requirements, **cabinets** will only work in
 interactive R sessions.
 
-Installation
-------------
+## Installation
 
 You can install the released version of **cabinets** from
 [CRAN](https://CRAN.R-project.org) with:
 
-    install.packages("cabinets")
+``` r
+install.packages("cabinets")
+```
 
 And the development version from [GitHub](https://github.com/) with:
 
-    # install.packages("devtools")
-    devtools::install_github("nt-williams/cabinets@dev")
+``` r
+# install.packages("devtools")
+devtools::install_github("nt-williams/cabinets@dev")
+```
 
-Motivation
-----------
+## Motivation
 
 Different organizations, research groups, projects, etc. have different
 standard directories. One organization might have the standard file
@@ -78,8 +81,7 @@ While another uses a structure like this:
 **cabinets** makes it easy to define these templates once and then call
 them for use whenever starting new projects in R.
 
-Example
--------
+## Example
 
 A cabinet has three components: a name, a location, and a file
 structure. The location defines where new directories will be created
@@ -89,67 +91,71 @@ of each list index is a unique relative path within the new directory.
 Using the first project file structure described above, lets create a
 new cabinet.
 
-    loc <- "~/Desktop"
+``` r
+loc <- "~/Desktop"
 
-    file_str <- list(
-        'data' = NULL, 
-        'code' = NULL, 
-        'data/derived' = NULL, 
-        'data/source' = NULL, 
-        'reports' = NULL, 
-        'documents' = NULL, 
-        'log' = NULL
-    )
+file_str <- list(
+    'data' = NULL, 
+    'code' = NULL, 
+    'data/derived' = NULL, 
+    'data/source' = NULL, 
+    'reports' = NULL, 
+    'documents' = NULL, 
+    'log' = NULL
+)
 
-    create_cabinet(name = "contract", 
-                   directory = loc, 
-                   structure = file_str)
-                   
-    #> ✓ Checking for permissions
-    #> ✓ Checking for .Rprofile
-    #> ✓ Checking cabinet name
-    #> ✓ Cabinet .contract created
-    #> ● Restart R for changes to take effect
-    #> ● Cabinet can be called with .contract
+create_cabinet(name = "contract", 
+               directory = loc, 
+               structure = file_str)
+               
+#> ✓ Checking for permissions
+#> ✓ Checking for .Rprofile
+#> ✓ Checking cabinet name
+#> ✓ Cabinet .contract created
+#> ● Restart R for changes to take effect
+#> ● Cabinet can be called with .contract
+```
 
 The cabinet is now created and doesn’t have to be redefined in future R
 sessions. To examine the cabinet we just call it.
 
-    .contract
+``` r
+.contract
 
-    #> Cabinet name: contract
-    #> Cabinet path: ~/Desktop
-    #> Cabinet structure: 
-    #> ├── data
-    #> │   ├── derived
-    #> │   └── source
-    #> ├── code
-    #> ├── reports
-    #> ├── documents
-    #> └── log
+#> Cabinet name: contract
+#> Cabinet path: ~/Desktop
+#> Cabinet structure: 
+#> ├── data
+#> │   ├── derived
+#> │   └── source
+#> ├── code
+#> ├── reports
+#> ├── documents
+#> └── log
+```
 
 `new_cabinet_proj()` is then used to create a new directory from a
 cabinet template.
 
-    new_cabinet_proj(cabinet = .contract, 
-                     project_name = "project", 
-                     git = TRUE, 
-                     git_ignore = "data")
+``` r
+new_cabinet_proj(cabinet = .contract, 
+                 project_name = "project", 
+                 git = TRUE, 
+                 git_ignore = "data")
+```
 
-Similar implementations
------------------------
+## Similar implementations
 
 Similar implementations exist elsewhere. **cabinets** is unique for
 giving the user the ability to design their own project templates. These
-are all great packages, use what’s best for you!
+are all great packages, use what’s best for you\!
 
--   [workflowr](https://github.com/jdblischak/workflowr)
--   [projects](https://github.com/NikKrieger/projects)
--   [starters](https://github.com/lockedata/starters)
--   [ProjectTemplate](https://github.com/KentonWhite/ProjectTemplate)
+  - [workflowr](https://github.com/jdblischak/workflowr)
+  - [projects](https://github.com/NikKrieger/projects)
+  - [starters](https://github.com/lockedata/starters)
+  - [ProjectTemplate](https://github.com/KentonWhite/ProjectTemplate)
 
-Contributing
-------------
+## Contributing
 
 Please note that the **cabinets** project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
