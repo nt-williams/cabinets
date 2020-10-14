@@ -75,3 +75,7 @@ no_git <- function() {
     cli::cli_alert_warning("Git not found or git not fully configured")
     cli::cli_ul("Check out {.url https://happygitwithr.com/} for configuring git with R.")
 }
+
+initiating_renv <- function() {
+    cli::cli_alert_success("Creating renv infrastructure")
+}

@@ -45,7 +45,7 @@ to add to .gitignore file.}
 }
 \value{
 Creates a new directory at the path specified in the
- cabinet template. If r_project is set to TRUE, a .Rproj file
+ cabinet template. If \code{r_project = TRUE}, a .Rproj file
  will also be created using the project name. If open is set
  to TRUE, the new R project will opened in a new R session.
 }

@@ -144,12 +144,12 @@ write_cabinet <- function(name, directory, structure, .alias) {
 #'  to add to .gitignore file.
 #'
 #' @return Creates a new directory at the path specified in the
-#'  cabinet template. If r_project is set to TRUE, a .Rproj file
+#'  cabinet template. If \code{r_project = TRUE}, a .Rproj file
 #'  will also be created using the project name. If open is set
 #'  to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
-new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
+new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,
                              open = TRUE,
@@ -181,6 +181,7 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
 
     if (renv) {
         capture.output(renv::scaffold(project = proj_path))
+        initiating_renv()
     }
 
     if (git) {
