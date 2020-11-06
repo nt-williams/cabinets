@@ -5,7 +5,7 @@
 #' to create project directories.
 #'
 #' @export
-FileCabinet <- R6::R6Class('FileCabinet',
+FileCabinet <- R6Class('FileCabinet',
     public = list(
         #' @field name cabinet name.
         name = NULL,
@@ -27,7 +27,6 @@ FileCabinet <- R6::R6Class('FileCabinet',
         #' @examples
         #' FileCabinet$new("test", "a/path",
         #'                 list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
-
         initialize = function(name, directory, structure) {
             stopifnot(is.character(name), length(name) == 1)
             stopifnot(is.character(directory))
