@@ -1,3 +1,7 @@
+# cabinets 0.6.0
+
+* `new_cabinet_proj()` has a new argument, `renv = TRUE` or (`FALSE`) that optionally allows for the creation of package management infrastructure with the {renv} package. 
+
 # cabinets 0.5.0
 
 * new function `delete_cabinet()` for deleting cabinets without the user having to open the .Rprofile
