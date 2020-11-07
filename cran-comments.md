@@ -1,12 +1,14 @@
-## Version 0.5.0
+## Version 0.6.0
 
 ## Test environments
 
-* local OS X install, R 4.0.2
-* local OS X install, R 3.6.3
-* local Windows install, R 4.0.0
+* local OS X install, R 4.0.3
+* Windows (GitHub Actions), R 4.0.3
+* Windows (GitHub Actions), R 3.6
 * Windows (Win Builder), R devel
-* Ubuntu 16.04.6 (on travis-ci), R 4.0.0
+* Ubuntu 16.04 (GitHub Actions), R devel
+* Ubuntu 16.04 (GitHub Actions), R 4.0.3
+* Ubuntu 16.04 (GitHub Actions), R 3.5
 
 ## R CMD check results
 
