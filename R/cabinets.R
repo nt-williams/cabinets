@@ -5,7 +5,7 @@
 #' to create project directories.
 #'
 #' @export
-FileCabinet <- R6::R6Class('FileCabinet',
+FileCabinet <- R6Class('FileCabinet',
     public = list(
         #' @field name cabinet name.
         name = NULL,
@@ -27,7 +27,6 @@ FileCabinet <- R6::R6Class('FileCabinet',
         #' @examples
         #' FileCabinet$new("test", "a/path",
         #'                 list(code = NULL, 'data/derived' = NULL, 'data/source' = NULL))
-
         initialize = function(name, directory, structure) {
             stopifnot(is.character(name), length(name) == 1)
             stopifnot(is.character(directory))
@@ -133,28 +132,30 @@ write_cabinet <- function(name, directory, structure, .alias) {
 #' @param open Logical, if creating an Rproject, should that project
 #'  be opened once created. Default is TRUE if working in
 #'  RStudio (only works in RStudio).
+#' @param renv Logical, should a \code{renv} project be initiated.
+#'  If \code{TRUE}, \code{renv} project infrastructure will be created using
+#'  \code{\link[renv]{scaffold}}.
 #' @param git Logical, should a git repository be initiated.
 #' @param git_root A path relative to the project to initiate the
 #'  git repository. Default is NULL and the repository is
 #'  initiated at the root of the project.
 #' @param git_ignore Character vector of files and directories
 #'  to add to .gitignore file.
-#' @param ... Extra arguments to pass to \code{create_r_proj}.
 #'
 #' @return Creates a new directory at the path specified in the
-#'  cabinet template. If r_project is set to TRUE, a .Rproj file
+#'  cabinet template. If \code{r_project = TRUE}, a .Rproj file
 #'  will also be created using the project name. If open is set
 #'  to TRUE, the new R project will opened in a new R session.
 #' @seealso \code{\link{create_cabinet}}
 #' @export
-new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
+new_cabinet_proj <- function(cabinet,
                              project_name,
                              r_project = TRUE,
                              open = TRUE,
+                             renv = TRUE,
                              git = TRUE,
                              git_root = NULL,
-                             git_ignore = NULL,
-                             ...) {
+                             git_ignore = NULL) {
 
     check_cabinet(deparse(substitute(cabinet)))
 
@@ -166,7 +167,7 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
     proj_folders <- file.path(proj_path, names(cabinet$structure))
 
     check_project(proj_path)
-    creating_cabinet(project_name, cabinet$name)
+    creating_project(project_name, cabinet$name)
 
     if (r_project) {
         rstudioapi::initializeProject(proj_path)
@@ -176,6 +177,11 @@ new_cabinet_proj <- function(cabinet, # TODO I kind of want to change this name
     }
 
     create_subdirectories(proj_folders)
+
+    if (renv) {
+        capture.output(renv::scaffold(project = proj_path))
+        initiating_renv()
+    }
 
     if (git) {
         if (is.null(git_root)) {

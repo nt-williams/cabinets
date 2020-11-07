@@ -1,4 +1,4 @@
-> creating_cabinet("hello", "world")
+> creating_project("hello", "world")
 Message: PASSING Creating hello using cabinet template: .world
 
 > opening_project("test")
@@ -14,7 +14,7 @@ Message: PASSING Checking for git configuration
 Message: PASSING No cabinets found. Cabinets can be created using `create_cabinets()`
 
 > no_r_profile()
-Message: PASSING .Rprofile doesn't exist
+Message: PASSING '.Rprofile' doesn't exist
 
 > initiated_git("test")
 Message: PASSING Git repository initiated in test
@@ -30,4 +30,7 @@ Message: * Cabinet can be called with .test
 Message: PASSING Git not found or git not fully configured
 
 Message: * Check out <https://happygitwithr.com/> for configuring git with R.
+
+> initiating_renv()
+Message: PASSING Creating renv infrastructure
 

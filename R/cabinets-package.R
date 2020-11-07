@@ -12,4 +12,5 @@
 #' @docType package
 #' @name cabinets
 #' @importFrom utils capture.output
+#' @importFrom R6 R6Class
 NULL

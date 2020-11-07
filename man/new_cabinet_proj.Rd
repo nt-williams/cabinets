@@ -9,10 +9,10 @@ new_cabinet_proj(
   project_name,
   r_project = TRUE,
   open = TRUE,
+  renv = TRUE,
   git = TRUE,
   git_root = NULL,
-  git_ignore = NULL,
-  ...
+  git_ignore = NULL
 )
 }
 \arguments{
@@ -30,6 +30,10 @@ TRUE if working in RStudio (only works in RStudio).}
 be opened once created. Default is TRUE if working in
 RStudio (only works in RStudio).}
 
+\item{renv}{Logical, should a \code{renv} project be initiated.
+If \code{TRUE}, \code{renv} project infrastructure will be created using
+\code{\link[renv]{scaffold}}.}
+
 \item{git}{Logical, should a git repository be initiated.}
 
 \item{git_root}{A path relative to the project to initiate the
@@ -38,12 +42,10 @@ initiated at the root of the project.}
 
 \item{git_ignore}{Character vector of files and directories
 to add to .gitignore file.}
-
-\item{...}{Extra arguments to pass to \code{create_r_proj}.}
 }
 \value{
 Creates a new directory at the path specified in the
- cabinet template. If r_project is set to TRUE, a .Rproj file
+ cabinet template. If \code{r_project = TRUE}, a .Rproj file
  will also be created using the project name. If open is set
  to TRUE, the new R project will opened in a new R session.
 }
